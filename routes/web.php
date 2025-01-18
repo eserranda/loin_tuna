@@ -6,8 +6,12 @@ use App\Http\Controllers\CuttingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReceivingController;
+use App\Http\Controllers\ProductLogController;
+use App\Http\Controllers\RetouchingController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
+
+Route::get('/', [ReceivingController::class, 'index']);
 
 Route::prefix('raw-material')->controller(RawMaterialController::class)->group(function () {
     Route::get('/', 'index')->name('raw_material.index');
@@ -69,18 +73,37 @@ Route::prefix('grades')->controller(GradesController::class)->group(function () 
     Route::delete('/{id}', 'destroy')->name('grades.destroy');
 })->middleware('auth');
 
-Route::prefix('produk')->controller(ProductController::class)->group(function () {
-    Route::get('/', 'index')->name('produk.index');
-    Route::post('/store', 'store')->name('produk.store');
-    Route::delete('/{id}', 'destroy')->name('produk.destroy');
+Route::prefix('retouching')->controller(RetouchingController::class)->group(function () {
+    Route::get('/', 'index')->name('retouching.index');
+    Route::get('/getAll', 'getAll')->name('retouching.getAll');
+    Route::post('/', 'store')->name('retouching.store');
+    Route::delete('/{id}', 'destroy')->name('retouching.destroy');
+    Route::get('/getAllCutting', 'getAllCutting')->name('retouching.getAllCutting');
 
-    Route::get('/getAllData', 'getAllData')->name('produk.getAllData');
+    Route::get('/getNumberLoin/{ilc_cutting}', 'getNumberLoin');
+    Route::get('/getBerat/{ilc}/{no_loin}', 'getBerat');
+
+
+    Route::get('/calculateLoin/{ilc_cutting}/{no_loin}', 'calculateLoin');
+})->middleware('auth');
+
+Route::prefix('product-log')->controller(ProductLogController::class)->group(function () {
+    Route::get('/{ilc}', 'index')->name('product_log.index');
+    Route::post('/store', 'store');
+    Route::delete('/{id}', 'destroy')->name('grades.destroy');
+
+    // Route::get('/getAllDataProductLog', 'getAllDataProductLog');
+})->middleware('auth');
+
+Route::prefix('product')->controller(ProductController::class)->group(function () {
+    Route::get('/', 'index')->name('product.index');
+    Route::post('/store', 'store')->name('product.store');
+    Route::delete('/{id}', 'destroy')->name('product.destroy');
+    Route::get('/getAllData', 'getAllData')->name('product.getAllData');
+    Route::get('/productWithCustomerGroup/{customer_group}', 'productWithCustomerGroup');
+
+    // pindahkan ke sini
     Route::get('/getAllDataProductLog', 'getAllDataProductLog');
-    Route::get('/productLogGetData/{customer_group}', 'productLogGetData')->name('produk.productLogGetData');
-
-    // Route::get('/add', 'add')->name('customer.add');
-    // Route::post('/store', 'store')->name('customer.store');
-    // Route::delete('/{id}', 'destroy')->name('retouching.destroy');
 });
 
 // Route::get('/', function () {

@@ -6,7 +6,6 @@ use App\Models\Cutting;
 use App\Models\Receiving;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use App\Models\CuttingChecking;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,14 +64,6 @@ class CuttingController extends Controller
         }
     }
 
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

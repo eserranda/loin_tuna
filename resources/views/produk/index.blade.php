@@ -89,7 +89,7 @@
                         id="close-modal"></button>
                 </div>
 
-                <form id="addForm" action="{{ route('produk.store') }}" method="POST">
+                <form id="addForm" action="{{ route('product.store') }}" method="POST">
                     <div class="modal-body">
                         <input type="hidden" id="id-field" />
                         <div class="mb-3" id="modal-id">
@@ -135,7 +135,7 @@
             const formData = new FormData(form);
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-            fetch('{{ route('produk.store') }}', {
+            fetch('{{ route('product.store') }}', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
@@ -173,7 +173,7 @@
                     "search": "",
                     "searchPlaceholder": "Cari Data",
                 },
-                ajax: "{{ route('produk.getAllData') }}",
+                ajax: "{{ route('product.getAllData') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -215,7 +215,7 @@
                 if (result.isConfirmed) {
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
-                        url: '/produk/' + id,
+                        url: '/product/' + id,
                         type: 'DELETE',
                         data: {
                             _token: csrfToken

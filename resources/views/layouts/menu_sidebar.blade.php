@@ -59,6 +59,14 @@
                  </li>
                  {{-- @endif --}}
 
+                 {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'retouching'])) --}}
+                 <li class="nav-item">
+                     <a class="nav-link menu-link" href="/retouching">
+                         <i class="ri-dashboard-line"></i> <span data-key="t-retouching">Retouching</span>
+                     </a>
+                 </li>
+                 {{-- @endif --}}
+
 
 
                  {{--   @if (auth()->user()->hasAnyRole(['super_admin', 'cutting']))
@@ -144,7 +152,7 @@
                  </li>
 
                  <li class="nav-item">
-                     <a class="nav-link menu-link" href="/produk">
+                     <a class="nav-link menu-link" href="/product">
                          <i class="ri-file-list-2-line"></i> <span data-key="t-supplier">Produk</span>
                      </a>
                  </li>

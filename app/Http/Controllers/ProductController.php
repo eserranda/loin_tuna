@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,44 @@ class ProductController extends Controller
     public function index()
     {
         return view('produk.index');
+    }
+
+    public function getAllDataProductLog(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = ProductLog::latest('created_at')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('id_produk', function ($row) {
+                    if ($row->id_produk) {
+                        return $row->produk->nama;
+                    } else {
+                        return '-';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0);" onclick="print(\'' . $row->id_produk  . '\', \'' . $row->ilc . '\')"><i class="ri-printer-fill mx-1"></i></a>';
+                    $btn .= '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
+    public function productWithCustomerGroup(Request $request, $customer_group)
+    {
+        if ($request->ajax()) {
+            $data = Product::where('customer_group', $customer_group)->latest('created_at')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0);" onclick="setProduct(\'' . $row->id . '\', \'' . $row->nama . '\')"><i class="ri-arrow-right-line"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     public function getAllData(Request $request)
