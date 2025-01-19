@@ -5,6 +5,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\CuttingController;
+use App\Http\Controllers\PackingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReceivingController;
@@ -32,6 +33,19 @@ Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::delete('/destroy/{id}', 'destroy');
 })->middleware('auth');
 
+Route::prefix('packing')->controller(PackingController::class)->group(function () {
+    // Users costumer enkripsi 
+    // Route::get('/kode-po', 'processQRCode')->name('process-qr-code');
+
+    Route::get('/', 'index')->name('packing.index');
+    Route::post('/store', 'store');
+    Route::post('/update', 'update');
+    Route::get('/getAllDatatable', 'getAllDatatable')->name('get-all-packing');
+    Route::get('/customer-produk/{id_customer}/{id_produk}', 'customerProduk');
+    Route::delete('/{id}', 'destroy')->name('packing.destroy');
+
+    Route::get('/getAllDataProductLog', 'getAllDataProductLog')->name('get-all-product-log');
+});
 
 Route::prefix('roles')->controller(RoleController::class)->group(function () {
     Route::get('/', 'index')->name('roles.index');
@@ -39,13 +53,13 @@ Route::prefix('roles')->controller(RoleController::class)->group(function () {
     Route::get('/findById/{id}', 'findById');
     Route::post('/update', 'update');
     Route::delete('/destroy/{id}', 'destroy');
-})->middleware('auth');
+});
 
-Route::prefix('receiving')->controller(ReceivingController::class)->middleware('auth')->group(function () {
-    Route::get('/', 'index')->name('receiving.index'); // Route untuk halaman utama
-    Route::get('/getAll', 'getAll')->name('receiving.getAll'); // Route untuk mendapatkan semua data
-    Route::post('/store', 'store')->name('receiving.store'); // Route untuk menyimpan data
-    Route::delete('/{id}/{ilc}', 'destroy')->name('receiving.destroy'); // Route untuk menghapus data
+Route::prefix('receiving')->controller(ReceivingController::class)->middleware(['auth', 'role:super_admin|admin'])->group(function () {
+    Route::get('/', 'index')->name('receiving.index');
+    Route::get('/getAll', 'getAll')->name('receiving.getAll');
+    Route::post('/store', 'store')->name('receiving.store');
+    Route::delete('/{id}/{ilc}', 'destroy')->name('receiving.destroy');
 });
 
 

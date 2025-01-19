@@ -67,6 +67,12 @@
                  </li>
                  {{-- @endif --}}
 
+                 <li class="nav-item">
+                     <a class="nav-link menu-link" href="/packing">
+                         <i class=" ri-inbox-archive-fill"></i> <span data-key="t-retouching">Packing</span>
+                     </a>
+                 </li>
+
 
 
                  {{--   @if (auth()->user()->hasAnyRole(['super_admin', 'cutting']))
@@ -186,9 +192,10 @@
                  </li>
                  {{-- @endif --}}
 
+                 <hr class="my-0">
                  <li class="nav-item">
                      <a class="nav-link menu-link" href="/logout">
-                         <i class=" ri-list-settings-line"></i> <span data-key="t-supplier">Logout</span>
+                         <i class="ri-logout-circle-r-line"></i> <span data-key="t-supplier">Logout</span>
                      </a>
                  </li>
              </ul>

@@ -22,7 +22,7 @@
                     <div class="col-xxl-3 col-md-12">
                         <div>
                             <label class="form-label" for="description">Deskripsi</label>
-                            <textarea class="form-control" placeholder="deskripsi" rows="3" name="description" id="description"></textarea>
+                            <textarea class="form-control" placeholder="description" rows="3" name="description" id="description"></textarea>
                             <div class="invalid-feedback"> </div>
                         </div>
                     </div>

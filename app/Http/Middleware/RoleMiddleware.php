@@ -17,9 +17,10 @@ class RoleMiddleware
 
         // Ambil user yang sedang login
         $user = Auth::user();
+        $roles = explode('|', $role); // Mendukung multiple roles (contoh: 'admin|editor')
 
         // Periksa apakah user memiliki salah satu role yang diminta
-        if (!$user->roles()->whereIn('name', $role)->exists()) {
+        if (!$user->roles()->whereIn('name', $roles)->exists()) {
             abort(403, 'Unauthorized'); // Abort jika tidak memiliki role
         }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('retouchings', function (Blueprint $table) {
             $table->id();
-            $table->string('tanggal');
+            $table->date('tanggal');
             $table->unsignedBigInteger('id_supplier')->nullable();
             $table->foreign('id_supplier')->references('id')->on('suppliers')->cascadeOnUpdate()->nullOnDelete();
             $table->string('ilc');
