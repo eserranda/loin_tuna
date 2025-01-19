@@ -35,7 +35,7 @@
 
 
                  @if (auth()->check() &&
-                         auth()->user()->hasAnyRole(['super_admin']))
+                         auth()->user()->hasRole(['super_admin']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/dashboard">
                              <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
@@ -145,11 +145,11 @@
                      </a>
                  </li>
 
-                 <li class="nav-item">
+                 {{-- <li class="nav-item">
                      <a class="nav-link menu-link" href="/customer">
                          <i class="ri-contacts-line"></i> <span data-key="t-supplier">Customer</span>
                      </a>
-                 </li>
+                 </li> --}}
 
                  <li class="nav-item">
                      <a class="nav-link menu-link" href="/product">

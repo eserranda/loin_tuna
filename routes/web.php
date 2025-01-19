@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\CuttingController;
 use App\Http\Controllers\ProductController;
@@ -11,9 +12,22 @@ use App\Http\Controllers\RetouchingController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
 
-Route::get('/', [ReceivingController::class, 'index']);
+Route::get('/', [ReceivingController::class, 'index'])->middleware('auth');
 
-Route::prefix('raw-material')->controller(RawMaterialController::class)->group(function () {
+Route::get('login', [UserController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('login', [UserController::class, 'login'])->middleware('guest');
+
+Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+Route::prefix('receiving')->controller(ReceivingController::class)->middleware('auth')->group(function () {
+    Route::get('/', 'index')->name('receiving.index'); // Route untuk halaman utama
+    Route::get('/getAll', 'getAll')->name('receiving.getAll'); // Route untuk mendapatkan semua data
+    Route::post('/store', 'store')->name('receiving.store'); // Route untuk menyimpan data
+    Route::delete('/{id}/{ilc}', 'destroy')->name('receiving.destroy'); // Route untuk menghapus data
+});
+
+
+Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware('auth')->group(function () {
     Route::get('/', 'index')->name('raw_material.index');
     Route::get('/getAll', 'getAll')->name('raw_material.getAll');
     Route::get('/{ilc}', 'getOneRawWithILC')->name('raw_material.grading');
@@ -29,7 +43,7 @@ Route::prefix('raw-material')->controller(RawMaterialController::class)->group(f
     Route::post('/grading/store', 'gradingStore')->name('rawmaterial.grading.store');
 });
 
-Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->group(function () {
+Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->middleware('auth')->group(function () {
     Route::get('/{ilc_cutting}', 'index')->name('cutting-grading.index');
     Route::post('/store', 'store')->name('cutting-grading.store');
     Route::get('/getAll/{ilc_cutting}', 'getAll')->name('cutting-grading.getAll');
@@ -39,7 +53,7 @@ Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->g
     // Route::get('/nextNumber/{ilc_cutting}/{no_ikan}', 'nextNumber')->name('cutting-grading.nextNumber');
 });
 
-Route::prefix('cutting')->controller(CuttingController::class)->group(function () {
+Route::prefix('cutting')->controller(CuttingController::class)->middleware('auth')->group(function () {
     Route::get('/', 'index')->name('cutting.index');
     Route::get('/getAllReceiving', 'getAllReceiving')->name('cutting.getAllReceiving');
     Route::post('/store', 'store')->name('cutting.store');
@@ -47,12 +61,7 @@ Route::prefix('cutting')->controller(CuttingController::class)->group(function (
     Route::delete('/{id}/{ilc}', 'destroy');
 });
 
-Route::prefix('receiving')->controller(ReceivingController::class)->group(function () {
-    Route::get('/', 'index')->name('receiving.index');
-    Route::get('/getAll', 'getAll')->name('receiving.getAll');
-    Route::post('/store', 'store')->name('receiving.store');
-    Route::delete('/{id}/{ilc}', 'destroy')->name('receiving.destroy');
-});
+
 
 Route::prefix('supplier')->controller(SupplierController::class)->group(function () {
     Route::get('/', 'index')->name('supplier.index');
