@@ -19,29 +19,6 @@ class ProductLogController extends Controller
         return view('product-log.index', compact('data', 'tanggal'));
     }
 
-    // public function getAllDataProductLog(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = ProductLog::latest('created_at')->get();
-    //         return DataTables::of($data)
-    //             ->addIndexColumn()
-    //             ->addColumn('id_produk', function ($row) {
-    //                 if ($row->id_produk) {
-    //                     return $row->produk->nama;
-    //                 } else {
-    //                     return '-';
-    //                 }
-    //             })
-    //             ->addColumn('action', function ($row) {
-    //                 $btn = '<a href="javascript:void(0);" onclick="print(\'' . $row->id_produk  . '\', \'' . $row->ilc . '\')"><i class="ri-printer-fill mx-1"></i></a>';
-    //                 $btn .= '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
-    //                 return $btn;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
-    //     }
-    // }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

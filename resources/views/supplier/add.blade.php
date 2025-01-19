@@ -59,6 +59,29 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3">
+                                        <label class="form-label">Phone/No.Hp</label>
+                                        <input type="number"
+                                            class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}"
+                                            placeholder="Nomor Hp" name="phone" id="phone"
+                                            value="{{ old('phone') }}">
+                                        @if ($errors->has('phone'))
+                                            <div class="text-danger">{{ $errors->first('phone') }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Jalan</label>
+                                        <input type="text"
+                                            class="form-control {{ $errors->has('Jalan') ? 'is-invalid' : '' }}"
+                                            placeholder="Jalan" name="jalan" id="jalan">
+                                        @if ($errors->has('Jalan'))
+                                            <div class="text-danger">{{ $errors->first('Jalan') }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
                                         <label class="form-label">Provinsi</label>
                                         <input type="text"
                                             class="form-control {{ $errors->has('provinsi') ? 'is-invalid' : '' }}"

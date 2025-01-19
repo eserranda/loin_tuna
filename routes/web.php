@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\CuttingController;
@@ -15,9 +16,30 @@ use App\Http\Controllers\CuttingGradingController;
 Route::get('/', [ReceivingController::class, 'index'])->middleware('auth');
 
 Route::get('login', [UserController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::get('register', [UserController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
+
 Route::post('login', [UserController::class, 'login'])->middleware('guest');
 
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+Route::prefix('users')->controller(UserController::class)->group(function () {
+    Route::get('/', 'index')->name('users.index');
+    Route::get('/customers', 'userCustomers')->name('user-customers.index');
+    Route::post('/register', 'register');
+    Route::post('/customer/register', 'customerRegister');
+    Route::get('/findById/{id}', 'findById');
+    Route::post('/update', 'update');
+    Route::delete('/destroy/{id}', 'destroy');
+})->middleware('auth');
+
+
+Route::prefix('roles')->controller(RoleController::class)->group(function () {
+    Route::get('/', 'index')->name('roles.index');
+    Route::post('/store', 'store');
+    Route::get('/findById/{id}', 'findById');
+    Route::post('/update', 'update');
+    Route::delete('/destroy/{id}', 'destroy');
+})->middleware('auth');
 
 Route::prefix('receiving')->controller(ReceivingController::class)->middleware('auth')->group(function () {
     Route::get('/', 'index')->name('receiving.index'); // Route untuk halaman utama

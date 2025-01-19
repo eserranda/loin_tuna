@@ -17,6 +17,7 @@ class SupplierController extends Controller
         return view('supplier.index');
     }
 
+    // kok di sini ?
     public function nextNumber($no_ikan)
     {
         $lastLot = RawMaterial::where('no_ikan', $no_ikan)
@@ -42,6 +43,12 @@ class SupplierController extends Controller
             $data = Supplier::latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('alamat', function ($row) {
+                    return $row->jalan . ', ' . $row->kelurahan . ', ' . $row->kabupaten . ', ' . $row->provinsi;
+                })
+                ->addColumn('periode', function ($row) {
+                    return $row->tahun_mulai . '-' . $row->tahun_selesai;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line mx-3"></i></a>';
                     return $btn;
@@ -67,16 +74,18 @@ class SupplierController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'kode_batch' => 'required|string|max:3',
-            'kode_supplier' => 'required|string|max:3',
+            'kode_batch' => 'required|string|max:3|unique:suppliers',
+            'kode_supplier' => 'required|string|max:3|unique:suppliers',
             'nama_supplier' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kabupaten' => 'required|string|max:255',
             'kelurahan' => 'required|string|max:255',
         ], [
             'kode_batch.required' => 'Kode Batch harus diisi.',
+            'kode_batch.unique' => 'Kode Batch sudah ada.',
             'kode_batch.max' => 'Kode Batch maksimal 3 karakter.',
             'kode_supplier.required' => 'Kode Supplier harus diisi.',
+            'kode_supplier.unique' => 'Kode Supplier sudah ada.',
             'kode_supplier.max' => 'Kode Supplier maksimal 3 karakter.',
             'nama_supplier.required' => 'Nama harus diisi.',
             'provinsi.required' => 'Provinsi harus diisi.',
@@ -95,6 +104,8 @@ class SupplierController extends Controller
         $supplier->kode_batch = $request->kode_batch;
         $supplier->kode_supplier = $request->kode_supplier;
         $supplier->nama_supplier = $request->nama_supplier;
+        $supplier->phone = $request->phone;
+        $supplier->jalan = $request->jalan;
         $supplier->provinsi = $request->provinsi;
         $supplier->kabupaten = $request->kabupaten;
         $supplier->kelurahan = $request->kelurahan;

@@ -171,7 +171,7 @@
                      <div class="collapse menu-dropdown" id="users">
                          <ul class="nav nav-sm flex-column">
                              <li class="nav-item">
-                                 <a href="/user-customers" class="nav-link" data-key="t-starter">Data
+                                 <a href="/users/customers" class="nav-link" data-key="t-starter">Data
                                      Customer</a>
                              </li>
                              <li class="nav-item">

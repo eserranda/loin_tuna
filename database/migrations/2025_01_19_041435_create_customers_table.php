@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_batch');
-            $table->string('kode_supplier');
-            $table->string('nama_supplier');
-            $table->string('phone')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('kode')->nullable();
+            $table->integer('phone')->nullable();
             $table->string('provinsi')->nullable();
             $table->string('kabupaten')->nullable();
             $table->string('kelurahan')->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('customers');
     }
 };

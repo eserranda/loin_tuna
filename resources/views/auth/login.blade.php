@@ -70,9 +70,20 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="userpassword">Password</label>
-                                            <input type="password" class="form-control" name="password"
-                                                placeholder="Enter password">
+                                            <div class="float-end">
+                                                <a href="auth-pass-reset-basic.html" class="text-muted">Lupa
+                                                    password?</a>
+                                            </div>
+                                            <label class="form-label" for="password-input">Password</label>
+                                            <div class="position-relative auth-pass-inputgroup mb-3">
+                                                <input type="password" class="form-control pe-5 password-input"
+                                                    name="password" placeholder="Enter password" id="password-input">
+                                                <button
+                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                                    type="button" id="password-addon"><i
+                                                        class="ri-eye-fill align-middle"></i></button>
+                                            </div>
+
                                         </div>
 
 
@@ -87,7 +98,12 @@
                             <!-- end card body -->
                         </div>
                         <!-- end card -->
-
+                        <div class="mt-4 text-center">
+                            <p class="mb-0">Belum memiliki akun?
+                                <a href="/register" class="fw-semibold text-primary text-decoration-underline"> Register
+                                </a>
+                            </p>
+                        </div>
 
 
                     </div>
