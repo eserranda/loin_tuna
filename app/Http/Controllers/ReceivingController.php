@@ -36,10 +36,10 @@ class ReceivingController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<div class="d-flex justify-content-start align-items-center">';
-                    $btn = '<a href="javascript:void(0);" onclick="hapus(\'' . $row->id  . '\', \'' . $row->ilc . '\')"><i class="text-danger ri-delete-bin-5-line mx-2"></i></a>';
-                    $btn .= ' <a href="/raw-material/' . $row->ilc . '"<i class="ri-arrow-right-line"></i></a>';
-                    $btn .= '</div>';
+                    // $btn = '<div class="d-flex justify-content-start align-items-center">';
+                    $btn = '<a href="javascript:void(0);" onclick="hapus(\'' . $row->id  . '\', \'' . $row->ilc . '\')"><i class="text-danger ri-delete-bin-5-line"></i></a>';
+                    $btn .= ' <a href="/raw-material/' . $row->ilc . '"<i class="ri-arrow-right-line ms-2"></i></a>';
+                    // $btn .= '</div>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

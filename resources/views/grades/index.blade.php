@@ -64,6 +64,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Grade</th>
+                                    <th>Keterangan</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -96,6 +97,10 @@
                     {
                         data: 'grade',
                         name: 'grade',
+                    },
+                    {
+                        data: 'description',
+                        name: 'description',
                     },
                     {
                         data: 'action',

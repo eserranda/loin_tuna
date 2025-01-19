@@ -35,6 +35,7 @@ class UserSeeder extends Seeder
             'username' => 'customer',
             'email' => 'customer@example.com',
             'password' => Hash::make('password'),
+            'customer' => true,
         ]);
 
         // $super_admin->roles()->attach($super_admin_role);

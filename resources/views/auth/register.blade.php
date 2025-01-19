@@ -65,7 +65,7 @@
                                             <label for="username" class="form-label">Username <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="username"
-                                                placeholder="Enter username" name="username">
+                                                placeholder="Masukkan username" name="username">
                                             <div class="invalid-feedback">
 
                                             </div>
@@ -86,7 +86,7 @@
                                             <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup">
                                                 <input type="password" class="form-control pe-5 password-input"
-                                                    placeholder="Enter password" name="password" id="password">
+                                                    placeholder="Masukkan password" name="password" id="password">
                                                 <div class="invalid-feedback">
 
                                                 </div>

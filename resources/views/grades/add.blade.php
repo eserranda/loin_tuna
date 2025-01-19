@@ -13,6 +13,12 @@
                         <input type="text" class="form-control" id="grade" name="grade" placeholder="Grade">
                         <div class="invalid-feedback"> </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Keterangan</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Keterangan">
+                        <div class="invalid-feedback"> </div>
+                    </div>
 
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">Tambah</button>

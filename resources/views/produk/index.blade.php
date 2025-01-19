@@ -65,8 +65,10 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Image</th>
                                     <th>Kode</th>
                                     <th>Nama</th>
+                                    <th>Berat (Kg)</th>
                                     <th>customer Group</th>
                                     <th>Opsi</th>
                                 </tr>
@@ -91,7 +93,7 @@
 
                 <form id="addForm" action="{{ route('product.store') }}" method="POST">
                     <div class="modal-body">
-                        <input type="hidden" id="id-field" />
+                        {{-- <input type="hidden" id="id-field" /> --}}
                         <div class="mb-3" id="modal-id">
                             <label for="kode" class="form-label">Kode Produk</label>
                             <input type="text" id="kode" name="kode" class="form-control" placeholder="Kode" />
@@ -101,6 +103,15 @@
                             <label for="nama" class="form-label">Nama Produk</label>
                             <input type="text" id="nama" name="nama" class="form-control"
                                 placeholder="Nama Produk" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="harga" class="form-label">Harga</label>
+                            <input type="number" class="form-control" placeholder="Harga" id="harga" name="harga">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Berat (kg)</label>
+                            <input type="number" class="form-control" placeholder="Berat" id="berat" name="berat"
+                                step="0.01">
                         </div>
                         <div class="mb-3">
                             <label for="customer_group" class="form-label">Customer Group</label>
@@ -125,9 +136,100 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="addImageModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light p-3">
+                    <h5 class="modal-title">Tambah Image Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="close-modal"></button>
+                </div>
+
+                <form id="addImageForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="id_product" name="id" />
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-lable">Input File Foto</label>
+                                <input type="file" class="filestyle" data-buttonname="btn-secondary" name="image"
+                                    id="image" class="form-control">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <img class="img-thumbnail" id="photoPreview" src="" alt="Photo Preview"
+                                    style="max-width: 200px; max-height: 200px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" id="add-btn">Tambah</button>
+                            <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     <script>
+        document.getElementById('addImageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            fetch('{{ route('product.saveImage') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        form.reset();
+                        $('.dataProduk').DataTable().ajax.reload();
+                        $('#addImageModal').modal('hide');
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan. Silahkan coba lagi.');
+                });
+        });
+
+        async function showModalAddImage(id) {
+            $('#addImageModal').modal('show');
+            document.getElementById('id_product').value = id;
+        }
+
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+
+
         document.getElementById('addForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -179,12 +281,21 @@
                         name: 'DT_RowIndex',
                     },
                     {
+                        data: 'images',
+                        name: 'images',
+                        orderable: false,
+                    },
+                    {
                         data: 'kode',
                         name: 'kode',
                     },
                     {
                         data: 'nama',
                         name: 'nama',
+                    },
+                    {
+                        data: 'berat',
+                        name: 'berat',
                     },
                     {
                         data: 'customer_group',

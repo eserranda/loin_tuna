@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GradesController;
@@ -22,6 +23,11 @@ Route::get('register', [UserController::class, 'showRegistrationForm'])->name('r
 Route::post('login', [UserController::class, 'login'])->middleware('guest');
 
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+Route::prefix('cart')->controller(CartController::class)->group(function () {
+    Route::post('/store', 'store')->name('cart.store');
+    Route::get('/findOne', 'findOne')->name('cart.findOne');
+});
 
 Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::get('/', 'index')->name('users.index');
@@ -143,12 +149,16 @@ Route::prefix('product-log')->controller(ProductLogController::class)->group(fun
 Route::prefix('product')->controller(ProductController::class)->group(function () {
     Route::get('/', 'index')->name('product.index');
     Route::post('/store', 'store')->name('product.store');
+    Route::post('/saveImage', 'saveImage')->name('product.saveImage');
     Route::delete('/{id}', 'destroy')->name('product.destroy');
     Route::get('/getAllData', 'getAllData')->name('product.getAllData');
     Route::get('/productWithCustomerGroup/{customer_group}', 'productWithCustomerGroup');
 
     // pindahkan ke sini
     Route::get('/getAllDataProductLog', 'getAllDataProductLog');
+
+    // untuk customer
+    Route::get('list-product', 'listProduct');
 });
 
 // Route::get('/', function () {

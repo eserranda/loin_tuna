@@ -60,6 +60,7 @@ class GradesController extends Controller
 
         $save = new Grades();
         $save->grade = $request->grade;
+        $save->description = $request->description;
         $save->save();
 
         if ($save) {

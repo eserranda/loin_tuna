@@ -9,6 +9,8 @@ class Product extends Model
     protected $fillable = [
         'nama',
         'kode',
+        'berat',
+        'harga',
         'customer_group',
     ];
 }

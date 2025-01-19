@@ -5,16 +5,66 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductLog;
 use Illuminate\Http\Request;
+use App\Models\ProductImages;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+
+    public function saveImage(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:4048',
+        ], [
+            'required' => ':attribute harus diisi',
+            'image' => ':attribute harus berupa gambar',
+            'mimes' => ':attribute harus berformat jpeg,png,jpg,gif',
+            'max' => 'Ukuran :attribute maksimal 2048KB',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->messages(),
+            ], 422);
+        }
+
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $fileName = time() . '.' . $extension;
+        $filePath = 'uploads/images/products/' . $fileName;
+        $file->move(public_path('uploads/images/products/'), $fileName);
+
+        $productImages = ProductImages::create([
+            'id_product' => $request->input('id'),
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+        ]);
+
+        if ($productImages) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Disimpan',
+            ], 201);
+        }
+    }
+
+    public function listProduct()
+    {
+
+        $product = Product::all();
+        return view('list-product.index', compact('product'));
+    }
+
     public function index()
     {
         return view('produk.index');
     }
 
+    // data produk log mengungsi di sini 
     public function getAllDataProductLog(Request $request)
     {
         if ($request->ajax()) {
@@ -45,7 +95,7 @@ class ProductController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="setProduct(\'' . $row->id . '\', \'' . $row->nama . '\')"><i class="ri-arrow-right-line"></i></a>';
+                    $btn = '<a href="javascript:void(0);" onclick="setProduct(\'' . $row->id . '\', \'' . $row->nama . '\', \'' . $row->berat . '\')"><i class="ri-arrow-right-line"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -60,12 +110,23 @@ class ProductController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('images', function ($row) {
+                    $images = ProductImages::where('id_product', $row->id)->first();
+                    $img = '';
+                    if ($images) {
+                        $img = '<img src="' . asset($images->file_path) . '" alt="" class="img-thumbnail" style="width: 50px; height: 50px;">';
+                    } else {
+                        $img = '<img src="' . asset('uploads/images/no-image.jpg') . '" alt="" class="img-thumbnail" style="width: 50px; height: 50px;">';
+                    }
+                    return $img;
+                })
+
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line mx-3"></i></a>';
-                    // $btn .= '<a href="javascript:void(0);" onclick="kodeILC(\'' . $row->ilc_cutting . '\')"><i class="ri-arrow-right-line"></i></a>';
+                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line "></i></a>';
+                    $btn .= '<a href="javascript:void(0);" onclick="showModalAddImage(\'' . $row->id . '\')"><i class="text-warning ri-image-add-line mx-3"></i></a>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'images'])
                 ->make(true);
         }
     }
@@ -93,6 +154,7 @@ class ProductController extends Controller
     // }
 
 
+
     public function productLogGetData(Request $request, $customer_group)
     {
         if ($request->ajax()) {
@@ -113,12 +175,16 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'kode' => 'required|unique:products,kode',
             'nama' => 'required|unique:products,nama',
+            'harga' => 'required',
             'customer_group' => 'required',
+            'berat' => 'required',
         ], [
             'kode.required' => 'Kode produk harus diisi',
             'kode.unique' => 'Kode produk sudah ada',
+            'harga.required' => 'Harga harus diisi',
             'nama.required' => 'Nama produk harus diisi',
             'nama.unique' => 'Nama produk sudah ada',
+            'berat.required' => 'Berat harus diisi',
             'customer_group.required' => 'Customer group harus diisi',
         ]);
 
@@ -132,6 +198,8 @@ class ProductController extends Controller
         $products = Product::create([
             'kode' => $request->kode,
             'nama' => $request->nama,
+            'harga' => $request->harga,
+            'berat' => $request->berat,
             'customer_group' => $request->customer_group,
         ]);
 

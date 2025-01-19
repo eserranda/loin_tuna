@@ -83,6 +83,7 @@
                                             <th>No</th>
                                             <th>Nama</th>
                                             <th>Kode</th>
+                                            <th>berat</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -173,9 +174,10 @@
 
 @push('scripts')
     <script>
-        async function setProduct(id, nama) {
+        async function setProduct(id, nama, berat) {
             document.getElementById('id_produk').value = id;
             document.getElementById('produk').value = nama;
+            document.getElementById('berat').value = berat;
         }
 
         document.getElementById('productLogForm').addEventListener('submit', async (event) => {
@@ -243,6 +245,7 @@
                     // product.value = '';
 
                     document.getElementById('produk').value = '';
+                    document.getElementById('berat').value = '';
                     $('#datatable').DataTable().ajax.reload();
                     $('#dataTableProductLogs').DataTable().ajax.reload();
                     $('#addModal').modal('hide');
@@ -281,6 +284,12 @@
                     {
                         data: 'kode',
                         name: 'kode',
+                        orderable: false,
+
+                    },
+                    {
+                        data: 'berat',
+                        name: 'berat',
                         orderable: false,
 
                     },
@@ -363,43 +372,43 @@
             getNoIkan(ilc_cutting);
         });
 
-        document.getElementById('no_loin').addEventListener('change', async function(event) {
-            const ilc = "{{ $data->ilc }}";
-            // const no_loin = event.target.value;
-            try {
-                const response = await fetch('/retouching/getBerat/' + ilc + '/' + event.target.value, {
-                    method: 'GET',
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                const data = await response.json();
-                console.log(data);
-                document.getElementById('berat').value = data;
-            } catch (error) {
-                console.error('Fetch error: ', error);
-                alert('Terjadi kesalahan saat mengambil data.');
-            }
-        });
+        // document.getElementById('no_loin').addEventListener('change', async function(event) {
+        //     const ilc = "{{ $data->ilc }}";
+        //     // const no_loin = event.target.value;
+        //     try {
+        //         const response = await fetch('/retouching/getBerat/' + ilc + '/' + event.target.value, {
+        //             method: 'GET',
+        //         });
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok ' + response.statusText);
+        //         }
+        //         const data = await response.json();
+        //         console.log(data);
+        //         document.getElementById('berat').value = data;
+        //     } catch (error) {
+        //         console.error('Fetch error: ', error);
+        //         alert('Terjadi kesalahan saat mengambil data.');
+        //     }
+        // });
 
-        async function print(id_product, ilc) {
-            try {
-                const response = await fetch('/print/product-log-print/' + id_product + '/' + ilc, {
-                    method: 'GET',
-                });
+        // async function print(id_product, ilc) {
+        //     try {
+        //         const response = await fetch('/print/product-log-print/' + id_product + '/' + ilc, {
+        //             method: 'GET',
+        //         });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok ' + response.statusText);
+        //         }
 
-                // const data = await response.json();
+        //         // const data = await response.json();
 
-                console.log(data);
-            } catch (error) {
-                console.error('Fetch error: ', error);
-                // alert('Terjadi kesalahan saat mengambil data.');
-            }
-        }
+        //         console.log(data);
+        //     } catch (error) {
+        //         console.error('Fetch error: ', error);
+        //         // alert('Terjadi kesalahan saat mengambil data.');
+        //     }
+        // }
 
 
 

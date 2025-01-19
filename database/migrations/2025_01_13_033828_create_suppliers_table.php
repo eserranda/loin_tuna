@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('provinsi')->nullable();
             $table->string('kabupaten')->nullable();
-            $table->string('kelurahan')->nullable();
+            $table->string('kecamatan')->nullable();
             $table->string('jalan')->nullable();
             $table->timestamps();
         });

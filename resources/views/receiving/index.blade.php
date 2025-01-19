@@ -107,7 +107,7 @@
                                             <th>ILC</th>
                                             <th>Tanggal</th>
                                             <th>Persen</th>
-                                            <th></th>
+                                            <th>Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

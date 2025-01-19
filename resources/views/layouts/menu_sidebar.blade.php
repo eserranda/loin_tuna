@@ -41,57 +41,32 @@
                              <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                          </a>
                      </li>
-                 @endif
-
-                 <li class="menu-title"><span data-key="t-menu">Processing</span></li>
-
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/receiving">
-                         <i class="ri-share-forward-2-line"></i> <span data-key="t-receiving">Receiving</span>
-                     </a>
-                 </li>
-
-                 {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'cutting'])) --}}
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/cutting">
-                         <i class="ri-knife-blood-line"></i> <span data-key="t-cutting">Cutting</span>
-                     </a>
-                 </li>
-                 {{-- @endif --}}
-
-                 {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'retouching'])) --}}
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/retouching">
-                         <i class="ri-dashboard-line"></i> <span data-key="t-retouching">Retouching</span>
-                     </a>
-                 </li>
-                 {{-- @endif --}}
-
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/packing">
-                         <i class=" ri-inbox-archive-fill"></i> <span data-key="t-retouching">Packing</span>
-                     </a>
-                 </li>
 
 
+                     <li class="menu-title"><span data-key="t-menu">Processing</span></li>
 
-                 {{--   @if (auth()->user()->hasAnyRole(['super_admin', 'cutting']))
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/receiving">
+                             <i class="ri-share-forward-2-line"></i> <span data-key="t-receiving">Receiving</span>
+                         </a>
+                     </li>
+
+                     {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'cutting'])) --}}
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/cutting">
                              <i class="ri-knife-blood-line"></i> <span data-key="t-cutting">Cutting</span>
                          </a>
                      </li>
-                 @endif
+                     {{-- @endif --}}
 
-                 @if (auth()->user()->hasAnyRole(['super_admin', 'retouching']))
+                     {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'retouching'])) --}}
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/retouching">
                              <i class="ri-dashboard-line"></i> <span data-key="t-retouching">Retouching</span>
                          </a>
                      </li>
-                 @endif
+                     {{-- @endif --}}
 
-                 @if (auth()->user()->hasAnyRole(['super_admin', 'packing']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/packing">
                              <i class=" ri-inbox-archive-fill"></i> <span data-key="t-retouching">Packing</span>
@@ -99,15 +74,8 @@
                      </li>
                  @endif
 
-                 @if (auth()->user()->hasAnyRole(['super_admin', 'receiving']))
-                     <li class="nav-item">
-                         <a class="nav-link menu-link" href="/byproduct">
-                             <i class="ri-recycle-fill"></i> <span data-key="t-retouching">Byproduct</span>
-                         </a>
-                     </li>
-                 @endif
 
-                 @if (auth()->user()->hasAnyRole(['super_admin', 'qc']))
+                 {{--   @if (auth()->user()->hasAnyRole(['super_admin', 'qc']))
                      <li class="menu-title"> <span data-key="t-pages">Chechking</span></li>
 
                      <li class="nav-item">
@@ -141,56 +109,60 @@
 
                  --}}
 
-                 {{-- @if (auth()->user()->hasAnyRole(['super_admin'])) --}}
-                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pengaturan</span>
-                 </li>
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['super_admin']))
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pengaturan</span>
+                     </li>
 
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/supplier">
-                         <i class="ri-group-line"></i> <span data-key="t-supplier">Supplier</span>
-                     </a>
-                 </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/supplier">
+                             <i class="ri-group-line"></i> <span data-key="t-supplier">Supplier</span>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/product">
+                             <i class="ri-file-list-2-line"></i> <span data-key="t-supplier">Produk</span>
+                         </a>
+                     </li>
 
-                 {{-- <li class="nav-item">
-                     <a class="nav-link menu-link" href="/customer">
-                         <i class="ri-contacts-line"></i> <span data-key="t-supplier">Customer</span>
-                     </a>
-                 </li> --}}
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/grades">
+                             <i class=" ri-list-settings-line"></i> <span data-key="t-supplier">Grade</span>
+                         </a>
+                     </li>
 
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/product">
-                         <i class="ri-file-list-2-line"></i> <span data-key="t-supplier">Produk</span>
-                     </a>
-                 </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="#users" data-bs-toggle="collapse" role="button"
+                             aria-expanded="false" aria-controls="users">
+                             <i class="ri-pages-line"></i> <span data-key="t-users">Users</span>
+                         </a>
+                         <div class="collapse menu-dropdown" id="users">
+                             <ul class="nav nav-sm flex-column">
+                                 <li class="nav-item">
+                                     <a href="/users/customers" class="nav-link" data-key="t-starter">Data
+                                         Customer</a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="/users" class="nav-link" data-key="t-starter">Data User</a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="/roles" class="nav-link" data-key="t-starter">Role</a>
+                                 </li>
 
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/grades">
-                         <i class=" ri-list-settings-line"></i> <span data-key="t-supplier">Grade</span>
-                     </a>
-                 </li>
+                             </ul>
+                         </div>
+                     </li>
+                 @endif
 
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="#users" data-bs-toggle="collapse" role="button"
-                         aria-expanded="false" aria-controls="users">
-                         <i class="ri-pages-line"></i> <span data-key="t-users">Users</span>
-                     </a>
-                     <div class="collapse menu-dropdown" id="users">
-                         <ul class="nav nav-sm flex-column">
-                             <li class="nav-item">
-                                 <a href="/users/customers" class="nav-link" data-key="t-starter">Data
-                                     Customer</a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="/users" class="nav-link" data-key="t-starter">Data User</a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="/roles" class="nav-link" data-key="t-starter">Role</a>
-                             </li>
-
-                         </ul>
-                     </div>
-                 </li>
-                 {{-- @endif --}}
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['customer', 'super_admin']))
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Info</span>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/product/list-product">
+                             <i class="ri-shopping-cart-line"></i> <span data-key="t-produk">Produk</span>
+                         </a>
+                     </li>
+                 @endif
 
                  <hr class="my-0">
                  <li class="nav-item">

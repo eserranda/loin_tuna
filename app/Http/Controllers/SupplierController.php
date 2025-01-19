@@ -44,7 +44,7 @@ class SupplierController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('alamat', function ($row) {
-                    return $row->jalan . ', ' . $row->kelurahan . ', ' . $row->kabupaten . ', ' . $row->provinsi;
+                    return $row->jalan . ', ' . $row->kecamatan . ', ' . $row->kabupaten . ', ' . $row->provinsi;
                 })
                 ->addColumn('periode', function ($row) {
                     return $row->tahun_mulai . '-' . $row->tahun_selesai;
