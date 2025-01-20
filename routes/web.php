@@ -25,8 +25,12 @@ Route::post('login', [UserController::class, 'login'])->middleware('guest');
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
 
 Route::prefix('cart')->controller(CartController::class)->group(function () {
+    Route::get('/', 'index')->name('cart.index');
     Route::post('/store', 'store')->name('cart.store');
     Route::get('/findOne', 'findOne')->name('cart.findOne');
+    Route::post('/decrease/{id}', 'decrease')->name('cart.decrease');
+    Route::post('/increase/{id}', 'increase')->name('cart.increase');
+    Route::delete('/destroy/{id}', 'destroy')->name('cart.destroy');
 });
 
 Route::prefix('users')->controller(UserController::class)->group(function () {

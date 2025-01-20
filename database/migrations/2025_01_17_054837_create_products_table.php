@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kode');
             $table->decimal('berat', 5, 2);
             $table->integer('harga');
+            $table->string('image')->nullable();
             $table->string('customer_group');
             $table->timestamps();
         });

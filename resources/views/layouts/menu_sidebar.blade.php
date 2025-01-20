@@ -162,6 +162,11 @@
                              <i class="ri-shopping-cart-line"></i> <span data-key="t-produk">Produk</span>
                          </a>
                      </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/cart">
+                             <i class="ri-shopping-basket-line"></i> <span data-key="t-produk">Cart</span>
+                         </a>
+                     </li>
                  @endif
 
                  <hr class="my-0">

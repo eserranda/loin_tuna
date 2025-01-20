@@ -79,7 +79,7 @@
                                 </div>
                                 {{-- <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                     <div class="d-flex align-items-center">
-                                        <img src="assets/images/products/img-1.png"
+                                        <img src="http://127.0.0.1:8000/uploads/images/products/1737350654.jpg"
                                             class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
                                         <div class="flex-1">
                                             <h6 class="mt-0 mb-1 fs-14">
@@ -209,8 +209,8 @@
                                 </div>
                             </div>
 
-                            <a href="apps-ecommerce-checkout.html" class="btn btn-success text-center w-100">
-                                Checkout
+                            <a href="/cart" class="btn btn-success text-center w-100">
+                                Lihat Keranjang
                             </a>
                         </div>
                     </div>

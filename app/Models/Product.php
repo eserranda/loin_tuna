@@ -11,6 +11,7 @@ class Product extends Model
         'kode',
         'berat',
         'harga',
+        'image',
         'customer_group',
     ];
 }

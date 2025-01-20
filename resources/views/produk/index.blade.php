@@ -93,37 +93,59 @@
 
                 <form id="addForm" action="{{ route('product.store') }}" method="POST">
                     <div class="modal-body">
-                        {{-- <input type="hidden" id="id-field" /> --}}
-                        <div class="mb-3" id="modal-id">
-                            <label for="kode" class="form-label">Kode Produk</label>
-                            <input type="text" id="kode" name="kode" class="form-control" placeholder="Kode" />
-                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-lable">Input File Foto</label>
+                                <input type="file" class="filestyle" data-buttonname="btn-secondary" name="image"
+                                    id="product_image" class="form-control">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <img class="img-thumbnail" id="photoPreview" src="" alt="Photo Preview"
+                                    style="max-width: 200px; max-height: 200px;">
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Nama Produk</label>
-                            <input type="text" id="nama" name="nama" class="form-control"
-                                placeholder="Nama Produk" />
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="kode" class="form-label">Kode Produk</label>
+                                    <input type="text" id="kode" name="kode" class="form-control"
+                                        placeholder="Kode" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama Produk</label>
+                                    <input type="text" id="nama" name="nama" class="form-control"
+                                        placeholder="Nama Produk" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="harga" class="form-label">Harga</label>
+                                    <input type="number" class="form-control" placeholder="Harga" id="harga"
+                                        name="harga">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Berat (kg)</label>
+                                    <input type="number" class="form-control" placeholder="Berat" id="berat"
+                                        name="berat" step="0.01">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="customer_group" class="form-label">Customer Group</label>
+                                    <select class="form-control" name="customer_group" id="customer_group">
+                                        <option value="" selected disabled>Pilih Customer Group</option>
+                                        <option value="USA">USA</option>
+                                        <option value="EROPA">EROPA</option>
+                                        <option value="JEPANG">JEPANG</option>
+                                        <option value="LOCAL">LOCAL</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="harga" class="form-label">Harga</label>
-                            <input type="number" class="form-control" placeholder="Harga" id="harga" name="harga">
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Berat (kg)</label>
-                            <input type="number" class="form-control" placeholder="Berat" id="berat" name="berat"
-                                step="0.01">
-                        </div>
-                        <div class="mb-3">
-                            <label for="customer_group" class="form-label">Customer Group</label>
-                            <select class="form-control" name="customer_group" id="customer_group">
-                                <option value="" selected disabled>Pilih Customer Group</option>
-                                <option value="USA">USA</option>
-                                <option value="EROPA">EROPA</option>
-                                <option value="JEPANG">JEPANG</option>
-                                <option value="LOCAL">LOCAL</option>
-                            </select>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
                         <div class="hstack gap-2 justify-content-end">
@@ -157,7 +179,7 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                             <div class="mb-3">
-                                <img class="img-thumbnail" id="photoPreview" src="" alt="Photo Preview"
+                                <img class="img-thumbnail" id="photoProductPreview" src="" alt="Photo Preview"
                                     style="max-width: 200px; max-height: 200px;">
                             </div>
                         </div>
@@ -216,7 +238,7 @@
             document.getElementById('id_product').value = id;
         }
 
-        document.getElementById('image').addEventListener('change', function(event) {
+        document.getElementById('product_image').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -227,8 +249,16 @@
             }
         });
 
-
-
+        document.getElementById('image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoProductPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
 
         document.getElementById('addForm').addEventListener('submit', function(event) {
             event.preventDefault();

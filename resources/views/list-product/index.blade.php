@@ -57,8 +57,7 @@
         @foreach ($product as $p)
             <div class="col-sm-6 col-xl-3">
                 <div class="card">
-                    <img class="img-fluid rounded"
-                        src="{{ asset(App\Models\ProductImages::where('id_product', $p->id)->first()->file_path ?? '/uploads/images/no-image.jpg') }}"
+                    <img class="img-fluid rounded" src="{{ asset($p->image ?? '/uploads/images/no-image.jpg') }}"
                         alt="Product Image">
                     <div class="card-body">
                         <h4 class="mb-2">{{ $p->nama }} <span class="text-muted h5">({{ $p->berat }}Kg)</span>
@@ -116,7 +115,6 @@
             getCart();
         });
 
-
         async function addTocard(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             try {
@@ -151,7 +149,7 @@
             }
         }
 
-        // Fungsi untuk memperbarui UI keranjang (opsional)
+        // Fungsi untuk memperbarui UI keranjang (opsional) file ada di layout
         function updateCartUI(cartItems) {
             let totalQty = 0;
             let totalPrice = 0;
@@ -159,43 +157,36 @@
             const cartContainer = document.getElementById('cart-items-container');
             cartContainer.innerHTML = '';
 
-            cartItems.forEach((item, index) => {
-                // Tambahkan qty produk ke total
-                totalQty += item.qty;
-                // Hitung total harga
-                totalPrice += item.qty * item.product.harga;
+            cartItems.forEach((row, index) => {
+                totalQty += row.qty;
+                totalPrice += row.qty * row.product.harga;
 
-                // Buat elemen untuk setiap item di keranjang
-                const cartItem = document.createElement('div');
-                cartItem.classList.add('d-block', 'dropdown-item', 'dropdown-item-cart', 'text-wrap',
-                    'px-3',
-                    'py-2');
-
-                cartItem.innerHTML = `
-            <div class="d-flex align-items-center">
-                <img src="${item.product.image}" 
-                     class="me-3 rounded-circle avatar-sm p-2 bg-light" 
-                     alt="${item.product.nama}">
-                <div class="flex-1">
-                    <h6 class="mt-0 mb-1 fs-14">
-                        <a href="apps-ecommerce-product-details.html" id="product-name-${index + 1}" class="text-reset">
-                            ${item.product.nama}
-                        </a>
-                    </h6>
-                    <p class="mb-0 fs-12 text-muted">
-                        Quantity: <span id="product-qty-${index + 1}">${item.qty} x ${formatToRupiah(item.product.harga)}</span>
-                    </p>
-                </div>
-                <div class="px-2">
-                    <h5 class="m-0 fw-normal"><span id="product-price-${index + 1}" class="cart-item-price">
-                       ${formatToRupiah(item.qty * item.product.harga)}
-                    </span></h5>
-                </div>
-            </div>
-        `;
-
-                // Tambahkan item ke dalam container
-                cartContainer.appendChild(cartItem);
+                const cards = `
+                     <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
+                     <div class="d-flex align-items-center">
+                      <img src="${row.product.image || '/uploads/images/no-image.jpg'}"
+                        class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
+                        <div class="flex-1">
+                             <h6 class="mt-0 mb-1 fs-14">
+                          <a href="apps-ecommerce-product-details.html" class="text-reset"> ${row.product.nama}</a>
+                            </h6>
+                         <p class="mb-0 fs-12 text-muted">
+                                Quantity: <span>${row.qty} x ${formatToRupiah(row.product.harga)}</span>
+                            </p>
+                            </div>
+                                <div class="px-2">
+                               <h5 class="m-0 fw-normal"><span class="cart-item-price">${formatToRupiah(row.product.harga)}</span>
+                                </h5>
+                                    </div>
+                                        <div class="ps-2">
+                                            <button type="button"
+                                                class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i
+                                                    class="ri-close-fill fs-16"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                `;
+                cartContainer.insertAdjacentHTML('beforeend', cards);
             });
 
             // Perbarui elemen total quantity

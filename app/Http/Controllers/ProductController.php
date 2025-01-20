@@ -14,7 +14,6 @@ class ProductController extends Controller
 
     public function saveImage(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'id' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:4048',
@@ -37,6 +36,13 @@ class ProductController extends Controller
         $fileName = time() . '.' . $extension;
         $filePath = 'uploads/images/products/' . $fileName;
         $file->move(public_path('uploads/images/products/'), $fileName);
+
+        $cekProductImages = Product::where('id', $request->input('id'))->value('image');
+        if (!$cekProductImages) {
+            Product::where('id', $request->input('id'))->update([
+                'image' => $filePath
+            ]);
+        }
 
         $productImages = ProductImages::create([
             'id_product' => $request->input('id'),
@@ -111,10 +117,10 @@ class ProductController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('images', function ($row) {
-                    $images = ProductImages::where('id_product', $row->id)->first();
+                    $images = $row->image;
                     $img = '';
                     if ($images) {
-                        $img = '<img src="' . asset($images->file_path) . '" alt="" class="img-thumbnail" style="width: 50px; height: 50px;">';
+                        $img = '<img src="' . $images . '" alt="" class="img-thumbnail" style="width: 50px; height: 50px;">';
                     } else {
                         $img = '<img src="' . asset('uploads/images/no-image.jpg') . '" alt="" class="img-thumbnail" style="width: 50px; height: 50px;">';
                     }
@@ -195,11 +201,21 @@ class ProductController extends Controller
             ], 422);
         }
 
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $filePath = 'uploads/images/products/' . $fileName;
+            $file->move(public_path('uploads/images/products/'), $fileName);
+        }
+
         $products = Product::create([
             'kode' => $request->kode,
             'nama' => $request->nama,
             'harga' => $request->harga,
             'berat' => $request->berat,
+            'image' => $filePath ?? null,
             'customer_group' => $request->customer_group,
         ]);
 
