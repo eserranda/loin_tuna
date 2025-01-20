@@ -52,7 +52,7 @@
                         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h6 class="m-0 fs-16 fw-semibold"> My Cart</h6>
+                                    <h6 class="m-0 fs-16 fw-semibold">Keranjang</h6>
                                 </div>
                                 <div class="col-auto">
                                     <span class="badge badge-soft-warning fs-13">

@@ -165,7 +165,7 @@
                      <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                      <div class="d-flex align-items-center">
                       <img src="${row.product.image || '/uploads/images/no-image.jpg'}"
-                        class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
+                        class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="product-pic">
                         <div class="flex-1">
                              <h6 class="mt-0 mb-1 fs-14">
                           <a href="apps-ecommerce-product-details.html" class="text-reset"> ${row.product.nama}</a>
@@ -179,9 +179,9 @@
                                 </h5>
                                     </div>
                                         <div class="ps-2">
-                                            <button type="button"
-                                                class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"><i
-                                                    class="ri-close-fill fs-16"></i></button>
+                                            <button type="button" onclick="removeCartItem(${row.id})"
+                                                class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn">
+                                                <i class="ri-close-fill fs-16"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -191,10 +191,32 @@
 
             // Perbarui elemen total quantity
             document.getElementById('total_qty').textContent = totalQty;
-            document.getElementById('total_qty_product').textContent = totalQty;
+            document.getElementById('total_qty_product').textContent = cartItems.length;
 
             // Perbarui elemen total harga
             document.getElementById('cart-item-total').textContent = formatToRupiah(totalPrice);
+        }
+
+        function removeCartItem($id) {
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    'content');
+                fetch('/cart/destroy/' + $id, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        getCart();
+                    } else {
+                        alert('Terjadi kesalahan saat menghapus item dari keranjang');
+                    }
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
         function formatToRupiah(number) {

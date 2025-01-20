@@ -142,10 +142,10 @@
             if (cartData.length === 0) {
                 cartContainer.innerHTML = '<p>Keranjang Anda kosong.</p>';
                 document.getElementById('total_items').textContent = '';
-                document.getElementById('cart-total-qty').textContent = '';
-                document.getElementById('cart-subtotal').textContent = '';
-                document.getElementById('cart-tax').textContent = '';
-                document.getElementById('cart-total').textContent = '';
+                document.getElementById('cart-total-qty').textContent = 0;
+                document.getElementById('cart-subtotal').textContent = 'Rp ' + 0;
+                document.getElementById('cart-tax').textContent = 'Rp ' + 0;
+                document.getElementById('cart-total').textContent = 'Rp ' + 0;
 
                 return;
             }
