@@ -1,4 +1,11 @@
 @extends('layouts.master')
+@push('head_component')
+    <!-- Sweet Alert css-->
+    <link href="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="{{ asset('assets') }}/js/pages/sweetalerts.init.js"></script>
+@endpush
+
 @section('title')
     <h4 class="mb-sm-0">Cart</h4>
     <div class="page-title-right">
@@ -60,14 +67,6 @@
                                         <td>Sub Total :</td>
                                         <td class="text-end" id="cart-subtotal"></td>
                                     </tr>
-                                    {{-- <tr>
-                                        <td>Discount <span class="text-muted">(VELZON15)</span> : </td>
-                                        <td class="text-end" id="cart-discount">- $ 53.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping Charge :</td>
-                                        <td class="text-end" id="cart-shipping">$ 65.00</td>
-                                    </tr> --}}
                                     <tr>
                                         <td>Pajak (12%) : </td>
                                         <td class="text-end" id="cart-tax"></td>
@@ -103,8 +102,8 @@
 
 @push('scripts')
     <script>
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
         async function getCart() {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             try {
                 const cartResponse = await fetch('{{ route('cart.findOne') }}', {
                     method: 'GET',
@@ -122,7 +121,7 @@
 
                 console.log(cartData.data);
 
-                updateCartUI(cartData.data);
+                updateListCartUI(cartData.data);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -132,15 +131,15 @@
             getCart();
         });
 
-        function updateCartUI(cartData) {
+        function updateListCartUI(cartData) {
             let totalQty = 0;
             let totalPrice = 0;
 
-            const cartContainer = document.getElementById('cart-container');
-            cartContainer.innerHTML = '';
+            const listCartContainer = document.getElementById('cart-container');
+            listCartContainer.innerHTML = '';
 
             if (cartData.length === 0) {
-                cartContainer.innerHTML = '<p>Keranjang Anda kosong.</p>';
+                listCartContainer.innerHTML = '<p>Keranjang Anda kosong.</p>';
                 document.getElementById('total_items').textContent = '';
                 document.getElementById('cart-total-qty').textContent = 0;
                 document.getElementById('cart-subtotal').textContent = 'Rp ' + 0;
@@ -151,40 +150,40 @@
             }
 
             // Iterasi data keranjang dan buat elemen HTML untuk setiap item
-            cartData.forEach(row => {
-                totalQty += row.qty;
-                totalPrice += row.qty * row.product.harga;
+            cartData.forEach(items => {
+                totalQty += items.qty;
+                totalPrice += items.qty * items.product.harga;
 
-                const card = `
+                const listCard = `
             <div class="card product">
                 <div class="card-body">
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="${row.product.image || '/uploads/images/no-image.jpg'}" alt="" class="img-fluid d-block">
+                                <img src="${items.product.image || '/uploads/images/no-image.jpg'}" alt="" class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
                             <h5 class="fs-14 text-truncate">
-                                <a href="ecommerce-product-detail.html" class="text-dark">${row.product.nama}</a>
+                                <a href="ecommerce-product-detail.html" class="text-dark">${items.product.nama}</a>
                             </h5>
                             <ul class="list-inline text-muted">
                                 <li class="list-inline-item">Berat: 
-                                    <span class="fw-medium">${row.product.berat} Kg</span>
+                                    <span class="fw-medium">${items.product.berat} Kg</span>
                                 </li>
                             </ul>
 
                             <div class="input-step">
-                                <button type="button" class="minus" onClick="decreaseQuantity(${row.id})">-</button>
-                                <input type="number" class="product-quantity" value="${row.qty}" min="0" max="100">
-                                <button type="button" class="plus" onClick="increaseQuantity(${row.id})">+</button>
+                                <button type="button" class="minus" onClick="decreaseQuantity(${items.id})">-</button>
+                                <input type="number" class="product-quantity" value="${items.qty}" min="0" max="100">
+                                <button type="button" class="plus" onClick="increaseQuantity(${items.id})">+</button>
                             </div>
                         </div>
                         <div class="col-sm-auto">
                             <div class="text-lg-end">
                                 <p class="text-muted mb-1">Item Price:</p>
                                 <h5 class="fs-14">
-                                    <span class="product-price">${formatToRupiah(row.product.harga)}</span>
+                                    <span class="product-price">${formatToRupiah(items.product.harga)}</span>
                                 </h5>
                             </div>
                         </div>
@@ -196,7 +195,7 @@
                         <div class="col-sm">
                             <div class="d-flex flex-wrap my-n1">
                                 <div>
-                                    <a href="javascript:void(0);" onclick="removeCart(${row.id})"
+                                    <a href="javascript:void(0);" onclick="removeCart(${items.id})"
                                         class="d-block text-body p-1 px-2">
                                         <i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove
                                     </a>
@@ -207,7 +206,7 @@
                             <div class="d-flex align-items-center gap-2 text-muted">
                                 <div>Total :</div>
                                 <h5 class="fs-14 mb-0">
-                                    <span class="product-line-price">${formatToRupiah(row.total_amount)}</span>
+                                    <span class="product-line-price">${formatToRupiah(items.total_amount)}</span>
                                 </h5>
                             </div>
                         </div>
@@ -215,7 +214,7 @@
                 </div>
             </div>
         `;
-                cartContainer.insertAdjacentHTML('beforeend', card); // Tambahkan kartu ke dalam kontainer
+                listCartContainer.insertAdjacentHTML('beforeend', listCard); // Tambahkan kartu ke dalam kontainer
             });
 
             document.getElementById('total_items').textContent = "Keranjang Anda : (" + cartData.length + " Items)";
@@ -237,6 +236,7 @@
             }).then(response => {
                 if (response.ok) {
                     getCart();
+                    getListCart();
                 } else {
                     console.error('Error:', response.status);
                 }
@@ -255,18 +255,11 @@
             }).then(response => {
                 if (response.ok) {
                     getCart();
+                    getListCart();
                 } else {
                     console.error('Error:', response.status);
                 }
             });
-        }
-
-        function formatToRupiah(number) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0 // Tidak menampilkan angka desimal
-            }).format(number);
         }
 
         async function removeCart(id) {
@@ -291,6 +284,7 @@
                     }).then(response => {
                         if (response.ok) {
                             getCart();
+                            getListCart();
                         } else {
                             alert('Terjadi kesalahan saat menghapus item dari keranjang');
                         }

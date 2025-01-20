@@ -1,23 +1,10 @@
 @extends('layouts.master')
 @push('head_component')
-    <!--- Select 2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
     <!-- Sweet Alert css-->
     <link href="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.js"></script>
     <script src="{{ asset('assets') }}/js/pages/sweetalerts.init.js"></script>
 
-    <!--- Datatable -->
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
-
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    {{-- Moment.js untuk Memformat Tanggal di Frontend --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <style>
         .card {
             padding: 8px;
@@ -86,34 +73,34 @@
 
 @push('scripts')
     <script>
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        async function getCart() {
-            try {
-                const cartResponse = await fetch('{{ route('cart.findOne') }}', {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                    }
-                });
+        // const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        // async function getListCart() {
+        //     try {
+        //         const cartResponse = await fetch('{{ route('cart.findOne') }}', {
+        //             method: 'GET',
+        //             headers: {
+        //                 'X-CSRF-TOKEN': csrfToken,
+        //                 'Content-Type': 'application/json',
+        //             }
+        //         });
 
-                if (!cartResponse.ok) {
-                    throw new Error('Gagal mengambil data keranjang.');
-                }
+        //         if (!cartResponse.ok) {
+        //             throw new Error('Gagal mengambil data keranjang.');
+        //         }
 
-                const cartData = await cartResponse.json();
+        //         const cartData = await cartResponse.json();
 
-                console.log(cartData.data);
+        //         console.log(cartData.data);
 
-                updateCartUI(cartData.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
+        //         updateCartUI(cartData.data);
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //     }
+        // };
 
-        document.addEventListener('DOMContentLoaded', function() {
-            getCart();
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     getListCart();
+        // });
 
         async function addTocard(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
@@ -135,7 +122,7 @@
                 if (response.ok) {
                     console.log(data);
 
-                    getCart();
+                    getListCart();
                 } else {
                     Swal.fire({
                         title: 'Error!',
@@ -147,84 +134,6 @@
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
-
-        // Fungsi untuk memperbarui UI keranjang (opsional) file ada di layout
-        function updateCartUI(cartItems) {
-            let totalQty = 0;
-            let totalPrice = 0;
-
-            const cartContainer = document.getElementById('cart-items-container');
-            cartContainer.innerHTML = '';
-
-            cartItems.forEach((row, index) => {
-                totalQty += row.qty;
-                totalPrice += row.qty * row.product.harga;
-
-                const cards = `
-                     <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
-                     <div class="d-flex align-items-center">
-                      <img src="${row.product.image || '/uploads/images/no-image.jpg'}"
-                        class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="product-pic">
-                        <div class="flex-1">
-                             <h6 class="mt-0 mb-1 fs-14">
-                          <a href="apps-ecommerce-product-details.html" class="text-reset"> ${row.product.nama}</a>
-                            </h6>
-                         <p class="mb-0 fs-12 text-muted">
-                                Quantity: <span>${row.qty} x ${formatToRupiah(row.product.harga)}</span>
-                            </p>
-                            </div>
-                                <div class="px-2">
-                               <h5 class="m-0 fw-normal"><span class="cart-item-price">${formatToRupiah(row.product.harga)}</span>
-                                </h5>
-                                    </div>
-                                        <div class="ps-2">
-                                            <button type="button" onclick="removeCartItem(${row.id})"
-                                                class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn">
-                                                <i class="ri-close-fill fs-16"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                `;
-                cartContainer.insertAdjacentHTML('beforeend', cards);
-            });
-
-            // Perbarui elemen total quantity
-            document.getElementById('total_qty').textContent = totalQty;
-            document.getElementById('total_qty_product').textContent = cartItems.length;
-
-            // Perbarui elemen total harga
-            document.getElementById('cart-item-total').textContent = formatToRupiah(totalPrice);
-        }
-
-        function removeCartItem($id) {
-            try {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content');
-                fetch('/cart/destroy/' + $id, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        getCart();
-                    } else {
-                        alert('Terjadi kesalahan saat menghapus item dari keranjang');
-                    }
-                });
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        function formatToRupiah(number) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0 // Tidak menampilkan angka desimal
-            }).format(number);
         }
     </script>
 @endpush
