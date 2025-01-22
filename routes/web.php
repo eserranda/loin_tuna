@@ -145,7 +145,7 @@ Route::prefix('retouching')->controller(RetouchingController::class)->group(func
 Route::prefix('product-log')->controller(ProductLogController::class)->group(function () {
     Route::get('/{ilc}', 'index')->name('product_log.index');
     Route::post('/store', 'store');
-    Route::delete('/{id}', 'destroy')->name('grades.destroy');
+    Route::delete('/{id}', 'destroy')->name('product-log.destroy');
 
     // Route::get('/getAllDataProductLog', 'getAllDataProductLog');
 })->middleware('auth');
