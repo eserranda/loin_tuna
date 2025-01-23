@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->boolean('customer')->default(false);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
 

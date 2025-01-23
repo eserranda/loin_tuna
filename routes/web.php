@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\CuttingController;
 use App\Http\Controllers\PackingController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReceivingController;
 use App\Http\Controllers\ProductLogController;
@@ -24,6 +26,13 @@ Route::post('login', [UserController::class, 'login'])->middleware('guest');
 
 Route::get('logout', [UserController::class, 'logout'])->name('logout');
 
+Route::prefix('order')->controller(OrderController::class)->group(function () {
+    Route::get('/', 'index')->name('order.index');
+    Route::get('/getAll', 'getAll')->name('order.getAll');
+    Route::get('/checkout', 'checkout')->name('checkout.index');
+    Route::get('/detail-order/{po_number}', 'detailOrder');
+});
+
 Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::get('/', 'index')->name('cart.index');
     Route::post('/store', 'store')->name('cart.store');
@@ -31,6 +40,11 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::post('/decrease/{id}', 'decrease')->name('cart.decrease');
     Route::post('/increase/{id}', 'increase')->name('cart.increase');
     Route::delete('/destroy/{id}', 'destroy')->name('cart.destroy');
+});
+
+Route::prefix('customer')->controller(CustomerController::class)->group(function () {
+    // Route::get('/', 'index')->name('costumer.index');
+    Route::post('/update/{id}', 'update')->name('costumer.update');
 });
 
 Route::prefix('users')->controller(UserController::class)->group(function () {
@@ -41,6 +55,9 @@ Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::get('/findById/{id}', 'findById');
     Route::post('/update', 'update');
     Route::delete('/destroy/{id}', 'destroy');
+
+    Route::get('/profile', 'profile');
+    Route::get('/edit-profile', 'editProfile');
 })->middleware('auth');
 
 Route::prefix('packing')->controller(PackingController::class)->group(function () {

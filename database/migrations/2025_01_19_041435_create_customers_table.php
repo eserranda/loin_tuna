@@ -16,11 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('kode')->nullable();
-            $table->integer('phone')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('negara')->nullable();
             $table->string('provinsi')->nullable();
             $table->string('kabupaten')->nullable();
             $table->string('kecamatan')->nullable();
-            $table->string('jalan')->nullable();
+            $table->text('jalan')->nullable();
+            $table->string('kode_pos')->nullable();
             $table->timestamps();
         });
     }

@@ -88,8 +88,10 @@
                 </div>
 
                 <div class="text-end">
-                    <a href="apps-ecommerce-checkout.html" class="btn btn-success btn-label right ms-auto"><i
-                            class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a>
+                    <a href="javascript:void(0);" onclick="checkout()" class="btn btn-success btn-label right ms-auto">
+                        <i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a>
+                    {{-- <a href="order/checkout" class="btn btn-success btn-label right ms-auto"><i
+                            class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a> --}}
                 </div>
 
 
@@ -102,6 +104,42 @@
 
 @push('scripts')
     <script>
+        async function checkout() {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            Swal.fire({
+                title: 'Checkout Item?',
+                text: 'Seluruh item akan di checkout!',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#34c759',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Checkout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content');
+                    fetch('/order/checkout', {
+                            method: 'GET',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json',
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                                console.log(data);
+                            } else {
+                                alert('Terjadi kesalahan saat menghapus item dari keranjang');
+                            }
+                        }).then(data => {
+                            window.location.href = '/order/detail-order/' + data.po_number;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        })
+                }
+            })
+        }
         async function getCart() {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             try {
@@ -141,7 +179,7 @@
             if (cartData.length === 0) {
                 listCartContainer.innerHTML = '<p>Keranjang Anda kosong.</p>';
                 document.getElementById('total_items').textContent = '';
-                document.getElementById('cart-total-qty').textContent = 0;
+                document.getElementById('cart-total-qty').textContent = 0 + ' Items';
                 document.getElementById('cart-subtotal').textContent = 'Rp ' + 0;
                 document.getElementById('cart-tax').textContent = 'Rp ' + 0;
                 document.getElementById('cart-total').textContent = 'Rp ' + 0;
@@ -206,7 +244,7 @@
                             <div class="d-flex align-items-center gap-2 text-muted">
                                 <div>Total :</div>
                                 <h5 class="fs-14 mb-0">
-                                    <span class="product-line-price">${formatToRupiah(items.total_amount)}</span>
+                                    <span class="product-line-price">${formatToRupiah(items.total_price)}</span>
                                 </h5>
                             </div>
                         </div>
@@ -218,7 +256,7 @@
             });
 
             document.getElementById('total_items').textContent = "Keranjang Anda : (" + cartData.length + " Items)";
-            document.getElementById('cart-total-qty').textContent = totalQty;
+            document.getElementById('cart-total-qty').textContent = totalQty + ' Items';
             document.getElementById('cart-subtotal').textContent = formatToRupiah(totalPrice);
             document.getElementById('cart-tax').textContent = formatToRupiah(totalPrice * 0.12);
             document.getElementById('cart-total').textContent = formatToRupiah(totalPrice + (totalPrice * 0.12));

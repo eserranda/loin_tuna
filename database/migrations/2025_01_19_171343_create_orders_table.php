@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_product');
-            $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
-            $table->integer('qty');
-            $table->integer('total_amount')->nullable();
+            $table->string('po_number');
+            $table->integer('total_price')->nullable();
             $table->string('status');
             $table->timestamps();
         });

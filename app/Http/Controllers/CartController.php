@@ -15,7 +15,7 @@ class CartController extends Controller
     {
         $cart = Cart::find($id);
         $cart->qty -= 1;
-        $cart->total_amount = $cart->qty * $cart->product->harga;
+        $cart->total_price = $cart->qty * $cart->product->harga;
         $cart->save();
 
         return response()->json([
@@ -28,7 +28,7 @@ class CartController extends Controller
     {
         $cart = Cart::find($id);
         $cart->qty += 1;
-        $cart->total_amount = $cart->qty * $cart->product->harga;
+        $cart->total_price = $cart->qty * $cart->product->harga;
         $cart->save();
 
         return response()->json([
@@ -68,7 +68,7 @@ class CartController extends Controller
 
         if ($cart) {
             $cart->qty += $request->qty;
-            $cart->total_amount = $cart->qty * $price;
+            $cart->total_price = $cart->qty * $price;
             $cart->save();
 
             return response()->json([
@@ -80,7 +80,7 @@ class CartController extends Controller
                 'user_id' => auth()->user()->id,
                 'id_product' => $request->id_product,
                 'qty' => $request->qty,
-                'total_amount' => $request->qty * $price,
+                'total_price' => $request->qty * $price,
             ]);
 
             return response()->json([

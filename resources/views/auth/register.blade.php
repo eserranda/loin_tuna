@@ -187,7 +187,9 @@
                         }
                     });
 
-                } else {
+                }
+
+                if (data.success) {
                     const invalidInputs = document.querySelectorAll('.is-invalid');
                     invalidInputs.forEach(invalidInput => {
                         invalidInput.value = '';
@@ -199,8 +201,7 @@
                         }
                     });
 
-                    // $('#datatable').DataTable().ajax.reload();
-                    // $('#addModal').modal('hide');
+                    window.location.href = '/login';
                 }
             } catch (error) {
                 console.error(error);

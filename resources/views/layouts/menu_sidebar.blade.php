@@ -164,7 +164,12 @@
                      </li>
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/cart">
-                             <i class="ri-shopping-basket-line"></i> <span data-key="t-produk">Cart</span>
+                             <i class="ri-shopping-basket-line"></i> <span data-key="t-cart">Cart</span>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/order">
+                             <i class="ri-file-list-3-line"></i> <span data-key="t-order">Order</span>
                          </a>
                      </li>
                  @endif

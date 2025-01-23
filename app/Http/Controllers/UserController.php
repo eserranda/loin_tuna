@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,20 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    public function profile()
+    {
+        $user = Auth::user();
+        $customer = Customer::where('user_id', $user->id)->first();
+        return view('profile.index', compact('user', 'customer'));
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::user();
+        $customer = Customer::where('user_id', $user->id)->first();
+        return view('profile.edit_profile', compact('user', 'customer'));
+    }
 
     public function userCustomers(Request $request)
     {
@@ -152,6 +167,12 @@ class UserController extends Controller
         if ($role) {
             $user->roles()->attach($role->id);
         }
+
+        $getUser = User::where('email', $request->email)->first();
+
+        Customer::create([
+            'user_id' => $getUser->id
+        ]);
 
         return response()->json([
             'success' => true,
