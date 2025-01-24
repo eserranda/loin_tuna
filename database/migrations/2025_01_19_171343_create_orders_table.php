@@ -17,6 +17,13 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('po_number');
             $table->integer('total_price')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('negara')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kabupaten')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->text('jalan')->nullable();
+            $table->string('kode_pos')->nullable();
             $table->string('status');
             $table->timestamps();
         });

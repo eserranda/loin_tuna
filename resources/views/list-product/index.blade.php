@@ -109,7 +109,7 @@
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json', // Pastikan tipe konten JSON
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         id_product: id,

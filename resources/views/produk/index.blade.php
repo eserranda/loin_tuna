@@ -47,7 +47,7 @@
 @endpush
 @section('content')
     <div class="row">
-        <div class="col-xxl-8">
+        <div class="col-xxl-12 col-lg-12">
             <div class="d-flex flex-column h-100">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
@@ -83,7 +83,7 @@
     </div>
 
     <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
                     <h5 class="modal-title">Tambah Produk</h5>

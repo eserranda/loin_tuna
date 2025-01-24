@@ -15,20 +15,19 @@
             <div class="card">
                 <div class="card-body checkout-tab">
 
-                    <form action="#">
-                        <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
+                    <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
 
-                            <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link fs-15 p-3 active" id="pills-bill-info-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-bill-info" type="button" role="tab"
-                                        aria-controls="pills-bill-info" aria-selected="true">
-                                        <i
-                                            class="ri-user-2-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
-                                        Personal Info
-                                    </button>
-                                </li>
-                                {{-- <li class="nav-item" role="presentation">
+                        <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fs-15 p-3 active" id="pills-bill-info-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-bill-info" type="button" role="tab"
+                                    aria-controls="pills-bill-info" aria-selected="true">
+                                    <i
+                                        class="ri-user-2-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
+                                    Personal Info
+                                </button>
+                            </li>
+                            {{-- <li class="nav-item" role="presentation">
                                     <button class="nav-link fs-15 p-3" id="pills-bill-address-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-bill-address" type="button" role="tab"
                                         aria-controls="pills-bill-address" aria-selected="false">
@@ -46,41 +45,42 @@
                                         Payment Info
                                     </button>
                                 </li> --}}
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link fs-15 p-3" id="pills-finish-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-finish" type="button" role="tab"
-                                        aria-controls="pills-finish" aria-selected="false">
-                                        <i
-                                            class="ri-checkbox-circle-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
-                                        Status Pesanan
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fs-15 p-3" id="pills-finish-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-finish" type="button" role="tab"
+                                    aria-controls="pills-finish" aria-selected="false">
+                                    <i
+                                        class="ri-checkbox-circle-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
+                                    Status Pesanan
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
-                                aria-labelledby="pills-bill-info-tab">
-                                <div>
-                                    <h5 class="mb-1">Informasi Pesanan <span class="fw-bold">
-                                            {{ $order->po_number }}</span></h5>
-                                    <p class="text-muted mb-4">Pastikan semua informasi di bawah ini sudah benar</p>
-                                </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
+                            aria-labelledby="pills-bill-info-tab">
+                            <div>
+                                <h5 class="mb-1">Informasi Pesanan <span class="fw-bold">
+                                        {{ $order->po_number }}</span></h5>
+                                <p class="text-muted mb-4">Pastikan semua informasi di bawah ini sudah benar</p>
+                            </div>
 
-                                <div>
+                            <div>
+                                <form id="customerForm">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="billinginfo-firstName" class="form-label">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="billinginfo-firstName"
-                                                    placeholder="Enter first name" value="{{ $order->user->name }}">
+                                                <label for="name" class="form-label">Nama Lengkap</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    placeholder="Nama Lengkap" value="{{ $order->user->name }}">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="billinginfo-lastName" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="billinginfo-lastName"
+                                                <label for="username" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username"
                                                     placeholder="Enter last name" value="{{ $order->user->username }}">
                                             </div>
                                         </div>
@@ -89,17 +89,17 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="billinginfo-email" class="form-label">Email <span
+                                                <label for="email" class="form-label">Email <span
                                                         class="text-muted">(Optional)</span></label>
-                                                <input type="email" class="form-control" id="billinginfo-email"
+                                                <input type="email" class="form-control" id="email" name="email"
                                                     placeholder="Enter email" value="{{ $order->user->email }}">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="billinginfo-phone" class="form-label">No. Hp</label>
-                                                <input type="text" class="form-control" id="billinginfo-phone"
+                                                <label for="phone" class="form-label">No. Hp</label>
+                                                <input type="text" class="form-control" id="phone" name="phone"
                                                     placeholder="Enter phone no." value="{{ $customer->phone ?? '' }} ">
                                             </div>
                                         </div>
@@ -107,14 +107,14 @@
 
                                     <div class="mb-3">
                                         <label for="jalan" class="form-label">Jalan</label>
-                                        <textarea class="form-control" id="jalan" placeholder="Jalan" rows="3">{{ $customer->jalan ?? '' }}</textarea>
+                                        <textarea class="form-control" id="jalan" name="jalan" placeholder="Jalan" rows="3">{{ $customer->jalan ?? '' }}</textarea>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label for="negara" class="form-label">Negara</label>
-                                                <input type="text" class="form-control" id="negara"
+                                                <input type="text" class="form-control" id="negara" name="negara"
                                                     placeholder="Negara" value="{{ $customer->negara ?? '' }}">
                                             </div>
                                         </div>
@@ -124,7 +124,8 @@
                                                 <div class="mb-3">
                                                     <label for="provinsi" class="form-label">Provinsi</label>
                                                     <input type="text" class="form-control" id="provinsi"
-                                                        placeholder="Provinsi" value="{{ $customer->provinsi ?? '' }}">
+                                                        name="provinsi" placeholder="Provinsi"
+                                                        value="{{ $customer->provinsi ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -133,7 +134,8 @@
                                                 <div class="mb-3">
                                                     <label for="kabupaten" class="form-label">Kabupaten</label>
                                                     <input type="text" class="form-control" id="kabupaten"
-                                                        placeholder="Kabupaten" value="{{ $customer->kabupaten ?? '' }}">
+                                                        name="kabupaten" placeholder="Kabupaten"
+                                                        value="{{ $customer->kabupaten ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -142,7 +144,8 @@
                                                 <div class="mb-3">
                                                     <label for="kecamatan" class="form-label">Kecamatan</label>
                                                     <input type="text" class="form-control" id="kecamatan"
-                                                        placeholder="Kecamatan" value="{{ $customer->kecamatan ?? '' }}">
+                                                        name="kecamatan" placeholder="Kecamatan"
+                                                        value="{{ $customer->kecamatan ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -151,23 +154,31 @@
                                             <div class="mb-3">
                                                 <label for="kode_pos" class="form-label">Kode Pos</label>
                                                 <input type="text" class="form-control" id="kode_pos"
-                                                    placeholder="Kode Pos" value="{{ $customer->kode_pos ?? '' }}">
+                                                    name="kode_pos" placeholder="Kode Pos"
+                                                    value="{{ $customer->kode_pos ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="d-flex align-items-start gap-3 mt-3">
-                                        <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
-                                            data-nexttab="pills-finish-tab">
-                                            <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>
-                                            Cek Status
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end tab pane -->
+                                    <div class="col-lg-12">
 
-                            {{-- <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="submit" class="btn btn-info">Save</button>
+
+                                            <button type="button" class="btn btn-primary btn-label  nexttab"
+                                                data-nexttab="pills-finish-tab">
+                                                <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>
+                                                Cek Status
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- end tab pane -->
+
+                        {{-- <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
                                 aria-labelledby="pills-bill-address-tab">
                                 <div>
                                     <h5 class="mb-1">Shipping Information</h5>
@@ -297,9 +308,9 @@
                                         Payment</button>
                                 </div>
                             </div> --}}
-                            <!-- end tab pane -->
+                        <!-- end tab pane -->
 
-                            {{-- <div class="tab-pane fade" id="pills-payment" role="tabpanel"
+                        {{-- <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                 aria-labelledby="pills-payment-tab">
                                 <div>
                                     <h5 class="mb-1">Payment Selection</h5>
@@ -399,34 +410,32 @@
                                         Order</button>
                                 </div>
                             </div> --}}
-                            <!-- end tab pane -->
+                        <!-- end tab pane -->
 
-                            <div class="tab-pane fade" id="pills-finish" role="tabpanel"
-                                aria-labelledby="pills-finish-tab">
-                                <div class="text-center py-5">
+                        <div class="tab-pane fade" id="pills-finish" role="tabpanel" aria-labelledby="pills-finish-tab">
+                            <div class="text-center py-5">
 
-                                    <div class="mb-4">
-                                        {{-- <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
+                                <div class="mb-4">
+                                    {{-- <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
                                             colors="primary:#0ab39c,secondary:#405189"
                                             style="width:120px;height:120px"></lord-icon> --}}
-                                        <lord-icon src="https://cdn.lordicon.com/warimioc.json" trigger="loop"
-                                            stroke="bold" state="loop-oscillate"
-                                            colors="primary:#66d7ee,secondary:#242424" style="width:120px;height:120px">
-                                        </lord-icon>
-                                    </div>
-                                    <h5>Terimakasih! Pasanan kamu akan segera diproses!</h5>
-                                    {{-- <p class="text-muted">Kami akan menghubungi kamu melalui email.</p> --}}
-
-                                    <h3 class="fw-semibold">Order ID: <span
-                                            class="fw-bold">{{ $order->po_number }}</span></h3>
-                                    <h3 class="fw-semibold">Status: <span class="fw-bold">{{ $order->status }}</span>
-                                    </h3>
+                                    <lord-icon src="https://cdn.lordicon.com/warimioc.json" trigger="loop" stroke="bold"
+                                        state="loop-oscillate" colors="primary:#66d7ee,secondary:#242424"
+                                        style="width:120px;height:120px">
+                                    </lord-icon>
                                 </div>
+                                <h5>Terimakasih! Pasanan kamu akan segera diproses!</h5>
+                                {{-- <p class="text-muted">Kami akan menghubungi kamu melalui email.</p> --}}
+
+                                <h3 class="fw-semibold">Order ID: <span class="fw-bold">{{ $order->po_number }}</span>
+                                </h3>
+                                <h3 class="fw-semibold">Status: <span class="fw-bold">{{ $order->status }}</span>
+                                </h3>
                             </div>
-                            <!-- end tab pane -->
                         </div>
-                        <!-- end tab content -->
-                    </form>
+                        <!-- end tab pane -->
+                    </div>
+                    <!-- end tab content -->
                 </div>
                 <!-- end card body -->
             </div>
@@ -506,5 +515,66 @@
 @endsection
 
 @push('scripts')
+    <script>
+        document.getElementById('customerForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const po_number = {{ $order->po_number }}
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            try {
+                const response = await fetch('/order/update/' + po_number, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(fieldName => {
+                        const inputField = document.getElementById(fieldName);
+                        if (inputField) {
+                            inputField.classList.add('is-invalid');
+                            if (inputField.nextElementSibling) {
+                                inputField.nextElementSibling.textContent = data.errors[
+                                    fieldName][0];
+                            }
+                        }
+                    });
+
+                    const validFields = document.querySelectorAll('.is-invalid');
+                    validFields.forEach(validField => {
+                        const fieldName = validField.id;
+                        if (!data.errors[fieldName]) {
+                            validField.classList.remove('is-invalid');
+                            if (validField.nextElementSibling) {
+                                validField.nextElementSibling.textContent = '';
+                            }
+                        }
+                    });
+                } else {
+                    alert(data.message);
+                    const invalidInputs = document.querySelectorAll('.is-invalid');
+                    invalidInputs.forEach(invalidInput => {
+                        invalidInput.value = '';
+                        invalidInput.classList.remove('is-invalid');
+                        const errorNextSibling = invalidInput.nextElementSibling;
+                        if (errorNextSibling && errorNextSibling.classList.contains(
+                                'invalid-feedback')) {
+                            errorNextSibling.textContent = '';
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        });
+    </script>
+
     <script src="{{ asset('assets') }}/js/pages/ecommerce-product-checkout.init.js"></script>
 @endpush

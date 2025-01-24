@@ -58,7 +58,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-xxl-8">
+        <div class="col-xxl-12 col-lg-12">
             <div class="d-flex flex-column h-100">
                 <div class="row">
 
