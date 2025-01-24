@@ -72,16 +72,19 @@
                                         <div class="col-sm-6">
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="name" name="name"
-                                                    placeholder="Nama Lengkap" value="{{ $order->user->name }}">
+                                                <input type="text" class="form-control bg-light" id="name"
+                                                    name="name" placeholder="Nama Lengkap"
+                                                    value="{{ $order->user->name }}" readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username" name="username"
-                                                    placeholder="Enter last name" value="{{ $order->user->username }}">
+                                                <label for="username" class="form-label">Username <span
+                                                        class="text-muted">(Optional)</span></label>
+                                                <input type="text" class="form-control bg-light" id="username"
+                                                    name="username" placeholder="Username"
+                                                    value="{{ $order->user->username }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -89,25 +92,26 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="mb-3">
-                                                <label for="email" class="form-label">Email <span
-                                                        class="text-muted">(Optional)</span></label>
-                                                <input type="email" class="form-control" id="email" name="email"
-                                                    placeholder="Enter email" value="{{ $order->user->email }}">
+                                                <label for="email" class="form-label">Email </label>
+                                                <input type="email" class="form-control bg-light" id="email"
+                                                    name="email" placeholder="Email" value="{{ $order->user->email }}"
+                                                    readonly>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="mb-3">
                                                 <label for="phone" class="form-label">No. Hp</label>
-                                                <input type="text" class="form-control" id="phone" name="phone"
-                                                    placeholder="Enter phone no." value="{{ $customer->phone ?? '' }} ">
+                                                <input type="number" class="form-control" id="phone" name="phone"
+                                                    placeholder="No. Hp"
+                                                    value="{{ $order->phone ? $order->phone : $customer->phone ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="jalan" class="form-label">Jalan</label>
-                                        <textarea class="form-control" id="jalan" name="jalan" placeholder="Jalan" rows="3">{{ $customer->jalan ?? '' }}</textarea>
+                                        <textarea class="form-control" id="jalan" name="jalan" placeholder="Jalan" rows="3">{{ $order->jalan ? $order->jalan : $customer->jalan ?? '' }}</textarea>
                                     </div>
 
                                     <div class="row">
@@ -115,7 +119,8 @@
                                             <div class="mb-3">
                                                 <label for="negara" class="form-label">Negara</label>
                                                 <input type="text" class="form-control" id="negara" name="negara"
-                                                    placeholder="Negara" value="{{ $customer->negara ?? '' }}">
+                                                    placeholder="Negara"
+                                                    value="{{ $order->negara ? $order->negara : $customer->negara ?? '' }}">
                                             </div>
                                         </div>
 
@@ -125,7 +130,7 @@
                                                     <label for="provinsi" class="form-label">Provinsi</label>
                                                     <input type="text" class="form-control" id="provinsi"
                                                         name="provinsi" placeholder="Provinsi"
-                                                        value="{{ $customer->provinsi ?? '' }}">
+                                                        value="{{ $order->provinsi ? $order->provinsi : $customer->provinsi ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +140,7 @@
                                                     <label for="kabupaten" class="form-label">Kabupaten</label>
                                                     <input type="text" class="form-control" id="kabupaten"
                                                         name="kabupaten" placeholder="Kabupaten"
-                                                        value="{{ $customer->kabupaten ?? '' }}">
+                                                        value="{{ $order->kabupaten ? $order->kabupaten : $customer->kabupaten ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -145,7 +150,7 @@
                                                     <label for="kecamatan" class="form-label">Kecamatan</label>
                                                     <input type="text" class="form-control" id="kecamatan"
                                                         name="kecamatan" placeholder="Kecamatan"
-                                                        value="{{ $customer->kecamatan ?? '' }}">
+                                                        value="{{ $order->kecamatan ? $order->kecamatan : $customer->kecamatan ?? '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -155,7 +160,7 @@
                                                 <label for="kode_pos" class="form-label">Kode Pos</label>
                                                 <input type="text" class="form-control" id="kode_pos"
                                                     name="kode_pos" placeholder="Kode Pos"
-                                                    value="{{ $customer->kode_pos ?? '' }}">
+                                                    value="{{ $order->kode_pos ? $order->kode_pos : $customer->kode_pos ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +168,8 @@
                                     <div class="col-lg-12">
 
                                         <div class="hstack gap-2 justify-content-end">
-                                            <button type="submit" class="btn btn-info">Save</button>
+                                            <button type="submit" class="btn btn-info"
+                                                {{ $order->status == 'confirmed' || $order->status == 'rejected' ? 'disabled' : '' }}>Save</button>
 
                                             <button type="button" class="btn btn-primary btn-label  nexttab"
                                                 data-nexttab="pills-finish-tab">
@@ -519,8 +525,7 @@
         document.getElementById('customerForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const po_number = {{ $order->po_number }}
-
+            const po_number = "{{ $order->po_number }}";
             const form = event.target;
             const formData = new FormData(form);
 

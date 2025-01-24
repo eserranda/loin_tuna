@@ -67,7 +67,6 @@
                 </div><!-- end card -->
             </div><!-- end col -->
         @endforeach
-
     </div>
 @endsection
 

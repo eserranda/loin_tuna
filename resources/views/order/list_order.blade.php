@@ -39,10 +39,10 @@
     {{-- <script src="{{ asset('assets') }}/js/pages/datatables.init.js"></script> --}}
 @endpush
 @section('title')
-    <h4 class="mb-sm-0">Receiving</h4>
+    <h4 class="mb-sm-0">List Order</h4>
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="javascript: void(0);">Order</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0);">List Order Customer</a></li>
             <li class="breadcrumb-item active">data</li>
         </ol>
     </div>
@@ -64,8 +64,10 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Po Number</th>
+                                        <th>Customer</th>
+                                        <th>Tanggal</th>
                                         <th>Total Harga</th>
-                                        <th>Status</th>
+                                        <th>Status Order</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -82,7 +84,87 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('assets') }}/libs/prismjs/prism.js"></script>
     <script type="text/javascript">
+        async function hapusOrder(id) {
+            Swal.fire({
+                title: 'Hapus Data?',
+                text: 'Data Order akan dihapus permanen!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '/order/destroy/' + id,
+                        type: 'DELETE',
+                        data: {
+                            _token: csrfToken
+                        },
+                        success: function(response) {
+                            console.log('Response:', response);
+                            if (response.status) {
+                                Swal.fire(
+                                    'Terhapus!',
+                                    'Data berhasil dihapus.',
+                                    'success'
+                                );
+                                $('.dataOrder').DataTable().ajax.reload();
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Terjadi kesalahan saat menghapus data.',
+                                    'error'
+                                );
+                            }
+                        },
+
+                        error: function(error) {
+                            console.log(error);
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat menghapus data.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                const response = await fetch(`/order/update-status-order/` + id, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        status: status
+                    }),
+                });
+
+                const data = await response.json();
+                console.log(data);
+                if (response.ok) {
+                    $('.dataOrder').DataTable().ajax.reload();
+                } else {
+                    alert(data.message);
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('Terjadi kesalahan saat mengubah data order.');
+            }
+        }
+
+
+
         $(document).ready(function() {
             const myDataTable = $('.dataOrder').DataTable({
                 processing: true,
@@ -94,7 +176,7 @@
                     "searchPlaceholder": "Cari Po Number",
                 },
 
-                ajax: "{{ route('order.getAll') }}",
+                ajax: "{{ route('order.getAllListOrder') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -104,6 +186,15 @@
                         data: 'po_number',
                         name: 'po_number',
                     },
+                    {
+                        data: 'customer',
+                        name: 'customer',
+                    },
+                    {
+                        data: 'tanggal',
+                        name: 'tanggal',
+                    },
+
                     {
                         data: 'total_price',
                         name: 'total_price',
@@ -123,6 +214,7 @@
                 // dom: 'Bftip',
             });
         });
+
 
         async function hapus(id, ilc) {
             Swal.fire({

@@ -111,6 +111,18 @@
 
                  @if (auth()->check() &&
                          auth()->user()->hasRole(['super_admin']))
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>
+                     </li>
+
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/order/list-order">
+                             <i class="ri-list-check-2"></i> <span>List Order</span>
+                         </a>
+                     </li>
+                 @endif
+
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['super_admin']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pengaturan</span>
                      </li>
 

@@ -31,6 +31,14 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
     Route::get('/getAll', 'getAll')->name('order.getAll');
     Route::get('/checkout', 'checkout')->name('checkout.index');
     Route::get('/detail-order/{po_number}', 'detailOrder');
+    Route::post('/update/{po_number}', 'update');
+
+    // admin or super admin
+    Route::get('/list-order', 'listOrder')->name('order.getOne');
+    Route::get('/get-all-list-order', 'getAllListOrder')->name('order.getAllListOrder');
+    Route::get('/getAllOrderInPo', 'getAllOrderInPo')->name('order.getAllOrderInPo');
+    Route::post('/update-status-order/{id}', 'updateStatusOrder');
+    Route::delete('/destroy/{id}', 'destroy')->name('order.destroy');
 });
 
 Route::prefix('cart')->controller(CartController::class)->group(function () {
@@ -65,9 +73,9 @@ Route::prefix('packing')->controller(PackingController::class)->group(function (
     // Route::get('/kode-po', 'processQRCode')->name('process-qr-code');
 
     Route::get('/', 'index')->name('packing.index');
-    Route::post('/store', 'store');
+    Route::post('/store', 'store')->name('packing.store');
     Route::post('/update', 'update');
-    Route::get('/getAllDatatable', 'getAllDatatable')->name('get-all-packing');
+    Route::get('/getAllDatatable', 'getAllDatatable')->name('packing.getAllDatatable');
     Route::get('/customer-produk/{id_customer}/{id_produk}', 'customerProduk');
     Route::delete('/{id}', 'destroy')->name('packing.destroy');
 

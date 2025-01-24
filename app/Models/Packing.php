@@ -8,10 +8,9 @@ class Packing extends Model
 {
 
     protected $fillable = [
-        'id_customer',
-        'id_produk',
+        'po_number',
+        'user_id',
         'tanggal',
-        'kode',
     ];
 
     public function customer()

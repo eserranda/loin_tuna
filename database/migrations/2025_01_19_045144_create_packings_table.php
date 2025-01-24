@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('packings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->unsignedBigInteger('id_produk');
-            $table->foreign('id_produk')->references('id')->on('products')->onDelete('cascade');
+            $table->string('po_number');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('tanggal');
-            $table->string('kode')->nullable();
             $table->timestamps();
         });
     }
