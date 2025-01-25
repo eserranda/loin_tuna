@@ -79,7 +79,7 @@ class SupplierController extends Controller
             'nama_supplier' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kabupaten' => 'required|string|max:255',
-            'kelurahan' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
         ], [
             'kode_batch.required' => 'Kode Batch harus diisi.',
             'kode_batch.unique' => 'Kode Batch sudah ada.',
@@ -90,7 +90,7 @@ class SupplierController extends Controller
             'nama_supplier.required' => 'Nama harus diisi.',
             'provinsi.required' => 'Provinsi harus diisi.',
             'kabupaten.required' => 'Kabupaten harus diisi.',
-            'kelurahan.required' => 'Kelurahan harus diisi.',
+            'kecamatan.required' => 'kecamatan harus diisi.',
         ]);
 
         if ($validator->fails()) {
@@ -108,7 +108,7 @@ class SupplierController extends Controller
         $supplier->jalan = $request->jalan;
         $supplier->provinsi = $request->provinsi;
         $supplier->kabupaten = $request->kabupaten;
-        $supplier->kelurahan = $request->kelurahan;
+        $supplier->kecamatan = $request->kecamatan;
         $supplier->save();
 
         return redirect()->route('supplier.index')->with('success', 'Supplier created successfully.');

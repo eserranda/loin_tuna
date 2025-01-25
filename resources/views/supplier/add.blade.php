@@ -26,7 +26,7 @@
                                         <label class="form-label">Kode Batch</label>
                                         <input type="text"
                                             class="form-control {{ $errors->has('kode_batch') ? 'is-invalid' : '' }}"
-                                            placeholder="Kode Batch" name="kode_batch" id="kode_batch"
+                                            placeholder="Contoh : JKW" name="kode_batch" id="kode_batch"
                                             value="{{ old('kode_batch') }}">
                                         @if ($errors->has('kode_batch'))
                                             <div class="text-danger">{{ $errors->first('kode_batch') }}</div>
@@ -38,7 +38,7 @@
                                         <label class="form-label">Kode Supplier</label>
                                         <input type="number"
                                             class="form-control {{ $errors->has('kode_supplier') ? 'is-invalid' : '' }}"
-                                            placeholder="Kode Supplier" name="kode_supplier" id="kode_supplier"
+                                            placeholder="Contoh : 001" name="kode_supplier" id="kode_supplier"
                                             value="{{ old('kode_supplier') }}">
                                         @if ($errors->has('kode_supplier'))
                                             <div class="text-danger">{{ $errors->first('kode_supplier') }}</div>
@@ -105,13 +105,13 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Kelurahan</label>
+                                        <label class="form-label">Kecamatan</label>
                                         <input type="text"
-                                            class="form-control {{ $errors->has('kelurahan') ? 'is-invalid' : '' }}"
-                                            placeholder="Kelurahan" name="kelurahan" id="kelurahan"
-                                            value="{{ old('kelurahan') }}">
-                                        @if ($errors->has('kelurahan'))
-                                            <div class="text-danger">{{ $errors->first('kelurahan') }}</div>
+                                            class="form-control {{ $errors->has('kecamatan') ? 'is-invalid' : '' }}"
+                                            placeholder="Kecamatan" name="kecamatan" id="kecamatan"
+                                            value="{{ old('kecamatan') }}">
+                                        @if ($errors->has('kecamatan'))
+                                            <div class="text-danger">{{ $errors->first('kecamatan') }}</div>
                                         @endif
                                     </div>
                                 </div>
