@@ -109,9 +109,13 @@
 
                                         <div class="col-6">
                                             <div class="mb-3">
-                                                <label for="no_loin" class="form-label">Nomor Loin</label>
-                                                <select class="form-select mb-3" id="no_loin" name="no_loin">
+                                                <label for="" class="form-label">Nomor Loin</label>
+                                                <select class="form-select mb-1" id="no_loin" name="no_loin">
                                                 </select>
+                                                <div class="invalid-feedback"></div>
+                                                <span class="text-muted" id="berat_grade">
+                                                    <p></p>
+                                                </span>
                                             </div>
                                         </div>
 
@@ -238,19 +242,19 @@
 
             // if (autoNumberStatus === 'on') {
             //     autoNumberSwitch.checked = true;
-            //     const noLoinSelect = document.getElementById('no_loin');
+            //     const noLoinSelect = document.getElementById('  ');
             //     const noIkanValue = noLoinSelect.value;
 
             //     if (!noIkanValue) {
             //         console.log("no ikan belum dipilih");
             //     } else {
             //         nextNumber(ilc_cutting, noIkanValue).then(() => {
-            //             document.getElementById('no_loin').readOnly = true;
+            //             document.getElementById('  ').readOnly = true;
             //         });
             //     }
             // } else {
             //     autoNumberSwitch.checked = false;
-            //     document.getElementById('no_loin').readOnly = false;
+            //     document.getElementById('  ').readOnly = false;
             // }
 
             // autoNumberSwitch.addEventListener('change', function(event) {
@@ -264,11 +268,11 @@
             //             console.log("no ikan belum dipilih");
             //         } else {
             //             nextNumber(ilc_cutting, noIkanValue).then(() => {
-            //                 document.getElementById('no_loin').readOnly = true;
+            //                 document.getElementById('  ').readOnly = true;
             //             });
             //         }
             //     } else {
-            //         document.getElementById('no_loin').readOnly = false;
+            //         document.getElementById('  ').readOnly = false;
             //         document.getElementById('no_loin').value = '';
             //     }
             // });
@@ -499,18 +503,41 @@
                 .then(response => response.json())
                 .then(data => {
                     const noLoinSelect = document.getElementById('no_loin');
+                    const infoSpan = document.getElementById('berat_grade'); // Akses elemen dengan id 'berat_grade'
+                    const infoParagraph = infoSpan.querySelector('p'); // Akses elemen <p> di dalam span
+
+                    // Reset dropdown dan informasi
                     noLoinSelect.innerHTML = '<option value="" selected disabled>Pilih Nomor Loin</option>';
-                    data.forEach(no_ikan => {
+                    infoParagraph.textContent = ''; // Kosongkan informasi tambahan
+
+                    data.forEach(noIkan => {
                         const option = document.createElement('option');
-                        option.value = no_ikan;
-                        option.textContent = no_ikan;
+                        option.value = noIkan.no_loin;
+                        option.textContent = noIkan.no_loin; // Hanya tampilkan nomor loin di dropdown
+                        option.dataset.berat = noIkan.berat; // Simpan berat sebagai data-atribut
+                        option.dataset.grade = noIkan.grade; // Simpan grade sebagai data-atribut
                         noLoinSelect.appendChild(option);
+                    });
+
+                    // Tambahkan event listener untuk menampilkan informasi saat opsi dipilih
+                    noLoinSelect.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        if (selectedOption.value) {
+                            const berat = selectedOption.dataset.berat;
+                            const grade = selectedOption.dataset.grade;
+                            infoParagraph.textContent = `${berat} kg | ${grade}`;
+                        } else {
+                            infoParagraph.textContent = ''; // Kosongkan jika tidak ada pilihan
+                        }
                     });
                 })
                 .catch(error => {
                     console.error('Error fetching no_ikan:', error);
                 });
         }
+
+
+
 
         // function nextNumber(ilc_cutting, no_loin) {
         //     return fetch("/cutting-grading/nextNumber/" + ilc_cutting + "/" + no_loin)

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('ilc_cutting');
             $table->integer('no_loin');
             $table->decimal('berat', 5, 2);
-            $table->string('ekspor');
+            $table->decimal('sisa_berat', 5, 2)->nullable();
+            // $table->string('ekspor');
             $table->string('inspection')->nullable(); // inspection report
             $table->timestamps();
         });

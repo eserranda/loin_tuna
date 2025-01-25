@@ -63,9 +63,9 @@
                                 <div class="col-sm-12">
                                     ILC Cutting : <span class="fw-bold"> {{ $data->ilc_cutting ?? '-' }}</span>
                                 </div>
-                                <div class="col-sm-6 my-1">
+                                {{-- <div class="col-sm-6 my-1">
                                     Ekspor : <span class="fw-bold"> {{ $data->ekspor ?? '-' }}</span>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6">
                                     Tgl Cutting : <span class="fw-bold">{{ $tanggal ?? '-' }}</span>
                                 </div>
@@ -100,7 +100,7 @@
                             <div class="card-body">
                                 <form id="productLogForm">
                                     <div class="row">
-                                        <div class="col-6  mb-2">
+                                        <div class="col-6  mb-5">
                                             <label for="berat" class="form-label">Produk</label>
                                             <input type="text" class="form-control bg-light" placeholder="Produk"
                                                 id="produk" readonly>
@@ -110,13 +110,13 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="mb-0">
-                                                <label for="no_loin" class="form-label">Nomor Loin</label>
-                                                <select class="form-select mb-0" id="no_loin" name="no_loin">
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                </div>
-                                            </div>
+                                            <label for="no_loin" class="form-label">Nomor Loin</label>
+                                            <select class="form-select mb-1" id="no_loin" name="no_loin">
+                                            </select>
+                                            <div class="invalid-feedback"></div>
+                                            <span class="text-muted" id="sisa_berat_loin">
+                                                <p></p>
+                                            </span>
                                         </div>
                                         <div class="col-6">
                                             <label for="berat" class="form-label">Berat Produk</label>
@@ -127,7 +127,8 @@
                                         </div>
                                         <div class="col-lg-12 mt-2">
                                             <div class="text-start">
-                                                <button type="submit" class="btn btn-primary">Buat Produk</button>
+                                                <button type="submit" class="btn btn-primary" id="buat_produk">Buat
+                                                    Produk</button>
                                             </div>
                                         </div>
                                     </div>
@@ -140,7 +141,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Produk</th>
-                                            <th>Ekspor</th>
+                                            {{-- <th>Ekspor</th> --}}
                                             <th>Total Berat</th>
                                             <th></th>
                                         </tr>
@@ -174,22 +175,89 @@
 
 @push('scripts')
     <script>
+        const ilc_cutting = "{{ $data->ilc_cutting }}";
+
         async function setProduct(id, nama, berat) {
+            // Set nilai input
             document.getElementById('id_produk').value = id;
             document.getElementById('produk').value = nama;
             document.getElementById('berat').value = berat;
+
+            // Panggil fungsi getNoIkan untuk memuat data
+            await getNoIkan(ilc_cutting);
         }
+
+        async function getNoIkan(ilc_cutting) {
+            try {
+                const response = await fetch('/retouching/getNumberLoinRetouching/' + ilc_cutting, {
+                    method: 'GET',
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+
+                    const noLoinSelect = document.getElementById('no_loin');
+                    const infoSpan = document.getElementById('sisa_berat_loin');
+                    const infoParagraph = infoSpan.querySelector('p'); // Akses elemen <p> di dalam span
+
+                    // Reset dropdown dan informasi
+                    noLoinSelect.innerHTML = '<option value="" selected disabled>Pilih Nomor Loin</option>';
+                    infoParagraph.textContent = '';
+
+                    data.forEach(noIkan => {
+                        const option = document.createElement('option');
+                        option.value = noIkan.no_loin;
+                        option.textContent = noIkan.no_loin;
+                        option.dataset.berat = noIkan.sisa_berat;
+                        noLoinSelect.appendChild(option);
+                    });
+
+                    // Tambahkan event listener untuk menampilkan informasi saat opsi dipilih
+                    noLoinSelect.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const submitButton = document.getElementById('buat_produk');
+                        const beratInput = document.getElementById('berat');
+                        const infoParagraph = document.getElementById('sisa_berat_loin').querySelector('p');
+
+                        if (selectedOption.value) {
+                            const sisaBerat = parseFloat(selectedOption.dataset.berat);
+                            const berat = parseFloat(beratInput.value)
+
+                            // Tampilkan informasi sisa berat
+                            infoParagraph.textContent = `Sisa Berat : ${sisaBerat} kg`;
+
+                            // Cek apakah sisa berat lebih kecil dari berat
+                            if (sisaBerat < berat) {
+                                submitButton.disabled = true; // Nonaktifkan tombol
+                            } else {
+                                submitButton.disabled = false; // Aktifkan tombol
+                            }
+                        } else {
+                            infoParagraph.textContent = ''; // Kosongkan informasi jika tidak ada pilihan
+                            submitButton.disabled = true; // Nonaktifkan tombol jika tidak ada pilihan
+                        }
+                    });
+
+                } else {
+                    console.error('Failed to fetch data: ', response.status);
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
 
         document.getElementById('productLogForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const ilc = "{{ $data->ilc }}";
-            const ekspor = "{{ $data->ekspor }}";
+            // const ekspor = "{{ $data->ekspor }}";
 
             const form = event.target;
             const formData = new FormData(form);
             formData.append('ilc', ilc);
-            formData.append('ekspor', ekspor);
+            // formData.append('ekspor', ekspor);
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -241,14 +309,14 @@
                         }
                     });
 
-                    // const product = document.getElementById('id_produk');
-                    // product.value = '';
+                    const infoParagraph = document.getElementById('sisa_berat_loin').querySelector('p');
+                    infoParagraph.textContent = '';
 
                     document.getElementById('produk').value = '';
                     document.getElementById('berat').value = '';
+                    document.getElementById('no_loin').value = '';
                     $('#datatable').DataTable().ajax.reload();
                     $('#dataTableProductLogs').DataTable().ajax.reload();
-                    $('#addModal').modal('hide');
                 }
             } catch (error) {
                 console.error(error);
@@ -256,7 +324,7 @@
         });
 
         $(document).ready(function() {
-            const ekspor = "{{ $data->ekspor }}";
+            // const ekspor = "{{ $data->ekspor }}";
             const datatable = $('.dataProduk').DataTable({
                 processing: true,
                 serverSide: true,
@@ -268,7 +336,7 @@
                     "search": "",
                     "searchPlaceholder": "Cari Nama Produk",
                 },
-                ajax: "{{ url('/product/productWithCustomerGroup') }}/" + ekspor,
+                ajax: "{{ url('/product/productWithCustomerGroup') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -322,12 +390,12 @@
                         name: 'id_produk',
                         orderable: false,
                     },
-                    {
-                        data: 'ekspor',
-                        name: 'ekspor',
-                        orderable: false,
+                    // {
+                    //     data: 'ekspor',
+                    //     name: 'ekspor',
+                    //     orderable: false,
 
-                    },
+                    // },
                     {
                         data: 'berat',
                         name: 'berat',
@@ -345,32 +413,50 @@
             });
         });
 
-        const ilc_cutting = "{{ $data->ilc_cutting }}";
-        document.addEventListener('DOMContentLoaded', function() {
-            async function getNoIkan(ilc_cutting) {
-                try {
-                    const response = await fetch('/retouching/getNumberLoin/' + ilc_cutting, {
-                        method: 'GET',
-                    });
-                    const data = await response.json();
-                    console.log(data)
-                    if (response.ok) {
-                        const noIkanSelect = document.getElementById('no_loin');
-                        noIkanSelect.innerHTML = '<option value="" selected disabled>Pilih Nomor Ikan</option>';
-                        data.forEach(no_loin => {
-                            const option = document.createElement('option');
-                            option.value = no_loin;
-                            option.textContent = no_loin;
-                            noIkanSelect.appendChild(option);
-                        });
-                    }
-                } catch (error) {
-                    console.error('There has been a problem with your fetch operation:', error);
-                }
-            }
+        // const ilc_cutting = "{{ $data->ilc_cutting }}";
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     async function getNoIkan(ilc_cutting) {
+        //         try {
+        //             const response = await fetch('/retouching/getNumberLoinRetouching/' + ilc_cutting, {
+        //                 method: 'GET',
+        //             });
+        //             const data = await response.json();
+        //             console.log(data)
+        //             if (response.ok) {
+        //                 const noLoinSelect = document.getElementById('no_loin');
+        //                 const infoSpan = document.getElementById('sisa_berat_loin');
+        //                 const infoParagraph = infoSpan.querySelector('p'); // Akses elemen <p> di dalam span
 
-            getNoIkan(ilc_cutting);
-        });
+        //                 // Reset dropdown dan informasi
+        //                 noLoinSelect.innerHTML = '<option value="" selected disabled>Pilih Nomor Loin</option>';
+        //                 infoParagraph.textContent = '';
+
+        //                 data.forEach(noIkan => {
+        //                     const option = document.createElement('option');
+        //                     option.value = noIkan.no_loin;
+        //                     option.textContent = noIkan.no_loin;
+        //                     option.dataset.berat = noIkan.sisa_berat;
+        //                     noLoinSelect.appendChild(option);
+        //                 });
+
+        //                 // Tambahkan event listener untuk menampilkan informasi saat opsi dipilih
+        //                 noLoinSelect.addEventListener('change', function() {
+        //                     const selectedOption = this.options[this.selectedIndex];
+        //                     if (selectedOption.value) {
+        //                         const berat = selectedOption.dataset.berat;
+        //                         infoParagraph.textContent = `Sisa Berat : ${berat} kg`;
+        //                     } else {
+        //                         infoParagraph.textContent = ''; // Kosongkan jika tidak ada pilihan
+        //                     }
+        //                 });
+        //             }
+        //         } catch (error) {
+        //             console.error('There has been a problem with your fetch operation:', error);
+        //         }
+        //     }
+
+        //     getNoIkan(ilc_cutting);
+        // });
 
         // document.getElementById('no_loin').addEventListener('change', async function(event) {
         //     const ilc = "{{ $data->ilc }}";

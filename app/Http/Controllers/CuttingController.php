@@ -68,11 +68,11 @@ class CuttingController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'ilc' => 'required|string|max:255|unique:cuttings,ilc',
-            'ekspor' => 'required|string|max:255',
+            // 'ekspor' => 'required|string|max:255',
         ], [
             'ilc.required' => 'ILC harus diisi',
             'ilc.unique' => 'ILC sudah ada',
-            'ekspor.required' => 'Ekspor harus diisi',
+            // 'ekspor.required' => 'Ekspor harus diisi',
         ]);
 
 
@@ -92,7 +92,7 @@ class CuttingController extends Controller
             'id_supplier' => $id_supplier,
             'ilc' => $request->ilc,
             'ilc_cutting' => $ilc_cutting,
-            'ekspor' => $request->ekspor,
+            // 'ekspor' => $request->ekspor,
         ]);
 
         Receiving::where('ilc', $request->ilc)->update([

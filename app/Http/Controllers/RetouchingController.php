@@ -26,8 +26,8 @@ class RetouchingController extends Controller
     {
         if ($request->ajax()) {
             // $data = Retouching::all()->unique('ilc_cutting');
-            $data = Retouching::select('ilc', 'ilc_cutting', 'id_supplier', 'tanggal',  'ekspor', 'inspection',  DB::raw('SUM(berat) as total_berat'), DB::raw('MAX(created_at) as created_at'))
-                ->groupBy('ilc', 'ilc_cutting', 'id_supplier', 'tanggal', 'ekspor', 'inspection')
+            $data = Retouching::select('ilc', 'ilc_cutting', 'id_supplier', 'tanggal', 'inspection',  DB::raw('SUM(berat) as total_berat'), DB::raw('MAX(created_at) as created_at'))
+                ->groupBy('ilc', 'ilc_cutting', 'id_supplier', 'tanggal', 'inspection')
                 ->orderBy('created_at', 'desc')
                 ->get();
 
@@ -35,7 +35,7 @@ class RetouchingController extends Controller
                 // Mengambil ID terkait
                 $relatedId = Retouching::where('ilc_cutting', $item->ilc_cutting)
                     ->where('id_supplier', $item->id_supplier)
-                    ->where('ekspor', $item->ekspor)
+                    // ->where('ekspor', $item->ekspor)
                     // ->where('checking', $item->checking)
                     ->orderBy('created_at', 'desc')
                     ->value('id');
@@ -98,12 +98,24 @@ class RetouchingController extends Controller
         }
     }
 
-    public function getNumberLoin($ilc_cutting)
+    public function getNumberLoinCutting($ilc_cutting)
     {
         $noLoinList = CuttingGrading::where('ilc_cutting', $ilc_cutting)
             ->orderBy('no_loin', 'asc')
             ->distinct()
             ->pluck('no_loin');
+
+        return response()->json($noLoinList);
+    }
+
+    public function getNumberLoinRetouching($ilc_cutting)
+    {
+        $noLoinList = Retouching::where('ilc_cutting', $ilc_cutting)
+            ->orderBy('no_loin', 'asc')
+            ->distinct()
+            ->select('no_loin', 'sisa_berat')
+            ->get();
+
 
         return response()->json($noLoinList);
     }
@@ -150,7 +162,7 @@ class RetouchingController extends Controller
         $cutting = Cutting::where('ilc_cutting', $request->ilc_cutting)->first();
         $id_supplier = $cutting->id_supplier;
         $ilc  = $cutting->ilc;
-        $ekspor = $cutting->ekspor;
+        // $ekspor = $cutting->ekspor;
 
         $inspection = Retouching::where('ilc', $ilc)->first('inspection');
         if ($inspection != null) {
@@ -162,9 +174,10 @@ class RetouchingController extends Controller
         $save->ilc = $ilc;
         $save->ilc_cutting = $request->ilc_cutting;
         $save->no_loin = $request->no_loin;
-        $save->ekspor = $ekspor;
+        // $save->ekspor = $ekspor;
         $save->tanggal = Carbon::now()->format('Y-m-d');
         $save->berat = $request->berat;
+        $save->sisa_berat = $request->berat;
         $save->inspection = $inspection;
         $save->save();
 

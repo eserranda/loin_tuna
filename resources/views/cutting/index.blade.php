@@ -95,14 +95,14 @@
                             <div class="card-body">
                                 <form id="cuttingForm">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-6 mb-2">
                                             <label for="berat" class="form-label">Internal Lot Code</label>
                                             <input type="text" class="form-control bg-light"
                                                 placeholder="Internal Lot Code" id="ilc" name="ilc" readonly>
                                             <div class="invalid-feedback">
                                             </div>
                                         </div>
-                                        <div class="col-6 mb-2">
+                                        {{-- <div class="col-6 mb-2">
                                             <label for="no_ikan" class="form-label">Ekspor</label>
                                             <select class="form-select" id="ekspor" name="ekspor">
                                                 <option selected disabled>Pilih Ekspor</option>
@@ -111,11 +111,9 @@
                                                 <option value="JEPANG">JEPANG</option>
                                                 <option value="LOCAL">LOCAL</option>
                                             </select>
-                                            {{-- <input type="text" class="form-control" placeholder="Ekspor"
-                                                    id="ekspor" name="ekspor"> --}}
                                             <div class="invalid-feedback">
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="col-lg-12">
                                             <div class="text-start">
@@ -138,7 +136,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>ILC</th>
-                                            <th>Ekspor</th>
+                                            {{-- <th>Ekspor</th> --}}
                                             <th>Tanggal</th>
                                             <th>Persen</th>
                                             <th>Opsi</th>
@@ -227,11 +225,11 @@
                         data: 'ilc_cutting',
                         name: 'ilc_cutting',
                     },
-                    {
-                        data: 'ekspor',
-                        name: 'ekspor',
-                        orderable: false,
-                    },
+                    // {
+                    //     data: 'ekspor',
+                    //     name: 'ekspor',
+                    //     orderable: false,
+                    // },
                     {
                         data: 'created_at',
                         name: 'created_at',

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('id_produk')->references('id')->on('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('no_loin');
             $table->decimal('berat', 5, 2);
-            $table->string('ekspor');
+            // $table->string('ekspor');
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class Cutting extends Model
         'id_supplier',
         'ilc',
         'ilc_cutting',
-        'ekspor',
+        // 'ekspor',
         'inspection',
     ];
 }

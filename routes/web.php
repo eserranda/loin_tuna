@@ -160,7 +160,9 @@ Route::prefix('retouching')->controller(RetouchingController::class)->group(func
     Route::delete('/{id}', 'destroy')->name('retouching.destroy');
     Route::get('/getAllCutting', 'getAllCutting')->name('retouching.getAllCutting');
 
-    Route::get('/getNumberLoin/{ilc_cutting}', 'getNumberLoin');
+    Route::get('/getNumberLoinCutting/{ilc_cutting}', 'getNumberLoinCutting');
+
+    Route::get('/getNumberLoinRetouching/{ilc_cutting}', 'getNumberLoinRetouching');
     Route::get('/getBerat/{ilc}/{no_loin}', 'getBerat');
 
 
@@ -181,7 +183,7 @@ Route::prefix('product')->controller(ProductController::class)->group(function (
     Route::post('/saveImage', 'saveImage')->name('product.saveImage');
     Route::delete('/{id}', 'destroy')->name('product.destroy');
     Route::get('/getAllData', 'getAllData')->name('product.getAllData');
-    Route::get('/productWithCustomerGroup/{customer_group}', 'productWithCustomerGroup');
+    Route::get('/productWithCustomerGroup', 'productWithCustomerGroup');
 
     // pindahkan ke sini
     Route::get('/getAllDataProductLog', 'getAllDataProductLog');

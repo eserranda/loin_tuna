@@ -94,10 +94,10 @@ class ProductController extends Controller
         }
     }
 
-    public function productWithCustomerGroup(Request $request, $customer_group)
+    public function productWithCustomerGroup(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::where('customer_group', $customer_group)->latest('created_at')->get();
+            $data = Product::latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

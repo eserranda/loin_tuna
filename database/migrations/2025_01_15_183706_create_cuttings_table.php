@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_supplier');
             $table->string('ilc');
             $table->string('ilc_cutting');
-            $table->string('ekspor');
+            // $table->string('ekspor');
             $table->string('inspection')->nullable(); // inspection report
             $table->timestamps();
         });

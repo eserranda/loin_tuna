@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ilc');
             $table->string('ilc_cutting');
             $table->decimal('berat', 5, 2);
+            $table->decimal('sisa_berat', 5, 2)->nullable();
             $table->integer('no_loin');
             $table->string('grade');
             $table->timestamps();

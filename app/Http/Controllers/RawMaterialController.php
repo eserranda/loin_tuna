@@ -45,8 +45,8 @@ class RawMaterialController extends Controller
     {
         $noIkanList = RawMaterial::where('ilc', $ilc)
             ->orderBy('no_loin', 'asc')
-            ->pluck('no_loin');
-
+            ->select('no_loin', 'berat', 'grade') // Memilih kolom yang dibutuhkan
+            ->get();
 
         return response()->json($noIkanList);
     }

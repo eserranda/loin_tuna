@@ -11,6 +11,7 @@ class CuttingGrading extends Model
         'ilc',
         'ilc_cutting',
         'berat',
+        'sisa_berat',
         'no_loin',
         'grade'
     ];

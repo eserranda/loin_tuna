@@ -73,7 +73,7 @@ class OrderController extends Controller
                         $btn .= '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light mx-2" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
                         $btn .= '</div>';
                     } else if ($row->status == 'confirmed') {
-                        $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Pending"><i class="ri-close-circle-line"></i></button>';
+                        $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Cancel"><i class="ri-close-circle-line"></i></button>';
                     } else if ($row->status == 'rejected') {
                         $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ') title="Delete"><i class="text-light ri-delete-bin-5-line"></i>';
                     }

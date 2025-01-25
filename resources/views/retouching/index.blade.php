@@ -57,7 +57,7 @@
         <div class="col-xxl-12 col-lg-12">
             <div class="d-flex flex-column h-100">
                 <div class="row mb-0">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title mb-0 flex-grow-1">Data Cutting</h4>
@@ -67,8 +67,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>ILC Cutting</th>
-                                            <th>Ekspor</th>
+                                            <th>ILC </th>
+                                            <th>Tanggal </th>
+                                            {{-- <th>Ekspor</th> --}}
                                             <th>#</th>
                                         </tr>
                                     </thead>
@@ -80,7 +81,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="card mb-2">
                             {{-- <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">Data Receiving</h4>
@@ -135,7 +136,7 @@
                                             <th>ILC</th>
                                             {{-- <th>Tanggal</th> --}}
                                             <th>Supplier</th>
-                                            <th>Ekspor</th>
+                                            {{-- <th>Ekspor</th> --}}
                                             <th>Berat</th>
                                             <th>Persen</th>
                                             <th></th>
@@ -158,7 +159,7 @@
     <script>
         async function kodeILC(ilc_cutting) {
             try {
-                const response = await fetch('/retouching/getNumberLoin/' + ilc_cutting, {
+                const response = await fetch('/retouching/getNumberLoinCutting/' + ilc_cutting, {
                     method: 'GET',
                 });
                 const data = await response.json();
@@ -279,10 +280,21 @@
                         name: 'ilc_cutting',
                         orderable: false,
                     },
+                    // {
+                    //     data: 'ekspor',
+                    //     name: 'ekspor',
+                    //     orderable: false,
+                    // },
                     {
-                        data: 'ekspor',
-                        name: 'ekspor',
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            return moment(data).format(
+                                'DD-MM-YYYY'
+                            );
+                        },
                         orderable: false,
+
                     },
                     {
                         data: 'action',
@@ -326,12 +338,12 @@
                         orderable: false,
 
                     },
-                    {
-                        data: 'ekspor',
-                        name: 'ekspor',
-                        orderable: false,
+                    // {
+                    //     data: 'ekspor',
+                    //     name: 'ekspor',
+                    //     orderable: false,
 
-                    },
+                    // },
                     {
                         data: 'total_berat',
                         name: 'total_berat',

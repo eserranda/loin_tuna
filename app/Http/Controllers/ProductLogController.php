@@ -26,7 +26,7 @@ class ProductLogController extends Controller
             'id_produk' => 'required',
             'no_loin' => 'required',
             'berat' => 'required',
-            'ekspor' => 'required',
+            // 'ekspor' => 'required',
         ], [
             'ilc.required' => 'ILC harus diisi',
             'id_produk.required' => 'Produk harus diisi',
@@ -35,16 +35,16 @@ class ProductLogController extends Controller
             'ilc.unique' => 'Kombinasi ILC dan No. Ikan sudah ada',
         ]);
 
-        $validator->after(function ($validator) use ($request) {
-            $existingEntry = ProductLog::where('ilc', $request->ilc)
-                ->where('no_loin', $request->no_loin)
-                ->exists();
+        // $validator->after(function ($validator) use ($request) {
+        //     $existingEntry = ProductLog::where('ilc', $request->ilc)
+        //         ->where('no_loin', $request->no_loin)
+        //         ->exists();
 
-            if ($existingEntry) {
-                $validator->errors()->add('ilc', 'ILC Cutting sudah ada.');
-                $validator->errors()->add('no_loin', 'No Loin sudah ada.');
-            }
-        });
+        //     if ($existingEntry) {
+        //         $validator->errors()->add('ilc', 'ILC Cutting sudah ada.');
+        //         $validator->errors()->add('no_loin', 'No Loin sudah ada.');
+        //     }
+        // });
 
         if ($validator->fails()) {
             return response()->json([
@@ -61,7 +61,12 @@ class ProductLogController extends Controller
                 'berat' => $totalBerat
             ]);
 
-            if ($update) {
+            $updateSisaBerat = Retouching::where('ilc', $request->ilc)
+                ->where('no_loin', $request->no_loin)
+                ->decrement('sisa_berat', $request->berat);
+
+
+            if ($update && $updateSisaBerat) {
                 return response()->json([
                     'success' => true
                 ], 201);
@@ -73,7 +78,10 @@ class ProductLogController extends Controller
         }
 
         $save = ProductLog::create($request->all());
-        if ($save) {
+        $updateSisaBerat = Retouching::where('ilc', $request->ilc)
+            ->where('no_loin', $request->no_loin)
+            ->decrement('sisa_berat', $request->berat);
+        if ($save && $updateSisaBerat) {
             return response()->json([
                 'success' => true
             ], 201);
