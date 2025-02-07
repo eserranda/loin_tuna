@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cutting;
 use App\Models\Receiving;
+use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,9 +24,9 @@ class CuttingController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('checking', function ($row) {
-                    if ($row->checking != "") {
-                        return ($row->checking . '%');
+                ->editColumn('inspection', function ($row) {
+                    if ($row->inspection != "") {
+                        return ($row->inspection . '%');
                     } else {
                         return "-";
                     }
@@ -99,9 +100,11 @@ class CuttingController extends Controller
             'is_used' => true
         ]);
 
-        // CuttingChecking::create([
-        //     'ilc' => $request->ilc
-        // ]);
+        // simpan data ke receiving Inspection, stage "Cutting"
+        Inspection::create([
+            'ilc' => $request->ilc,
+            'stage' => "Cutting",
+        ]);
 
         return response()->json([
             'success' => true,

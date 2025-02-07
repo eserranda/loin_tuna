@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cutting;
-use App\Models\CuttingGrading;
+use App\Models\Inspection;
 use App\Models\Retouching;
 use Illuminate\Http\Request;
+use App\Models\CuttingGrading;
 use Illuminate\Support\Carbon;
 use App\Models\RawMaterialLots;
+use App\Models\RetouchingChecking;
 use Illuminate\Support\Facades\DB;
 use App\Models\RefinedMaterialLots;
-use App\Models\RetouchingChecking;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -181,13 +182,11 @@ class RetouchingController extends Controller
         $save->inspection = $inspection;
         $save->save();
 
-        // // save data to retouching_checking
-        // $getILC = RetouchingChecking::where('ilc', $ilc)->first('ilc');
-        // if ($getILC == null) {
-        //     RetouchingChecking::create([
-        //         'ilc' => $ilc
-        //     ]);
-        // }
+        // simpan data ke receiving Inspection, stage "Retouching"
+        Inspection::create([
+            'ilc' => $ilc,
+            'stage' => "Retouching",
+        ]);
 
         if ($save) {
             return response()->json([

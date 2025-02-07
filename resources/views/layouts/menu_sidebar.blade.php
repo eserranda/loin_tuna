@@ -109,6 +109,16 @@
 
                  --}}
 
+                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Quality
+                         Control</span>
+                 </li>
+
+                 <li class="nav-item">
+                     <a class="nav-link menu-link" href="/inspection">
+                         <i class="ri-list-check-2"></i> <span>Inspection</span>
+                     </a>
+                 </li>
+
                  @if (auth()->check() &&
                          auth()->user()->hasRole(['super_admin']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>

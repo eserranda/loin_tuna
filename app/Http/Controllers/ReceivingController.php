@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use App\Models\Receiving;
+use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,9 +29,9 @@ class ReceivingController extends Controller
                 ->editColumn('tanggal', function ($row) {
                     return Carbon::parse($row->tanggal)->format('d-m-Y');
                 })
-                ->editColumn('checking', function ($row) {
-                    if ($row->checking != "") {
-                        return ($row->checking . '%');
+                ->editColumn('inspection', function ($row) {
+                    if ($row->inspection != "") {
+                        return ($row->inspection . '%');
                     } else {
                         return "-";
                     }
@@ -87,10 +88,11 @@ class ReceivingController extends Controller
             'tanggal' => $request->tanggal,
         ]);
 
-        // save ilc code to receving checking table
-        // ReceivingChecking::create([
-        //     'ilc' => $ilc
-        // ]);
+        // simpan data ke receiving Inspection, stage "Receiving"
+        Inspection::create([
+            'ilc' => $ilc,
+            'stage' => "Receiving"
+        ]);
 
         return response()->json([
             'success' => true,
@@ -98,34 +100,6 @@ class ReceivingController extends Controller
         ], 201);
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Receiving $receiving)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Receiving $receiving)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Receiving $receiving)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Receiving $receiving, $id, $ilc)
     {
         try {

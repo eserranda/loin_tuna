@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductLogController;
 use App\Http\Controllers\RetouchingController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
+use App\Http\Controllers\InspectionController;
 
 Route::get('/', [ReceivingController::class, 'index'])->middleware('auth');
 
@@ -53,6 +54,12 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
 Route::prefix('customer')->controller(CustomerController::class)->group(function () {
     // Route::get('/', 'index')->name('costumer.index');
     Route::post('/update/{id}', 'update')->name('costumer.update');
+});
+
+Route::prefix('inspection')->controller(InspectionController::class)->group(function () {
+    Route::get('/', 'index')->name('inspection.index');
+    Route::get('/getAll', 'getAll')->name('inspection.getAll');
+    Route::post('/update', 'update');
 });
 
 Route::prefix('users')->controller(UserController::class)->group(function () {

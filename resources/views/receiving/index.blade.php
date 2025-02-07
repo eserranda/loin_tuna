@@ -155,8 +155,8 @@
                         name: 'tanggal',
                     },
                     {
-                        data: 'checking',
-                        name: 'checking',
+                        data: 'inspection',
+                        name: 'inspection',
                     },
                     {
                         data: 'action',

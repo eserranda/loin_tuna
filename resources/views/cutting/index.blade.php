@@ -242,8 +242,8 @@
 
                     },
                     {
-                        data: 'checking',
-                        name: 'checking',
+                        data: 'inspection',
+                        name: 'inspection',
                         orderable: false,
                     },
                     {
