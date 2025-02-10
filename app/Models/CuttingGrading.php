@@ -15,4 +15,9 @@ class CuttingGrading extends Model
         'no_loin',
         'grade'
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'id_supplier');
+    }
 }

@@ -7,6 +7,8 @@ use App\Models\Receiving;
 use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\ForwardTraceability;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -89,26 +91,42 @@ class CuttingController extends Controller
 
         $ilc_cutting =  $request->ilc . '1';
 
-        Cutting::create([
-            'id_supplier' => $id_supplier,
-            'ilc' => $request->ilc,
-            'ilc_cutting' => $ilc_cutting,
-            // 'ekspor' => $request->ekspor,
-        ]);
+        try {
+            Cutting::create([
+                'id_supplier' => $id_supplier,
+                'ilc' => $request->ilc,
+                'ilc_cutting' => $ilc_cutting,
+                // 'ekspor' => $request->ekspor,
+            ]);
 
-        Receiving::where('ilc', $request->ilc)->update([
-            'is_used' => true
-        ]);
+            Receiving::where('ilc', $request->ilc)->update([
+                'is_used' => true
+            ]);
 
-        // simpan data ke receiving Inspection, stage "Cutting"
-        Inspection::create([
-            'ilc' => $request->ilc,
-            'stage' => "Cutting",
-        ]);
+            // simpan data ke receiving Inspection, stage "Cutting"
+            Inspection::create([
+                'ilc' => $request->ilc,
+                'stage' => "Cutting",
+            ]);
 
-        return response()->json([
-            'success' => true,
-        ]);
+            ForwardTraceability::where('ilc', $request->ilc)->update([
+                'tanggal_cutting' => Carbon::now()->format('Y-m-d'),
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan'
+            ], 200);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyimpan data'
+            ], 500);
+        }
     }
 
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductLogController;
 use App\Http\Controllers\RetouchingController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
+use App\Http\Controllers\ForwardTraceabilityController;
 use App\Http\Controllers\InspectionController;
 
 Route::get('/', [ReceivingController::class, 'index'])->middleware('auth');
@@ -54,6 +55,12 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
 Route::prefix('customer')->controller(CustomerController::class)->group(function () {
     // Route::get('/', 'index')->name('costumer.index');
     Route::post('/update/{id}', 'update')->name('costumer.update');
+});
+
+Route::prefix('forward-traceability')->controller(ForwardTraceabilityController::class)->group(function () {
+    Route::get('/', 'index')->name('forward-traceability.index');
+    Route::get('/getAll', 'getAll')->name('forward-traceability.getAll');
+    Route::get('/detail/{ilc}', 'detail')->name('forward-traceability.detail');
 });
 
 Route::prefix('inspection')->controller(InspectionController::class)->group(function () {

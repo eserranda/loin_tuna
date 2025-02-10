@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('packings', function (Blueprint $table) {
+        Schema::create('forward_traceabilities', function (Blueprint $table) {
             $table->id();
-            $table->string('po_number');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('ilc');
+            $table->date('tanggal_receiving')->nullable();
+            $table->date('tanggal_cutting')->nullable();
+            $table->date('tanggal_retouching')->nullable();
+            $table->date('tanggal_packing')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packings');
+        Schema::dropIfExists('forward_traceabilities');
     }
 };

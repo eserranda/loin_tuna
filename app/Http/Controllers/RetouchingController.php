@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use App\Models\RawMaterialLots;
 use App\Models\RetouchingChecking;
 use Illuminate\Support\Facades\DB;
+use App\Models\ForwardTraceability;
 use App\Models\RefinedMaterialLots;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -160,41 +161,59 @@ class RetouchingController extends Controller
             ], 422);
         }
 
-        $cutting = Cutting::where('ilc_cutting', $request->ilc_cutting)->first();
-        $id_supplier = $cutting->id_supplier;
-        $ilc  = $cutting->ilc;
-        // $ekspor = $cutting->ekspor;
+        try {
+            DB::beginTransaction();
 
-        $inspection = Retouching::where('ilc', $ilc)->first('inspection');
-        if ($inspection != null) {
-            $inspection = $inspection->inspection;
-        }
+            // Ambil data Cutting berdasarkan ilc_cutting
+            $cutting = Cutting::where('ilc_cutting', $request->ilc_cutting)->first();
+            if (!$cutting) {
+                throw new \Exception('Data cutting tidak ditemukan.');
+            }
+            $id_supplier = $cutting->id_supplier;
+            $ilc = $cutting->ilc;
 
-        $save = new Retouching();
-        $save->id_supplier = $id_supplier;
-        $save->ilc = $ilc;
-        $save->ilc_cutting = $request->ilc_cutting;
-        $save->no_loin = $request->no_loin;
-        // $save->ekspor = $ekspor;
-        $save->tanggal = Carbon::now()->format('Y-m-d');
-        $save->berat = $request->berat;
-        $save->sisa_berat = $request->berat;
-        $save->inspection = $inspection;
-        $save->save();
+            // Ambil nilai inspection dari table Retouching, jika ada
+            $inspectionRecord = Retouching::where('ilc', $ilc)->first('inspection');
+            $inspection = $inspectionRecord ? $inspectionRecord->inspection : null;
 
-        // simpan data ke receiving Inspection, stage "Retouching"
-        Inspection::create([
-            'ilc' => $ilc,
-            'stage' => "Retouching",
-        ]);
+            // Simpan data ke table Retouching
+            $save = new Retouching();
+            $save->id_supplier   = $id_supplier;
+            $save->ilc           = $ilc;
+            $save->ilc_cutting   = $request->ilc_cutting;
+            $save->no_loin       = $request->no_loin;
+            $save->tanggal       = Carbon::now()->format('Y-m-d');
+            $save->berat         = $request->berat;
+            $save->sisa_berat    = $request->berat;
+            $save->inspection    = $inspection;
+            $save->save();
 
-        if ($save) {
+            // Simpan data ke table Inspection dengan stage "Retouching"
+            Inspection::create([
+                'ilc'   => $ilc,
+                'stage' => "Retouching",
+            ]);
+
+            // Perbarui data pada table ForwardTraceability jika tanggal_retouching masih null
+            $forwardTraceability = ForwardTraceability::where('ilc', $ilc)->first();
+            if ($forwardTraceability && $forwardTraceability->tanggal_retouching === null) {
+                ForwardTraceability::where('ilc', $ilc)->update([
+                    'tanggal_retouching' => Carbon::now()->format('Y-m-d'),
+                ]);
+            }
+
+            DB::commit();
+
             return response()->json([
                 'success' => true,
             ]);
-        } else {
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            // Logging error bisa dilakukan di sini jika diperlukan
             return response()->json([
                 'success' => false,
+                'error'   => $e->getMessage(),
             ]);
         }
     }

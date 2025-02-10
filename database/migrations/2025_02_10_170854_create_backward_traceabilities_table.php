@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('packings', function (Blueprint $table) {
+        Schema::create('backward_traceabilities', function (Blueprint $table) {
             $table->id();
-            $table->string('po_number');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packings');
+        Schema::dropIfExists('backward_traceabilities');
     }
 };

@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-    <h4 class="mb-sm-0">Inspection</h4>
+    <h4 class="mb-sm-0">Forward Traceability</h4>
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="javascript: void(0);">Inspection</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0);">Forward Traceability</a></li>
             <li class="breadcrumb-item active">data</li>
         </ol>
     </div>
@@ -51,7 +51,7 @@
             <div class="d-flex flex-column h-100">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Data Inspection</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Data Forward Traceability</h4>
                         {{-- <div class="flex-shrink-0">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addModal">Tambah Data</button>
@@ -64,13 +64,10 @@
                                 <tr>
                                     <th>No</th>
                                     <th>ILC</th>
-                                    <th>Stage</th>
-                                    <th>Uji Lab</th>
-                                    <th>Tekstur</th>
-                                    <th>Bau</th>
-                                    <th>ES</th>
-                                    <th>Suhu</th>
-                                    <th>Hasil</th>
+                                    <th>Tgl Receiving</th>
+                                    <th>Tgl Cutting</th>
+                                    <th>Tgl Retouching</th>
+                                    <th>Tgl Packing</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -82,16 +79,11 @@
             </div>
         </div>
     </div>
-
-    @include('inspection.edit')
 @endsection
 @push('scripts')
     <script>
-        function update(id, ilc, stage) {
-            $('#updateModal').modal('show');
-            $('#updateModal').find('#id').val(id);
-            $('#updateModal').find('#ilc').val(ilc);
-            $('#updateModal').find('#stage').val(stage);
+        function kodeILC(ilc) {
+            alert(ilc);
         }
 
         $(document).ready(function() {
@@ -102,7 +94,7 @@
                     "search": "",
                     "searchPlaceholder": "Cari Data",
                 },
-                ajax: "{{ route('inspection.getAll') }}",
+                ajax: "{{ route('forward-traceability.getAll') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -112,32 +104,20 @@
                         name: 'ilc',
                     },
                     {
-                        data: 'stage',
-                        name: 'stage',
+                        data: 'tanggal_receiving',
+                        name: 'tanggal_receiving',
                     },
                     {
-                        data: 'uji_lab',
-                        name: 'uji_lab',
+                        data: 'tanggal_cutting',
+                        name: 'tanggal_cutting',
                     },
                     {
-                        data: 'tekstur',
-                        name: 'tekstur',
+                        data: 'tanggal_retouching',
+                        name: 'tanggal_retouching',
                     },
                     {
-                        data: 'bau',
-                        name: 'bau',
-                    },
-                    {
-                        data: 'es',
-                        name: 'es',
-                    },
-                    {
-                        data: 'suhu',
-                        name: 'suhu',
-                    },
-                    {
-                        data: 'hasil',
-                        name: 'hasil',
+                        data: 'tanggal_packing',
+                        name: 'tanggal_packing',
                     },
                     {
                         data: 'action',

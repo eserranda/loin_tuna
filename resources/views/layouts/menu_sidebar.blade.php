@@ -119,6 +119,19 @@
                      </a>
                  </li>
 
+                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Traceability</span>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link menu-link" href="/forward-traceability">
+                         <i class="ri-list-check-2"></i> <span>Forward Traceability</span>
+                     </a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link menu-link" href="/backward-traceability">
+                         <i class="ri-list-check-2"></i> <span>Backward Traceability</span>
+                     </a>
+                 </li>
+
                  @if (auth()->check() &&
                          auth()->user()->hasRole(['super_admin']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>

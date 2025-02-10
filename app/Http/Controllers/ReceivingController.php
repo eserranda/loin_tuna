@@ -7,6 +7,8 @@ use App\Models\Receiving;
 use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\ForwardTraceability;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,22 +84,43 @@ class ReceivingController extends Controller
             ], 422);
         }
 
-        Receiving::create([
-            'ilc' => $ilc,
-            'id_supplier' => $request->id_supplier,
-            'tanggal' => $request->tanggal,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        // simpan data ke receiving Inspection, stage "Receiving"
-        Inspection::create([
-            'ilc' => $ilc,
-            'stage' => "Receiving"
-        ]);
+            // Simpan data di table Receiving
+            $receiving = Receiving::create([
+                'ilc'         => $ilc,
+                'id_supplier' => $request->id_supplier,
+                'tanggal'     => $request->tanggal,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Receiving created successfully.'
-        ], 201);
+            // Simpan data di table Inspection, stage "Receiving"
+            $inspection = Inspection::create([
+                'ilc'   => $ilc,
+                'stage' => "Receiving"
+            ]);
+
+            // Simpan data di table ForwardTraceability
+            $forwardTraceability = ForwardTraceability::create([
+                'ilc'              => $request->ilc,
+                'tanggal_receiving' => $request->tanggal,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Receiving created successfully.'
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat membuat receiving data.',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function destroy(Receiving $receiving, $id, $ilc)

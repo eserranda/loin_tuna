@@ -10,7 +10,6 @@ class Packing extends Model
     protected $fillable = [
         'po_number',
         'user_id',
-        'tanggal',
     ];
 
     public function customer()

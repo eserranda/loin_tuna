@@ -82,7 +82,7 @@ class PackingController extends Controller
         $packing = Packing::create([
             'po_number' => $request->po_number,
             'user_id' => $detail_po->user_id,
-            'tanggal' => Carbon::now()->format('Y-m-d'),
+            // 'tanggal' => Carbon::now()->format('Y-m-d'),
         ]);
 
         if ($packing) {
@@ -98,29 +98,6 @@ class PackingController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Packing $packing)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Packing $packing)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Packing $packing)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
