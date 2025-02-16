@@ -116,15 +116,26 @@ class PackingPoController extends Controller
                 ->editColumn('product', function ($row) {
                     return  $row->product->nama;
                 })
+                ->editColumn('weight', function ($row) {
+                    return  $row->weight . ' Kg';
+                })
                 ->make(true);
         }
     }
 
-    public function getAllProductLogs(Request $request)
+    public function getAllProductLogs(Request $request, $po_number)
     {
         if ($request->ajax()) {
+            $po_number = Order::where('po_number', $po_number)->first();
 
-            $data = ProductLog::where('is_used', 0)->get();
+            // Join OrderItem and ProductLog tables and filter based on product_id
+            $data = ProductLog::where('is_used', 0)
+                ->whereIn('id_produk', function ($query) use ($po_number) {
+                    $query->select('id_product')
+                        ->from('order_items')
+                        ->where('order_id', $po_number->id);
+                })
+                ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
