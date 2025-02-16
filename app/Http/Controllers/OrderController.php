@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -190,6 +191,7 @@ class OrderController extends Controller
         try {
             $cartItems = Cart::where('user_id', $userId)->get();
 
+
             if ($cartItems->isEmpty()) {
                 return response()->json([
                     'success' => false,
@@ -209,10 +211,13 @@ class OrderController extends Controller
             $order->save();
 
             foreach ($cartItems as $cartItem) {
+                $produk = Product::where('id', $cartItem->id_product)->first();
+
                 $orderItems = new OrderItem();
                 $orderItems->order_id = $order->id;
                 $orderItems->id_product = $cartItem->id_product;
                 $orderItems->qty = $cartItem->qty;
+                $orderItems->weight = $cartItem->qty * $produk->berat;
                 $orderItems->price = $cartItem->product->harga;
                 $orderItems->total_price = $cartItem->total_price;
                 $orderItems->save();

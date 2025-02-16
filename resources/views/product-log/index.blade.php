@@ -142,7 +142,7 @@
                                             <th>No</th>
                                             <th>Produk</th>
                                             {{-- <th>Ekspor</th> --}}
-                                            <th>Total Berat</th>
+                                            <th>Berat</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -151,8 +151,8 @@
                                     </tbody>
                                 </table>
 
-                                <hr>
-                                <div class="row align-items-start">
+                                {{-- <hr> --}}
+                                {{-- <div class="row align-items-start">
                                     <div class="col-sm-6 mb-1">
                                         Total Berat : <span class="fw-bold" id="total_berat"> kg</span>
                                     </div>
@@ -162,7 +162,7 @@
                                     <div class="col-sm-6 mb-1">
                                         Persentase : <span class="fw-bold" id="persentasePenggunaan"> </span>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

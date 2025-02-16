@@ -109,7 +109,6 @@ class PackingPoController extends Controller
     {
         if ($request->ajax()) {
             $po_number = Order::where('po_number', $po_number)->first();
-
             $data = OrderItem::where('order_id', $po_number->id)->get();
 
             return DataTables::of($data)

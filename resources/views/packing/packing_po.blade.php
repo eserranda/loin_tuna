@@ -82,6 +82,7 @@
                                                             <th>No</th>
                                                             <th>Product</th>
                                                             <th>Qty</th>
+                                                            <th>Berat</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -208,6 +209,10 @@
                     {
                         data: 'qty',
                         name: 'qty',
+                    },
+                    {
+                        data: 'weight',
+                        name: 'weight',
                     },
                 ],
                 dom: 'Btp',

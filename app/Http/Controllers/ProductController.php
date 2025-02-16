@@ -85,8 +85,12 @@ class ProductController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="print(\'' . $row->id_produk  . '\', \'' . $row->ilc . '\')"><i class="ri-printer-fill mx-1"></i></a>';
-                    $btn .= '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
+                    // $btn = '<a href="javascript:void(0);" onclick="print(\'' . $row->id_produk  . '\', \'' . $row->ilc . '\')"><i class="ri-printer-fill mx-1"></i></a>';
+                    if ($row->is_used == 0) {
+                        $btn = '<button type="button" class="btn btn-sm btn-danger btn-icon waves-effect waves-light" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line"></i></button>';
+                    } else {
+                        $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-danger" disable><i class="ri-delete-bin-5-line"></i></button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action'])
