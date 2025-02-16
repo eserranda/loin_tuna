@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('packings', function (Blueprint $table) {
+        Schema::create('packing_pos', function (Blueprint $table) {
             $table->id();
             $table->string('po_number');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('is_packed')->default(false);
+            $table->unsignedBigInteger('id_product');
+            $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
+            $table->integer('total_qty');
+            $table->float('total_weight');
+            $table->integer('progress');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packings');
+        Schema::dropIfExists('packing_pos');
     }
 };

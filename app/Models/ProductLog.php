@@ -11,6 +11,7 @@ class ProductLog extends Model
         'id_produk',
         'no_loin',
         'berat',
+        'is_used',
         // 'ekspor',
     ];
 

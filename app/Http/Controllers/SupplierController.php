@@ -74,16 +74,12 @@ class SupplierController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'kode_batch' => 'required|string|max:3|unique:suppliers',
             'kode_supplier' => 'required|string|max:3|unique:suppliers',
             'nama_supplier' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kabupaten' => 'required|string|max:255',
             'kecamatan' => 'required|string|max:255',
         ], [
-            'kode_batch.required' => 'Kode Batch harus diisi.',
-            'kode_batch.unique' => 'Kode Batch sudah ada.',
-            'kode_batch.max' => 'Kode Batch maksimal 3 karakter.',
             'kode_supplier.required' => 'Kode Supplier harus diisi.',
             'kode_supplier.unique' => 'Kode Supplier sudah ada.',
             'kode_supplier.max' => 'Kode Supplier maksimal 3 karakter.',
@@ -101,7 +97,7 @@ class SupplierController extends Controller
 
         // Simpan data ke database
         $supplier = new Supplier();
-        $supplier->kode_batch = $request->kode_batch;
+        // $supplier->kode_batch = $request->kode_batch;
         $supplier->kode_supplier = $request->kode_supplier;
         $supplier->nama_supplier = $request->nama_supplier;
         $supplier->phone = $request->phone;

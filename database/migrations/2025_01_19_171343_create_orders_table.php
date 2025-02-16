@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('jalan')->nullable();
             $table->string('kode_pos')->nullable();
             $table->string('status');
+            $table->boolean('is_packed')->default(false);
             $table->timestamps();
         });
     }

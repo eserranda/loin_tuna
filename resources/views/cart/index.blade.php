@@ -157,8 +157,6 @@
 
                 const cartData = await cartResponse.json();
 
-                console.log(cartData.data);
-
                 updateListCartUI(cartData.data);
             } catch (error) {
                 console.error('Error:', error);

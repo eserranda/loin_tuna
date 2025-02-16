@@ -53,31 +53,32 @@ class ProductLogController extends Controller
             ], 422);
         }
 
-        $getProduk = ProductLog::where('ilc', $request->ilc)->first();
+        // $getProduk = ProductLog::where('ilc', $request->ilc)->first();
 
-        if (isset($getProduk) && ($getProduk->id_produk == $request->id_produk)) {
-            $totalBerat = $getProduk->berat + $request->berat;
-            $update = ProductLog::where('ilc', $request->ilc)->update([
-                'berat' => $totalBerat
-            ]);
+        // if (isset($getProduk) && ($getProduk->id_produk == $request->id_produk)) {
+        //     $totalBerat = $getProduk->berat + $request->berat;
+        //     $update = ProductLog::where('ilc', $request->ilc)->update([
+        //         'berat' => $totalBerat
+        //     ]);
 
-            $updateSisaBerat = Retouching::where('ilc', $request->ilc)
-                ->where('no_loin', $request->no_loin)
-                ->decrement('sisa_berat', $request->berat);
+        //     $updateSisaBerat = Retouching::where('ilc', $request->ilc)
+        //         ->where('no_loin', $request->no_loin)
+        //         ->decrement('sisa_berat', $request->berat);
 
 
-            if ($update && $updateSisaBerat) {
-                return response()->json([
-                    'success' => true
-                ], 201);
-            } else {
-                return response()->json([
-                    'success' => false
-                ], 500);
-            }
-        }
+        //     if ($update && $updateSisaBerat) {
+        //         return response()->json([
+        //             'success' => true
+        //         ], 201);
+        //     } else {
+        //         return response()->json([
+        //             'success' => false
+        //         ], 500);
+        //     }
+        // }
 
         $save = ProductLog::create($request->all());
+
         $updateSisaBerat = Retouching::where('ilc', $request->ilc)
             ->where('no_loin', $request->no_loin)
             ->decrement('sisa_berat', $request->berat);

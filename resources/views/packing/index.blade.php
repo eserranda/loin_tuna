@@ -65,7 +65,7 @@
                     <div class="col-md-5">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Buat Packing </h4>
+                                <h4 class="card-title mb-0 flex-grow-1">List PO </h4>
                             </div>
 
                             <div class="card-body">
@@ -117,7 +117,7 @@
 
                                         <div class="col-lg-12">
                                             <div class="text-start">
-                                                <button type="submit" class="btn btn-primary">Buat PO</button>
+                                                <button type="submit" class="btn btn-primary">Buat Packing</button>
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
 
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Data Packing</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Data Packing Untuk PO</h4>
                             </div>
                             <div class="card-body">
                                 <table class="table table-striped mt-0 packingDatatable" id="packingDatatable"
@@ -156,7 +156,7 @@
 
 @push('scripts')
     <script>
-        async function hapus(id, ilc) {
+        async function hapus(id) {
             Swal.fire({
                 title: 'Hapus Data?',
                 text: 'Data akan dihapus permanen!',
@@ -169,7 +169,7 @@
                 if (result.isConfirmed) {
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
-                        url: '/cutting/' + id + '/' + ilc,
+                        url: '/packing/' + id,
                         type: 'DELETE',
                         data: {
                             _token: csrfToken
@@ -183,7 +183,7 @@
                                     'success'
                                 );
                                 $('.packingDatatable').DataTable().ajax.reload();
-                                $('.receiving').DataTable().ajax.reload();
+                                $('.list_po').DataTable().ajax.reload();
                             } else {
                                 Swal.fire(
                                     'Gagal!',
@@ -230,11 +230,6 @@
                         orderable: false,
 
                     },
-                    // {
-                    //     data: 'checking',
-                    //     name: 'checking',
-                    //     orderable: false,
-                    // },
                     {
                         data: 'action',
                         name: 'action',
@@ -337,7 +332,7 @@
                     });
                     form.reset();
                     $('.packingDatatable').DataTable().ajax.reload();
-                    $('.receiving').DataTable().ajax.reload();
+                    $('.list_po').DataTable().ajax.reload();
 
                 }
             } catch (error) {

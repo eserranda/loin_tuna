@@ -63,7 +63,6 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Batch</th>
                                     <th>Kode Supplier</th>
                                     <th>Nama</th>
                                     <th>No. Hp</th>
@@ -97,10 +96,6 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
-                    },
-                    {
-                        data: 'kode_batch',
-                        name: 'kode_batch',
                     },
                     {
                         data: 'kode_supplier',

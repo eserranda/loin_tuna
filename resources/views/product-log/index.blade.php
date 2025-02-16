@@ -390,12 +390,6 @@
                         name: 'id_produk',
                         orderable: false,
                     },
-                    // {
-                    //     data: 'ekspor',
-                    //     name: 'ekspor',
-                    //     orderable: false,
-
-                    // },
                     {
                         data: 'berat',
                         name: 'berat',

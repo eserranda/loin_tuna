@@ -61,7 +61,7 @@ class ReceivingController extends Controller
             $month = $now->format('m');
             $julian_date = $year . $julian_day . $month;
 
-            $ilc = $supplier->kode_batch . $julian_date . $supplier->kode_supplier;
+            $ilc = $supplier->kode_supplier . '-' . $julian_date;
         }
         $request->merge(['ilc' => $ilc]);
 

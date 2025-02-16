@@ -12,6 +12,7 @@ class Order extends Model
         'po_number',
         'total_price',
         'status',
+        'is_packed',
     ];
 
     public function user()

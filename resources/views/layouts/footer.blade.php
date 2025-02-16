@@ -4,11 +4,11 @@
             <div class="col-sm-6">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> © CWF.
+                </script> © FIS.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    CV Maju Mundur Jaya
+                    CV. FARIS INDO SEAFOOD
                 </div>
             </div>
         </div>
@@ -765,8 +765,6 @@
             }
 
             const cartData = await cartResponse.json();
-
-            console.log(cartData.data);
 
             updateCartUI(cartData.data);
         } catch (error) {

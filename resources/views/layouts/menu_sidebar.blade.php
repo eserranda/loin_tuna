@@ -54,7 +54,7 @@
                      {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'cutting'])) --}}
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/cutting">
-                             <i class="ri-knife-blood-line"></i> <span data-key="t-cutting">Cutting</span>
+                             <i class="ri-knife-blood-line"></i> <span data-key="t-cutting">Cutting/Trimming</span>
                          </a>
                      </li>
                      {{-- @endif --}}
@@ -62,7 +62,7 @@
                      {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'retouching'])) --}}
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/retouching">
-                             <i class="ri-dashboard-line"></i> <span data-key="t-retouching">Retouching</span>
+                             <i class="ri-dashboard-line"></i> <span data-key="t-retouching">RTC/Timbang Ulang</span>
                          </a>
                      </li>
                      {{-- @endif --}}
@@ -126,11 +126,11 @@
                          <i class="ri-list-check-2"></i> <span>Forward Traceability</span>
                      </a>
                  </li>
-                 <li class="nav-item">
+                 {{-- <li class="nav-item">
                      <a class="nav-link menu-link" href="/backward-traceability">
                          <i class="ri-list-check-2"></i> <span>Backward Traceability</span>
                      </a>
-                 </li>
+                 </li> --}}
 
                  @if (auth()->check() &&
                          auth()->user()->hasRole(['super_admin']))

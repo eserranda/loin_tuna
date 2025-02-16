@@ -53,8 +53,8 @@ class AllSeeder extends Seeder
 
         $suppliers = [
             [
-                'kode_batch' => 'NSR',
-                'kode_supplier' => '001',
+                // 'kode_batch' => 'NSR',
+                'kode_supplier' => 'NSR',
                 'nama_supplier' => 'Nasrullah',
                 'phone' => '08123456789',
                 'provinsi' => 'Sulawesi Selatan',
@@ -63,8 +63,8 @@ class AllSeeder extends Seeder
                 'jalan' => 'Jl. Poros Sungguminasa',
             ],
             [
-                'kode_batch' => 'MRG',
-                'kode_supplier' => '002',
+                // 'kode_batch' => 'MRG',
+                'kode_supplier' => 'MRG',
                 'nama_supplier' => 'Martgurejo',
                 'phone' => '08123456789',
                 'provinsi' => 'Sulawesi Selatan',

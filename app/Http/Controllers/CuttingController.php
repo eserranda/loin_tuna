@@ -92,6 +92,8 @@ class CuttingController extends Controller
         $ilc_cutting =  $request->ilc . '1';
 
         try {
+            DB::beginTransaction();
+
             Cutting::create([
                 'id_supplier' => $id_supplier,
                 'ilc' => $request->ilc,

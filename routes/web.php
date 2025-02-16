@@ -18,6 +18,7 @@ use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
 use App\Http\Controllers\ForwardTraceabilityController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\PackingPoController;
 
 Route::get('/', [ReceivingController::class, 'index'])->middleware('auth');
 
@@ -50,6 +51,15 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::post('/decrease/{id}', 'decrease')->name('cart.decrease');
     Route::post('/increase/{id}', 'increase')->name('cart.increase');
     Route::delete('/destroy/{id}', 'destroy')->name('cart.destroy');
+});
+
+Route::prefix('packing-po')->controller(PackingPoController::class)->group(function () {
+    Route::get('/{po_number}', 'getOnePoNumber');
+    Route::get('/getAllDataProductOrder/{po_number}', 'getAllDataProductOrder');
+    Route::get('/getAllProductLogs/{po_number}', 'getAllProductLogs');
+    Route::get('/getAllPackingPo/{po_number}', 'getAllPackingPo');
+
+    Route::post('/store', 'store')->name('packing-po.store');
 });
 
 Route::prefix('customer')->controller(CustomerController::class)->group(function () {

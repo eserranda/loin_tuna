@@ -108,8 +108,8 @@
                                         </div>
                                         <div class="col-6">
                                             <label for="berat" class="form-label">Total Berat Loin</label>
-                                            <input type="number" class="form-control bg-light" placeholder="Berat"
-                                                id="berat" name="berat" readonly>
+                                            <input type="number" class="form-control" placeholder="Berat" id="berat"
+                                                name="berat" step="0.01">
                                             <div class="invalid-feedback">
                                             </div>
                                         </div>

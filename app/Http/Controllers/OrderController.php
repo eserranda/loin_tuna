@@ -114,7 +114,10 @@ class OrderController extends Controller
     public function getAllOrderInPo(Request $request)
     {
         if ($request->ajax()) {
-            $data = Order::where('status', 'confirmed')->latest('created_at')->get();
+            $data = Order::where('status', 'confirmed')
+                ->where('is_packed', false)
+                ->latest('created_at')
+                ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()

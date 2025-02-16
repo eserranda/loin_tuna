@@ -6,14 +6,12 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Packing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 class PackingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('packing.index');
@@ -42,12 +40,8 @@ class PackingController extends Controller
                     return  $row->created_at->format('d-m-Y');
                 })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<div class="d-flex justify-content-start align-items-center">';
-                    // $btn = ' <a href="/order/detail-order/' . $row->po_number . '"<i class="ri-file-info-line"></i></a>';
-                    // $btn .= '</div>';
-                    // return $btn;
-
-                    $btn = '<a href="javascript:void(0);" onclick="POnumber(\'' . $row->po_number . '\')"><i class="ri-arrow-right-line"></i></a>';
+                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
+                    $btn .= '<a href="/packing-po/' . $row->po_number . '"<i class="ri-arrow-right-line"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action', 'status'])
@@ -55,9 +49,6 @@ class PackingController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -71,39 +62,66 @@ class PackingController extends Controller
 
         $detail_po = Order::where('po_number', $request->po_number)->first();
 
-        // dd($request->po_number);
-
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()
             ], 422);
         }
-        $packing = Packing::create([
-            'po_number' => $request->po_number,
-            'user_id' => $detail_po->user_id,
-            // 'tanggal' => Carbon::now()->format('Y-m-d'),
-        ]);
 
-        if ($packing) {
+
+        try {
+            DB::beginTransaction();
+
+            Packing::create([
+                'po_number' => $request->po_number,
+                'user_id' => $detail_po->user_id,
+            ]);
+
+            Order::where('po_number', $request->po_number)->update([
+                'is_packed' => true,
+            ]);
+
+            DB::commit();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Data berhasil disimpan',
             ], 200);
-        } else {
+        } catch (\Exception $e) {
+            DB::rollBack();
+
             return response()->json([
                 'success' => false,
                 'message' => 'Data gagal disimpan',
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Packing $packing)
+    public function destroy(Packing $packing, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $del_po = Packing::where('id', $id)->first();
+
+            Order::where('po_number', $del_po->po_number)->update([
+                'is_packed' => false,
+            ]);
+
+            $del_packing = $packing::findOrFail($id);
+            $del_packing->delete();
+
+            DB::commit();
+
+            return response()->json(['status' => true, 'message' => 'Data berhasil dihapus'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menghapus data',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

@@ -21,7 +21,7 @@
                         <form action="{{ route('supplier.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="col-6">
+                                {{-- <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label">Kode Batch</label>
                                         <input type="text"
@@ -32,13 +32,13 @@
                                             <div class="text-danger">{{ $errors->first('kode_batch') }}</div>
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label">Kode Supplier</label>
-                                        <input type="number"
+                                        <input type="text"
                                             class="form-control {{ $errors->has('kode_supplier') ? 'is-invalid' : '' }}"
-                                            placeholder="Contoh : 001" name="kode_supplier" id="kode_supplier"
+                                            placeholder="Contoh : MRC" name="kode_supplier" id="kode_supplier"
                                             value="{{ old('kode_supplier') }}">
                                         @if ($errors->has('kode_supplier'))
                                             <div class="text-danger">{{ $errors->first('kode_supplier') }}</div>
