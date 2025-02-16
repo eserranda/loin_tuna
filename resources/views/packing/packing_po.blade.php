@@ -155,8 +155,12 @@
                         </div>
 
                         <div class="card">
-                            <div class="card-header align-items-center d-flex">
+                            <div class="card-header ">
                                 <h4 class="card-title mb-0 flex-grow-1">Data Packing Product</h4>
+                                <hr>
+                                <div class="col-sm-6 mb-0">
+                                    Total Progres : <span class="fw-bold" id="total_progres"> %</span>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <table class="table table-striped mt-0 packing_po" id="packing_po"
@@ -186,6 +190,17 @@
 
 @push('scripts')
     <script>
+        function getTotalProgres() {
+            fetch("/packing-po/progres/{{ $data_po->po_number }}")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total_progres').textContent = `${data.total_progress} %`;
+                })
+                .catch(error => {
+                    console.error('Error fetching next no_ikan:', error);
+                });
+        }
+
         async function setProduct(id, nama_produk, berat) {
             document.getElementById('id_produk_log').value = id;
             document.getElementById('nama_produk').value = nama_produk;
@@ -193,6 +208,7 @@
         }
 
         $(document).ready(function() {
+            getTotalProgres();
             const list_product = $('.list_product').DataTable({
                 processing: true,
                 serverSide: true,
@@ -398,6 +414,7 @@
                     $('.list_product').DataTable().ajax.reload();
                     $('.product_ready').DataTable().ajax.reload();
                     $('.packing_po').DataTable().ajax.reload();
+                    getTotalProgres();
                     if (data.success) {
                         Swal.fire({
                             icon: 'success',

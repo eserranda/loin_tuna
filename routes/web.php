@@ -59,6 +59,8 @@ Route::prefix('packing-po')->controller(PackingPoController::class)->group(funct
     Route::get('/getAllProductLogs/{po_number}', 'getAllProductLogs');
     Route::get('/getAllPackingPo/{po_number}', 'getAllPackingPo');
 
+    Route::get('/progres/{po_number}', 'totalProgres');
+
     Route::post('/store', 'store')->name('packing-po.store');
 });
 

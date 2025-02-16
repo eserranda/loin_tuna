@@ -22,6 +22,29 @@ class PackingPoController extends Controller
         return view('packing.packing_po', compact('data_po'));
     }
 
+    public function totalProgres($po_number)
+    {
+        $po_number = Order::where('po_number', $po_number)->first();
+        $data = OrderItem::where('order_id', $po_number->id)->get();
+
+        $total_qty_order = 0;
+        foreach ($data as $item) {
+            $total_qty_order += $item->qty;
+        }
+
+        $packing_po = PackingPo::where('po_number', $po_number->po_number)->get();
+        $total_qty_packing = 0;
+        foreach ($packing_po as $item) {
+            $total_qty_packing += $item->total_qty;
+        }
+
+        $total_progress = ($total_qty_packing / $total_qty_order) * 100;
+
+        return response()->json([
+            'total_progress' => $total_progress
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
