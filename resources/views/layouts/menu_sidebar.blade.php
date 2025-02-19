@@ -4,21 +4,24 @@
      <div class="navbar-brand-box">
          <!-- Dark Logo-->
          <a href="/" class="logo logo-dark">
-             <span class="logo-sm">
+             {{-- <span class="logo-sm">
                  <img src="{{ asset('assets') }}/images/logo-sm.png" alt="" height="22">
              </span>
              <span class="logo-lg">
                  <img src="{{ asset('assets') }}/images/logo-dark.png" alt="" height="17">
-             </span>
+             </span> --}}
+             <H3 class="m-4 fw-bold">CV. FIS</H3>
+
          </a>
          <!-- Light Logo-->
          <a href="/" class="logo logo-light">
-             <span class="logo-sm">
+             {{-- <span class="logo-sm">
                  <img src="{{ asset('assets') }}/images/logo-sm.png" alt="" height="22">
              </span>
              <span class="logo-lg">
                  <img src="{{ asset('assets') }}/images/logo-light.png" alt="" height="17">
-             </span>
+             </span> --}}
+             <H3 class="m-4 fw-bold">CV. FIS</H3>
          </a>
          <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
              id="vertical-hover">
@@ -109,31 +112,32 @@
 
                  --}}
 
-                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Quality
-                         Control</span>
-                 </li>
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['super_admin']))
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Quality
+                             Control</span>
+                     </li>
 
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/inspection">
-                         <i class="ri-list-check-2"></i> <span>Inspection</span>
-                     </a>
-                 </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/inspection">
+                             <i class="ri-list-check-2"></i> <span>Inspection</span>
+                         </a>
+                     </li>
 
-                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Traceability</span>
-                 </li>
-                 <li class="nav-item">
-                     <a class="nav-link menu-link" href="/forward-traceability">
-                         <i class="ri-list-check-2"></i> <span>Forward Traceability</span>
-                     </a>
-                 </li>
-                 {{-- <li class="nav-item">
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span
+                             data-key="t-inspection">Traceability</span>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/forward-traceability">
+                             <i class="ri-list-check-2"></i> <span>Forward Traceability</span>
+                         </a>
+                     </li>
+                     {{-- <li class="nav-item">
                      <a class="nav-link menu-link" href="/backward-traceability">
                          <i class="ri-list-check-2"></i> <span>Backward Traceability</span>
                      </a>
                  </li> --}}
 
-                 @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>
                      </li>
 
