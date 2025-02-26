@@ -35,6 +35,7 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
     Route::get('/checkout', 'checkout')->name('checkout.index');
     Route::get('/detail-order/{po_number}', 'detailOrder');
     Route::post('/update/{po_number}', 'update');
+    Route::post('/payment/{po_number}', 'payment');
 
     // admin or super admin
     Route::get('/list-order', 'listOrder')->name('order.getOne');

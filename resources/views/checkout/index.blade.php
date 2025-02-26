@@ -1,4 +1,14 @@
 @extends('layouts.master')
+@push('head_component')
+    <!-- Sweet Alert css-->
+    <link href="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Sweet Alerts js -->
+    <script src="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- Sweet alert init js-->
+    <script src="{{ asset('assets') }}/js/pages/sweetalerts.init.js"></script>
+@endpush
 @section('title')
     <h4 class="mb-sm-0">Customers</h4>
     <div class="page-title-right">
@@ -35,16 +45,16 @@
                                             class="ri-truck-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
                                         Shipping Info
                                     </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link fs-15 p-3" id="pills-payment-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-payment" type="button" role="tab"
-                                        aria-controls="pills-payment" aria-selected="false">
-                                        <i
-                                            class="ri-bank-card-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
-                                        Payment Info
-                                    </button>
                                 </li> --}}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fs-15 p-3" id="pills-payment-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-payment" type="button" role="tab"
+                                    aria-controls="pills-payment" aria-selected="false">
+                                    <i
+                                        class="ri-bank-card-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
+                                    Payment
+                                </button>
+                            </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link fs-15 p-3" id="pills-finish-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-finish" type="button" role="tab"
@@ -137,7 +147,7 @@
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <div class="mb-3">
-                                                    <label for="kabupaten" class="form-label">Kabupaten</label>
+                                                    <label for="kabupaten" class="form-label">Kabupaten/Kota</label>
                                                     <input type="text" class="form-control" id="kabupaten"
                                                         name="kabupaten" placeholder="Kabupaten"
                                                         value="{{ $order->kabupaten ? $order->kabupaten : $customer->kabupaten ?? '' }}">
@@ -168,8 +178,9 @@
                                     <div class="col-lg-12">
 
                                         <div class="hstack gap-2 justify-content-end">
-                                            <button type="submit" class="btn btn-info"
-                                                {{ $order->status == 'confirmed' || $order->status == 'rejected' ? 'disabled' : '' }}>Save</button>
+                                            <button type="submit" class="btn btn-info">Save</button>
+                                            {{-- <button type="submit" class="btn btn-info"
+                                                {{ $order->status == 'confirmed' || $order->status == 'rejected' ? 'disabled' : '' }}>Save</button> --}}
 
                                             <button type="button" class="btn btn-primary btn-label  nexttab"
                                                 data-nexttab="pills-finish-tab">
@@ -182,240 +193,93 @@
 
                             </div>
                         </div>
-                        <!-- end tab pane -->
 
-                        {{-- <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
-                                aria-labelledby="pills-bill-address-tab">
-                                <div>
-                                    <h5 class="mb-1">Shipping Information</h5>
-                                    <p class="text-muted mb-4">Please fill all information below</p>
-                                </div>
-
-                                <div class="mt-4">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <div class="flex-grow-1">
-                                            <h5 class="fs-14 mb-0">Saved Address</h5>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-sm btn-success mb-3"
-                                                data-bs-toggle="modal" data-bs-target="#addAddressModal">
-                                                Add Address
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="row gy-3">
-                                        <div class="col-lg-4 col-sm-6">
-                                            <div class="form-check card-radio">
-                                                <input id="shippingAddress01" name="shippingAddress" type="radio"
-                                                    class="form-check-input" checked>
-                                                <label class="form-check-label" for="shippingAddress01">
-                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Home
-                                                        Address</span>
-
-                                                    <span class="fs-14 mb-2 d-block">Marcus Alfaro</span>
-                                                    <span class="text-muted fw-normal text-wrap mb-1 d-block">4739
-                                                        Bubby
-                                                        Drive Austin, TX 78729</span>
-                                                    <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                                </label>
-                                            </div>
-                                            <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                <div>
-                                                    <a href="#" class="d-block text-body p-1 px-2"
-                                                        data-bs-toggle="modal" data-bs-target="#addAddressModal"><i
-                                                            class="ri-pencil-fill text-muted align-bottom me-1"></i>
-                                                        Edit</a>
-                                                </div>
-                                                <div>
-                                                    <a href="#" class="d-block text-body p-1 px-2"
-                                                        data-bs-toggle="modal" data-bs-target="#removeItemModal"><i
-                                                            class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
-                                                        Remove</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6">
-                                            <div class="form-check card-radio">
-                                                <input id="shippingAddress02" name="shippingAddress" type="radio"
-                                                    class="form-check-input">
-                                                <label class="form-check-label" for="shippingAddress02">
-                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">Office
-                                                        Address</span>
-
-                                                    <span class="fs-14 mb-2 d-block">James Honda</span>
-                                                    <span class="text-muted fw-normal text-wrap mb-1 d-block">1246
-                                                        Virgil
-                                                        Street Pensacola, FL 32501</span>
-                                                    <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                                </label>
-                                            </div>
-                                            <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                <div>
-                                                    <a href="#" class="d-block text-body p-1 px-2"
-                                                        data-bs-toggle="modal" data-bs-target="#addAddressModal"><i
-                                                            class="ri-pencil-fill text-muted align-bottom me-1"></i>
-                                                        Edit</a>
-                                                </div>
-                                                <div>
-                                                    <a href="#" class="d-block text-body p-1 px-2"
-                                                        data-bs-toggle="modal" data-bs-target="#removeItemModal"><i
-                                                            class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
-                                                        Remove</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <h5 class="fs-14 mb-3">Shipping Method</h5>
-
-                                        <div class="row g-4">
-                                            <div class="col-lg-6">
-                                                <div class="form-check card-radio">
-                                                    <input id="shippingMethod01" name="shippingMethod" type="radio"
-                                                        class="form-check-input" checked>
-                                                    <label class="form-check-label" for="shippingMethod01">
-                                                        <span
-                                                            class="fs-20 float-end mt-2 text-wrap d-block fw-semibold">Free</span>
-                                                        <span class="fs-14 mb-1 text-wrap d-block">Free Delivery</span>
-                                                        <span class="text-muted fw-normal text-wrap d-block">Expected
-                                                            Delivery 3 to 5 Days</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-check card-radio">
-                                                    <input id="shippingMethod02" name="shippingMethod" type="radio"
-                                                        class="form-check-input" checked>
-                                                    <label class="form-check-label" for="shippingMethod02">
-                                                        <span
-                                                            class="fs-20 float-end mt-2 text-wrap d-block fw-semibold">$24.99</span>
-                                                        <span class="fs-14 mb-1 text-wrap d-block">Express
-                                                            Delivery</span>
-                                                        <span class="text-muted fw-normal text-wrap d-block">Delivery
-                                                            within 24hrs.</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="tab-pane fade" id="pills-payment" role="tabpanel"
+                            aria-labelledby="pills-payment-tab">
+                            <div>
+                                <h5 class="mb-1">Informasi Pembayaran</h5>
+                                <p class="text-muted mb-4">Silakan melakukan pembayaran dengan memilih salah salah satu
+                                    bank tujuan di bawah</p>
+                            </div>
+                            <div class="row gy-3 mb-2">
+                                <div class="col-lg-4 col-sm-6">
+                                    <div class="form-check card-radio">
+                                        <input id="bank_01" name="bank" type="radio" class="form-check-input">
+                                        <label class="form-check-label" for="bank_01" onclick="bank_01('BCA')">
+                                            <span class="mb-4 fw-semibold d-block text-muted text-uppercase">BCA</span>
+                                            <span class="fs-14 mb-2 d-block">1234-1244-1234</span>
+                                            <span class="text-muted fw-normal mb-1 d-block">
+                                                CV. FARIS INDO SEAFOOD
+                                            </span>
+                                            {{-- <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span> --}}
+                                        </label>
                                     </div>
                                 </div>
-
-                                <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-light btn-label previestab"
-                                        data-previous="pills-bill-info-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back to
-                                        Personal Info</button>
-                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
-                                        data-nexttab="pills-payment-tab"><i
-                                            class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
-                                        to
-                                        Payment</button>
-                                </div>
-                            </div> --}}
-                        <!-- end tab pane -->
-
-                        {{-- <div class="tab-pane fade" id="pills-payment" role="tabpanel"
-                                aria-labelledby="pills-payment-tab">
-                                <div>
-                                    <h5 class="mb-1">Payment Selection</h5>
-                                    <p class="text-muted mb-4">Please select and enter your billing information</p>
-                                </div>
-
-                                <div class="row g-4">
-                                    <div class="col-lg-4 col-sm-6">
-                                        <div data-bs-toggle="collapse" data-bs-target="#paymentmethodCollapse.show"
-                                            aria-expanded="false" aria-controls="paymentmethodCollapse">
-                                            <div class="form-check card-radio">
-                                                <input id="paymentMethod01" name="paymentMethod" type="radio"
-                                                    class="form-check-input">
-                                                <label class="form-check-label" for="paymentMethod01">
-                                                    <span class="fs-16 text-muted me-2"><i
-                                                            class="ri-paypal-fill align-bottom"></i></span>
-                                                    <span class="fs-14 text-wrap">Paypal</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6">
-                                        <div data-bs-toggle="collapse" data-bs-target="#paymentmethodCollapse"
-                                            aria-expanded="true" aria-controls="paymentmethodCollapse">
-                                            <div class="form-check card-radio">
-                                                <input id="paymentMethod02" name="paymentMethod" type="radio"
-                                                    class="form-check-input" checked>
-                                                <label class="form-check-label" for="paymentMethod02">
-                                                    <span class="fs-16 text-muted me-2"><i
-                                                            class="ri-bank-card-fill align-bottom"></i></span>
-                                                    <span class="fs-14 text-wrap">Credit / Debit Card</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4 col-sm-6">
-                                        <div data-bs-toggle="collapse" data-bs-target="#paymentmethodCollapse.show"
-                                            aria-expanded="false" aria-controls="paymentmethodCollapse">
-                                            <div class="form-check card-radio">
-                                                <input id="paymentMethod03" name="paymentMethod" type="radio"
-                                                    class="form-check-input">
-                                                <label class="form-check-label" for="paymentMethod03">
-                                                    <span class="fs-16 text-muted me-2"><i
-                                                            class="ri-money-dollar-box-fill align-bottom"></i></span>
-                                                    <span class="fs-14 text-wrap">Cash on Delivery</span>
-                                                </label>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <div class="form-check card-radio">
+                                        <input id="bank_02" name="bank" type="radio" class="form-check-input">
+                                        <label class="form-check-label" for="bank_02" onclick="bank_01('BRI')">
+                                            <span class="mb-4 fw-semibold d-block text-muted text-uppercase">BRI</span>
+                                            <span class="fs-14 mb-2 d-block">9494-0101-2121-2112</span>
+                                            <span class="text-muted fw-normal mb-1 d-block">CV. FARIS INDO
+                                                SEAFOOD
+                                            </span>
+                                            {{-- <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span> --}}
+                                        </label>
                                     </div>
                                 </div>
+                            </div>
 
+                            <p class="mb-0">Total Pembayaran :</p>
+                            <h4>{{ formatRupiah($total_amount) }}</h4>
+
+                            <form id="pembayaranForm">
                                 <div class="collapse show" id="paymentmethodCollapse">
                                     <div class="card p-4 border shadow-none mb-0 mt-4">
                                         <div class="row gy-3">
-                                            <div class="col-md-12">
-                                                <label for="cc-name" class="form-label">Name on card</label>
-                                                <input type="text" class="form-control" id="cc-name"
-                                                    placeholder="Enter name">
-                                                <small class="text-muted">Full name as displayed on card</small>
+                                            <div class="col-md-6">
+                                                <label for="nama" class="form-label">Nama Pengirim</label>
+                                                <input type="hidden" class="form-control" id="bank"
+                                                    name="bank">
+                                                <input type="text" class="form-control" id="nama" name="nama"
+                                                    placeholder="Nama Lengkap">
+                                                <small class="text-muted">Nama lengkap sesuai pemilik akun bank</small>
+                                                <div class="invalid-feedback">
+                                                </div>
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="cc-number" class="form-label">Credit card number</label>
-                                                <input type="text" class="form-control" id="cc-number"
-                                                    placeholder="xxxx xxxx xxxx xxxx">
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <label for="cc-expiration" class="form-label">Expiration</label>
-                                                <input type="text" class="form-control" id="cc-expiration"
-                                                    placeholder="MM/YY">
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <label for="cc-cvv" class="form-label">CVV</label>
-                                                <input type="text" class="form-control" id="cc-cvv"
-                                                    placeholder="xxx">
+                                                <label for="bukti_bayar" class="form-label">Upload Bukti
+                                                    Pembayaran</label>
+                                                <input type="file" class="form-control"
+                                                    data-buttonname="btn-secondary" name="receipt_image"
+                                                    id="receipt_image" class="form-control">
+                                                <small class="text-muted">Pastikan foto bukti pembayaran terlihat
+                                                    jelas</small>
+                                                <div class="invalid-feedback">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-muted mt-2 fst-italic">
+                                    {{-- <div class="text-muted mt-2 fst-italic">
                                         <i data-feather="lock" class="text-muted icon-xs"></i> Your transaction is
                                         secured
                                         with SSL encryption
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
                                         data-previous="pills-bill-address-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back to
-                                        Shipping</button>
-                                    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
-                                        data-nexttab="pills-finish-tab"><i
-                                            class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Complete
-                                        Order</button>
+                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back</button>
+
+                                    <button type="submit" class="btn btn-primary btn-label right ms-auto">
+                                        <i class="ri-checkbox-circle-line label-icon align-middle fs-16 ms-2"></i>
+                                        Upload Bukti Pembayaran
+                                    </button>
                                 </div>
-                            </div> --}}
+                            </form>
+                        </div>
                         <!-- end tab pane -->
 
                         <div class="tab-pane fade" id="pills-finish" role="tabpanel" aria-labelledby="pills-finish-tab">
@@ -522,6 +386,79 @@
 
 @push('scripts')
     <script>
+        function bank_01(bank_name) {
+            document.getElementById('bank').value = bank_name;
+        }
+
+        function bank_02(bank_name) {
+            document.getElementById('bank').value = bank_name;
+        }
+
+        document.getElementById('pembayaranForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const po_number = "{{ $order->po_number }}";
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            try {
+                const response = await fetch('/order/payment/' + po_number, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(fieldName => {
+                        const inputField = document.getElementById(fieldName);
+                        if (inputField) {
+                            inputField.classList.add('is-invalid');
+                            if (inputField.nextElementSibling) {
+                                inputField.nextElementSibling.textContent = data.errors[
+                                    fieldName][0];
+                            }
+                        }
+                    });
+
+                    const validFields = document.querySelectorAll('.is-invalid');
+                    validFields.forEach(validField => {
+                        const fieldName = validField.id;
+                        if (!data.errors[fieldName]) {
+                            validField.classList.remove('is-invalid');
+                            if (validField.nextElementSibling) {
+                                validField.nextElementSibling.textContent = '';
+                            }
+                        }
+                    });
+                } else {
+                    const invalidInputs = document.querySelectorAll('.is-invalid');
+                    invalidInputs.forEach(invalidInput => {
+                        invalidInput.value = '';
+                        invalidInput.classList.remove('is-invalid');
+                        const errorNextSibling = invalidInput.nextElementSibling;
+                        if (errorNextSibling && errorNextSibling.classList.contains(
+                                'invalid-feedback')) {
+                            errorNextSibling.textContent = '';
+                        }
+                    });
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+
+        });
+
         document.getElementById('customerForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
@@ -563,7 +500,6 @@
                         }
                     });
                 } else {
-                    alert(data.message);
                     const invalidInputs = document.querySelectorAll('.is-invalid');
                     invalidInputs.forEach(invalidInput => {
                         invalidInput.value = '';
@@ -573,6 +509,13 @@
                                 'invalid-feedback')) {
                             errorNextSibling.textContent = '';
                         }
+                    });
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1000
                     });
                 }
             } catch (error) {

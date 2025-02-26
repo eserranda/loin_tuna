@@ -24,6 +24,11 @@ return new class extends Migration
             $table->string('kecamatan')->nullable();
             $table->text('jalan')->nullable();
             $table->string('kode_pos')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('receipt_image')->nullable();
+            // $table->string('payment_proof')->nullable();
+            $table->boolean('is_paid')->default(false);
             $table->string('status');
             $table->boolean('is_packed')->default(false);
             $table->timestamps();

@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderItem;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class OrderController extends Controller
 {
@@ -21,6 +23,60 @@ class OrderController extends Controller
     public function listOrder()
     {
         return view('order.list_order');
+    }
+
+    public function payment(Request $request, $po_number)
+    {
+        $validator = Validator::make($request->all(), [
+            'bank' => 'required',
+            'nama' => 'required',
+            'receipt_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:4048',
+        ], [
+            'bank.required' => 'bank harus diisi',
+            'nama.required' => 'name harus diisi',
+            'receipt_image.required' => 'image harus diisi',
+            'receipt_image.image' => 'image harus berupa gambar',
+            'receipt_image.mimes' => 'image harus berformat jpeg,png,jpg,gif',
+            'receipt_image.max' => 'Ukuran image maksimal 2048KB',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'messages' => $validator->errors()
+            ], 422);
+        }
+
+        $file = $request->file('receipt_image');
+        $extension = $file->getClientOriginalExtension();
+        $fileName = time() . '.' . $extension;
+        $filePath = 'uploads/images/receipt/' . $fileName;
+        $file->move(public_path('uploads/images/receipt/'), $fileName);
+
+        $cekReceiptImages = Order::where('po_number', $po_number)->value('receipt_image');
+        if (!$cekReceiptImages) {
+            Order::where('po_number', $po_number)->update([
+                'receipt_image' => $filePath
+            ]);
+        }
+
+        $productImages = Order::where('po_number', $po_number)->update([
+            'bank' => $request->bank,
+            'nama' => $request->nama,
+            'receipt_image' => $filePath,
+        ]);
+
+        if ($productImages) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Disimpan',
+            ], 201);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Gagal Disimpan',
+            ], 400);
+        }
     }
 
     public function updateStatusOrder(Request $request, $id)
