@@ -76,8 +76,8 @@
                                         <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="tanggal" class="form-label">Tanggal</label>
-                                                <input type="date" class="form-control" placeholder="Tanggal"
-                                                    id="tanggal" name="tanggal">
+                                                <input type="text" class="form-control" placeholder="Tanggal"
+                                                    id="tanggal" name="tanggal" readonly>
 
                                             </div>
                                         </div>
@@ -168,7 +168,21 @@
                 dom: 'Bftp',
                 // dom: 'Bftip',
             });
+
+            getDateNow();
         });
+
+        function getDateNow() {
+            let timeNow = new Date();
+
+            let day = String(timeNow.getDate()).padStart(2, '0'); // Ambil tanggal (01-31)
+            let month = String(timeNow.getMonth() + 1).padStart(2, '0'); // Ambil bulan (01-12)
+            let year = timeNow.getFullYear(); // Ambil tahun (YYYY)
+
+            let formattedDate = `${day}-${month}-${year}`; // Format DD-MM-YYYY
+
+            document.getElementById('tanggal').value = formattedDate;
+        }
 
 
         document.getElementById('receivingForm').addEventListener('submit', async (event) => {
@@ -201,10 +215,11 @@
                 } else {
                     const errorMessages = document.getElementById('error-messages');
                     errorMessages.innerHTML = '';
-                    errorMessages.classList.add('d-none');
 
+                    const form = document.getElementById('receivingForm');
                     form.reset();
                     $('.datatable').DataTable().ajax.reload();
+                    getDateNow();
                 }
             } catch (error) {
                 console.error('There has been a problem with your fetch operation:', error);
@@ -254,15 +269,16 @@
                                     'success'
                                 );
                                 $('.datatable').DataTable().ajax.reload();
+                                getDateNow();
                             } else {
                                 Swal.fire(
                                     'Gagal!',
                                     'Terjadi kesalahan saat menghapus data.',
                                     'error'
                                 );
+                                getDateNow();
                             }
                         },
-
                         error: function(error) {
                             console.log(error);
                             Swal.fire(

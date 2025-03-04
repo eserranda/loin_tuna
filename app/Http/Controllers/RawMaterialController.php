@@ -113,7 +113,6 @@ class RawMaterialController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
         RawMaterial::create([
             'ilc' => $request->ilc,
             'berat' => $request->berat,

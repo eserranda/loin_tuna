@@ -36,6 +36,7 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
     Route::get('/detail-order/{po_number}', 'detailOrder');
     Route::post('/update/{po_number}', 'update');
     Route::post('/payment/{po_number}', 'payment');
+    Route::post('/update-status-paid/{id}', 'updateStatusPaid');
 
     // admin or super admin
     Route::get('/list-order', 'listOrder')->name('order.getOne');
@@ -147,6 +148,7 @@ Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->m
     Route::get('/getAll/{ilc_cutting}', 'getAll')->name('cutting-grading.getAll');
     Route::delete('/{id}', 'destroy')->name('cutting-grading.destroy');
     Route::get('/calculateTotalWeight/{ilc}', 'calculateTotalWeight')->name('cutting-grading.calculateTotalWeight');
+    Route::post('/updateGrade/{id}', 'updateGrade')->name('cutting-grading.updateGrade');
 
     // Route::get('/nextNumber/{ilc_cutting}/{no_ikan}', 'nextNumber')->name('cutting-grading.nextNumber');
 });

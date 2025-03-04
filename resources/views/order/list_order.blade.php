@@ -67,6 +67,8 @@
                                         <th>Customer</th>
                                         <th>Tanggal</th>
                                         <th>Total Harga</th>
+                                        <th>Bukti Transfer</th>
+                                        <th>Status Pembayaran</th>
                                         <th>Status Order</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -81,11 +83,22 @@
             </div> <!-- end row-->
         </div>
     </div>
+
+    @include('order.receipt_img')
 @endsection
 
 @push('scripts')
     <script src="{{ asset('assets') }}/libs/prismjs/prism.js"></script>
     <script type="text/javascript">
+        var baseUrl = "{{ asset('') }}";
+
+        function showReceiptImg(id, img_url) {
+            var receiptImage = baseUrl + img_url;
+            $('#receiptImgModal').modal('show');
+            $('#receiptImgModal').find('#id').val(id);
+            $('#receiptImgModal').find('#receipt_img').attr('src', receiptImage);
+        }
+
         async function hapusOrder(id) {
             Swal.fire({
                 title: 'Hapus Data?',
@@ -194,10 +207,17 @@
                         data: 'tanggal',
                         name: 'tanggal',
                     },
-
                     {
                         data: 'total_price',
                         name: 'total_price',
+                    },
+                    {
+                        data: 'bukti_transfer',
+                        name: 'bukti_transfer',
+                    },
+                    {
+                        data: 'is_paid',
+                        name: 'is_paid',
                     },
                     {
                         data: 'status',

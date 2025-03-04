@@ -100,14 +100,6 @@
                                             <div id="error_combination" class="alert alert-danger d-none"></div>
                                         </div>
                                         <div class="col-6">
-                                            <label for="berat" class="form-label">Berat</label>
-                                            <input type="number" class="form-control" placeholder="Berat" id="berat"
-                                                name="berat" step="0.01">
-                                            <div class="invalid-feedback">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Nomor Loin</label>
                                                 <select class="form-select mb-1" id="no_loin" name="no_loin">
@@ -116,6 +108,14 @@
                                                 <span class="text-muted" id="berat_grade">
                                                     <p></p>
                                                 </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label for="berat" class="form-label">Berat</label>
+                                            <input type="number" class="form-control" placeholder="Berat" id="berat"
+                                                name="berat" step="0.01">
+                                            <div class="invalid-feedback">
                                             </div>
                                         </div>
 
@@ -162,8 +162,10 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Berat Awal</th>
                                             <th>Berat</th>
-                                            <th>No Loin</th>
+                                            <th>Susut</th>
+                                            <th>No. Loin</th>
                                             <th>Grade</th>
                                             <th>Opsi</th>
                                         </tr>
@@ -180,6 +182,7 @@
             </div>
         </div>
     </div>
+    @include('cutting-grading.edit_grade')
 @endsection
 
 @push('scripts')
@@ -200,8 +203,18 @@
                         orderable: false
                     },
                     {
+                        data: 'berat_awal',
+                        name: 'berat_awal',
+                        orderable: false
+                    },
+                    {
                         data: 'berat',
                         name: 'berat',
+                        orderable: false
+                    },
+                    {
+                        data: 'susut',
+                        name: 'susut',
                         orderable: false
                     },
                     {
@@ -380,6 +393,13 @@
 
         async function kodeILC(ilc) {
             document.getElementById('ilc').value = ilc;
+        }
+
+        async function editGrade(id) {
+            $('#updateGradeModal').modal('show');
+            $('#updateGradeModal').find('#id').val(id);
+            $('#updateGradeModal').find('#ilc').val(ilc);
+            $('#updateGradeModal').find('#no_loin').val(no_loin);
         }
 
         function calculateTotalWeight(ilc) {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->id();
             $table->string('ilc');
-            $table->integer('berat');
+            $table->decimal('berat', 5, 2);
             $table->integer('no_loin');
             $table->string('grade');
             $table->timestamps();

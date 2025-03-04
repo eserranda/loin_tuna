@@ -25,6 +25,26 @@ class OrderController extends Controller
         return view('order.list_order');
     }
 
+    public function updateStatusPaid(Request $requset, $id)
+    {
+        dd($requset->status);
+        $update = Order::where('id', $id)->update([
+            'is_paid' => $requset->status
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diperbarui',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal diperbarui',
+            ], 400);
+        }
+    }
+
     public function payment(Request $request, $po_number)
     {
         $validator = Validator::make($request->all(), [
@@ -122,6 +142,22 @@ class OrderController extends Controller
                         return '<span class="badge text-bg-danger">' . $row->status . '</span>';
                     }
                 })
+                ->addColumn('is_paid', function ($row) {
+                    if ($row->is_paid == 'pending') {
+                        return '<span class="badge text-bg-warning">' . $row->status . '</span>';
+                    } else if ($row->status == 'confirmed') {
+                        return '<span class="badge text-bg-success">' . $row->status . '</span>';
+                    } else if ($row->status == 'rejected') {
+                        return '<span class="badge text-bg-danger">' . $row->status . '</span>';
+                    }
+                })
+                ->addColumn('bukti_transfer', function ($row) {
+                    if ($row->receipt_image != '') {
+                        return '<button type="button" title="Bukti Transfer" class="btn btn-success btn-sm waves-effect waves-light" onclick="showReceiptImg(\'' . $row->id . '\', \'' . $row->receipt_image . '\')">Bukti Transfer';
+                    } else {
+                        return '<span class="badge text-bg-warning">Belum di bayar</span>';
+                    }
+                })
 
                 ->addColumn('action', function ($row) {
                     if ($row->status == 'pending') {
@@ -136,7 +172,7 @@ class OrderController extends Controller
                     }
                     return $btn;
                 })
-                ->rawColumns(['action', 'status'])
+                ->rawColumns(['action', 'status', 'bukti_transfer'])
                 ->make(true);
         }
     }

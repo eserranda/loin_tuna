@@ -68,13 +68,13 @@ class ReceivingController extends Controller
         $validator = Validator::make($request->all(), [
             'ilc' => 'required|unique:receivings',
             'id_supplier' => 'required|exists:suppliers,id',
-            'tanggal' => 'required|date',
+            // 'tanggal' => 'required|date',
         ], [
             'ilc.unique' => 'ILC Sudah Ada',
             'ilc.required' => 'Kode ILC gagal di generate',
             'id_supplier.required' => 'Supplier Wajib Diisi',
             'id_supplier.exists' => 'Supplier Tidak Valid',
-            'tanggal.required' => 'Tanggal Wajib Diisi',
+            // 'tanggal.required' => 'Tanggal Wajib Diisi',
         ]);
 
         if ($validator->fails()) {
@@ -91,7 +91,7 @@ class ReceivingController extends Controller
             $receiving = Receiving::create([
                 'ilc'         => $ilc,
                 'id_supplier' => $request->id_supplier,
-                'tanggal'     => $request->tanggal,
+                'tanggal'     => Carbon::now(),
             ]);
 
             // Simpan data di table Inspection, stage "Receiving"
@@ -103,7 +103,7 @@ class ReceivingController extends Controller
             // Simpan data di table ForwardTraceability
             $forwardTraceability = ForwardTraceability::create([
                 'ilc'              => $request->ilc,
-                'tanggal_receiving' => $request->tanggal,
+                'tanggal_receiving' => Carbon::now(),
             ]);
 
             DB::commit();

@@ -10,6 +10,8 @@ class CuttingGrading extends Model
         'id_supplier',
         'ilc',
         'ilc_cutting',
+        'berat_awal',
+        'susut',
         'berat',
         'sisa_berat',
         'no_loin',

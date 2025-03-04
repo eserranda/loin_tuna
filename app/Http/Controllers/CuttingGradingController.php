@@ -45,14 +45,56 @@ class CuttingGradingController extends Controller
             $data = CuttingGrading::where('ilc_cutting', $ilc_cutting)->latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('berat_awal', function ($row) {
+                    return $row->berat_awal . ' Kg';
+                })
+                ->editColumn('berat', function ($row) {
+                    return $row->berat . ' Kg';
+                })
+                ->editColumn('susut', function ($row) {
+                    return $row->susut . ' Kg';
+                })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line mx-3"></i></a>';
+                    $btn = '<a href="javascript:void(0);" onclick="editGrade(\'' . $row->id . '\',\'' . $row->ilc . '\' ,\'' . $row->no_loin . '\' )"><i class="ri-pencil-line" title="Edit Grade"></i></a>';
+                    $btn .= '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line text-danger mx-3" title="Hapus"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
     }
+    public function updateGrade(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'grade' => 'required',
+        ], [
+            'grade.required' => 'Grade Wajib Diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $update = CuttingGrading::where('id', $id)->update([
+            'grade' => $request->grade,
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diupdate',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal diupdate',
+            ], 500);
+        }
+    }
+
 
     public function nextNumber($ilc_cutting, $no_ikan)
     {
@@ -119,11 +161,20 @@ class CuttingGradingController extends Controller
             ]);
         }
 
+        $data_receving = RawMaterial::where('ilc', $request->ilc)
+            ->where('no_loin', $request->no_loin)
+            ->first();
+
+        $susut = $data_receving->berat - $request->berat;
+        // dd($susut);
+
         $save =  CuttingGrading::create([
             'ilc' => $request->ilc,
             'id_supplier' => $id_supplier,
             'id_cutting' => $id_cutting,
             'ilc_cutting' => $request->ilc_cutting,
+            'berat_awal' => $data_receving->berat,
+            'susut' => $susut,
             'berat' => $request->berat,
             'no_loin' => $request->no_loin,
             'grade' => $request->grade,
