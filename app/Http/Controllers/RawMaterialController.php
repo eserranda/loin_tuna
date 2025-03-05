@@ -20,6 +20,38 @@ class RawMaterialController extends Controller
         return view('raw-material.index');
     }
 
+    public function updateGrade(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'grade' => 'required',
+        ], [
+            'grade.required' => 'Grade Wajib Diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $update = RawMaterial::where('id', $id)->update([
+            'grade' => $request->grade,
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diupdate',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal diupdate',
+            ], 500);
+        }
+    }
+
     public function getAll(Request $request)
     {
         if ($request->ajax()) {
@@ -65,8 +97,12 @@ class RawMaterialController extends Controller
             $data = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('berat', function ($row) {
+                    return $row->berat . ' Kg';
+                })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
+                    $btn = '<a href="javascript:void(0);" onclick="editGrade(\'' . $row->id . '\',\'' . $row->ilc . '\' ,\'' . $row->no_loin . '\' )"><i class="ri-pencil-line" title="Edit Grade"></i></a>';
+                    $btn .= '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

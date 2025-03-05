@@ -63,6 +63,7 @@ class CuttingGradingController extends Controller
                 ->make(true);
         }
     }
+
     public function updateGrade(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

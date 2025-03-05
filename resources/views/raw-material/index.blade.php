@@ -142,7 +142,7 @@
                                             <th>No</th>
                                             <th>No. Loin</th>
                                             <th>Grade</th>
-                                            <th>Berat (Kg)</th>
+                                            <th>Berat</th>
                                             <th>Opsi</th>
                                         </tr>
                                     </thead>
@@ -157,11 +157,19 @@
             </div>
         </div>
     </div>
+    @include('raw-material.edit_grade')
 @endsection
 
 
 @push('scripts')
     <script>
+        async function editGrade(id) {
+            $('#updateGradeModal').modal('show');
+            $('#updateGradeModal').find('#id').val(id);
+            // $('#updateGradeModal').find('#ilc').val(ilc);
+            // $('#updateGradeModal').find('#no_loin').val(no_loin);
+        }
+
         $(document).ready(function() {
             const ilc = "{{ $data->ilc }}";
             const datatable = $('.datatable').DataTable({

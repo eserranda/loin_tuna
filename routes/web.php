@@ -137,6 +137,7 @@ Route::prefix('raw-material')->controller(RawMaterialController::class)->middlew
     Route::get('/nextNumber/{ilc}', 'nextNumber')->name('raw_material.nextNumber');
     Route::get('/calculateTotalWeight/{ilc}', 'calculateTotalWeight');
     Route::get('/getNoIkan/{ilc}', 'getNoIkan')->name('raw_material.get_no_ikan');
+    Route::post('/updateGrade/{id}', 'updateGrade')->name('raw_material.updateGrade');
 
     Route::get('/grading/get/{ilc}', 'gradingGet')->name('rawmaterial.grading.get');
     Route::post('/grading/store', 'gradingStore')->name('rawmaterial.grading.store');

@@ -398,8 +398,8 @@
         async function editGrade(id) {
             $('#updateGradeModal').modal('show');
             $('#updateGradeModal').find('#id').val(id);
-            $('#updateGradeModal').find('#ilc').val(ilc);
-            $('#updateGradeModal').find('#no_loin').val(no_loin);
+            // $('#updateGradeModal').find('#ilc').val(ilc);
+            // $('#updateGradeModal').find('#no_loin').val(no_loin);
         }
 
         function calculateTotalWeight(ilc) {
