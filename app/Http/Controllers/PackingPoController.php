@@ -52,11 +52,13 @@ class PackingPoController extends Controller
             'nama_produk' => 'required',
             'berat' => 'required',
             'po_number' => 'required',
+            'box_number' => 'required',
         ], [
             'id_produk_log.required' => 'Produk harus diisi',
             'nama_produk.required' => 'Nama Produk harus diisi',
             'berat.required' => 'Berat harus diisi',
             'po_number' => 'PO Number harus diisi',
+            'box_number' => 'Box Number harus diisi',
         ]);
 
 
@@ -106,6 +108,7 @@ class PackingPoController extends Controller
                 'po_number' => $request->po_number,
                 'id_product' => $product_log->id_produk,
                 'total_qty' => 1,
+                'box_number' => $request->box_number,
                 'total_weight' => $request->berat,
                 'progress' => number_format($total_progress, 2),
             ]);

@@ -99,7 +99,7 @@
 
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Product Ready </h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Product Siap Packing</h4>
                             </div>
 
                             <div class="card-body">
@@ -144,6 +144,13 @@
                                             <div class="invalid-feedback">
                                             </div>
                                         </div>
+                                        <div class="col-6 mb-2">
+                                            <label for="box_number" class="form-label">Nomor Box</label>
+                                            <input type="number" class="form-control" placeholder="Nomor Box"
+                                                id="box_number" name="box_number">
+                                            <div class="invalid-feedback">
+                                            </div>
+                                        </div>
 
                                         <div class="col-lg-12">
                                             <div class="text-start">
@@ -171,6 +178,7 @@
                                             <th>No</th>
                                             <th>Product</th>
                                             <th>Total QTY</th>
+                                            <th>Nomor Box</th>
                                             <th>Total Berat</th>
                                             <th>Progres</th>
                                         </tr>
@@ -296,6 +304,10 @@
                         name: 'total_qty',
                     },
                     {
+                        data: 'box_number',
+                        name: 'box_number',
+                    },
+                    {
                         data: 'total_weight',
                         name: 'total_weight',
                     },
@@ -309,21 +321,21 @@
                         extend: 'csv',
                         className: 'btn btn-secondary',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'excel',
                         className: 'btn btn-secondary',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-secondary',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     }
                 ]

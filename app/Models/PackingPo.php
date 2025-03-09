@@ -10,6 +10,7 @@ class PackingPo extends Model
         'po_number',
         'id_product',
         'total_qty',
+        'box_number',
         'total_weight',
         'progress',
     ];

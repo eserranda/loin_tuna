@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductLogController;
 use App\Http\Controllers\RetouchingController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\CuttingGradingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForwardTraceabilityController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\PackingPoController;
@@ -116,6 +117,10 @@ Route::prefix('roles')->controller(RoleController::class)->group(function () {
     Route::get('/findById/{id}', 'findById');
     Route::post('/update', 'update');
     Route::delete('/destroy/{id}', 'destroy');
+});
+
+Route::prefix('dashboard')->controller(DashboardController::class)->middleware(['auth', 'role:super_admin|admin'])->group(function () {
+    Route::get('/', 'index')->name('dashboard.index');
 });
 
 Route::prefix('receiving')->controller(ReceivingController::class)->middleware(['auth', 'role:super_admin|admin'])->group(function () {

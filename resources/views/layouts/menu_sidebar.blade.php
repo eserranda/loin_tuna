@@ -137,7 +137,10 @@
                          <i class="ri-list-check-2"></i> <span>Backward Traceability</span>
                      </a>
                  </li> --}}
+                 @endif
 
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['super_admin', 'pimpinan']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>
                      </li>
 

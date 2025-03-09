@@ -55,13 +55,12 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-tabs-custom nav-success nav-justified mb-3" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#receiving" role="tab"
-                                onclick="getReceiving()">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#receiving" role="tab">
                                 Receiving
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#cutting" role="tab" onclick="getCutting()">
+                            <a class="nav-link" data-bs-toggle="tab" href="#cutting" role="tab">
                                 Cutting
                             </a>
                         </li>
