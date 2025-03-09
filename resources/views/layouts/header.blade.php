@@ -19,6 +19,9 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     @stack('head_component')
 
+    <!-- DataTables button -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap5.min.css">
+
     <!-- Layout config Js -->
     <script src="{{ asset('assets') }}/js/layout.js"></script>
     <!-- Bootstrap Css -->
