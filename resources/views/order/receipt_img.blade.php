@@ -11,8 +11,9 @@
                 <input type="hidden" id="id" name="id">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="updateStatusPaid('reject')">Tolak</button>
-                <button type="button" class="btn btn-success" onclick="updateStatusPaid('confirm')">Konfirmasi</button>
+                <button type="button" class="btn btn-danger" onclick="updateStatusPaid('rejected')">Tolak</button>
+                <button type="button" class="btn btn-success"
+                    onclick="updateStatusPaid('confirmed')">Konfirmasi</button>
             </div>
         </div>
     </div>
@@ -27,11 +28,12 @@
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
-                    status: status,
-                }),
+                    status: status
+                })
             });
 
             const data = await response.json();
@@ -39,6 +41,7 @@
             if (!data.success) {
                 alert(data.message);
             } else {
+                $('.dataOrder').DataTable().ajax.reload();
                 $('#receiptImgModal').modal('hide');
             }
         } catch (error) {

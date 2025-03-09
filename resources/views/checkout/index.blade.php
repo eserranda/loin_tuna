@@ -434,6 +434,13 @@
                             }
                         }
                     });
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
                 } else {
                     const invalidInputs = document.querySelectorAll('.is-invalid');
                     invalidInputs.forEach(invalidInput => {
@@ -455,6 +462,8 @@
                 }
             } catch (error) {
                 console.error('There has been a problem with your fetch operation:', error);
+                alert(data.message);
+
             }
 
         });

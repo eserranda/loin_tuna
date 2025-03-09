@@ -25,11 +25,23 @@ class OrderController extends Controller
         return view('order.list_order');
     }
 
-    public function updateStatusPaid(Request $requset, $id)
+    public function updateStatusPaid(Request $request, $id)
     {
-        dd($requset->status);
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ], [
+            'status.required' => 'Status harus diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         $update = Order::where('id', $id)->update([
-            'is_paid' => $requset->status
+            'is_paid' => $request->status
         ]);
 
         if ($update) {
@@ -63,7 +75,7 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'messages' => $validator->errors()
+                'errors' => $validator->errors()
             ], 422);
         }
 
@@ -84,6 +96,7 @@ class OrderController extends Controller
             'bank' => $request->bank,
             'nama' => $request->nama,
             'receipt_image' => $filePath,
+            'is_paid' => 'checked'
         ]);
 
         if ($productImages) {
@@ -143,12 +156,14 @@ class OrderController extends Controller
                     }
                 })
                 ->addColumn('is_paid', function ($row) {
-                    if ($row->is_paid == 'pending') {
-                        return '<span class="badge text-bg-warning">' . $row->status . '</span>';
-                    } else if ($row->status == 'confirmed') {
-                        return '<span class="badge text-bg-success">' . $row->status . '</span>';
-                    } else if ($row->status == 'rejected') {
-                        return '<span class="badge text-bg-danger">' . $row->status . '</span>';
+                    if ($row->is_paid == 'checked') {
+                        return '<span class="badge text-bg-warning">Dibayar</span>';
+                    } else if ($row->is_paid == 'confirmed') {
+                        return '<span class="badge text-bg-success">Succes</span>';
+                    } else if ($row->is_paid == 'rejected') {
+                        return '<span class="badge text-bg-danger">Ditolak</span>';
+                    } else {
+                        return '<span class="badge text-bg-danger">Belum di bayar</span>';
                     }
                 })
                 ->addColumn('bukti_transfer', function ($row) {
@@ -172,7 +187,7 @@ class OrderController extends Controller
                     }
                     return $btn;
                 })
-                ->rawColumns(['action', 'status', 'bukti_transfer'])
+                ->rawColumns(['action', 'status', 'is_paid', 'bukti_transfer'])
                 ->make(true);
         }
     }
