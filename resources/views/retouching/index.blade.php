@@ -8,6 +8,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -305,6 +306,7 @@
 
                 ],
                 dom: 'Bftp',
+                buttons: [],
             });
 
             const datatableRetouching = $('.datatableRetouching').DataTable({
@@ -365,6 +367,28 @@
 
                 ],
                 dom: 'Bftp',
+                buttons: [{
+                        extend: 'csv',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ]
             });
         });
 

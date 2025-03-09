@@ -128,6 +128,7 @@
 
                 ],
                 dom: 'Bftp',
+                buttons: []
             });
         });
     </script>

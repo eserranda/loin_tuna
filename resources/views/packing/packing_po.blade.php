@@ -8,6 +8,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -232,6 +233,7 @@
                     },
                 ],
                 dom: 'Btp',
+                buttons: []
             });
 
             const product_ready = $('.product_ready').DataTable({
@@ -269,6 +271,7 @@
                     },
                 ],
                 dom: 'Bftp',
+                buttons: []
             });
 
             const packing_po = $('.packing_po').DataTable({
@@ -302,6 +305,28 @@
                     },
                 ],
                 dom: 'Bftp',
+                buttons: [{
+                        extend: 'csv',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1]
+                        }
+                    }
+                ]
             });
 
         });

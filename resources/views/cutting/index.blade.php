@@ -8,6 +8,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -225,11 +226,6 @@
                         data: 'ilc_cutting',
                         name: 'ilc_cutting',
                     },
-                    // {
-                    //     data: 'ekspor',
-                    //     name: 'ekspor',
-                    //     orderable: false,
-                    // },
                     {
                         data: 'created_at',
                         name: 'created_at',
@@ -254,6 +250,28 @@
                     },
                 ],
                 dom: 'Bftp',
+                buttons: [{
+                        extend: 'csv',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                ]
             });
 
 
@@ -285,7 +303,9 @@
                         searchable: false
                     },
                 ],
+                // dom: 'Bftp',
                 dom: 'Bftp',
+                buttons: []
             });
 
 

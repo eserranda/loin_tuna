@@ -8,6 +8,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -206,7 +207,28 @@
                     },
                 ],
                 dom: 'Bftp',
-                // dom: 'Bftip',
+                buttons: [{
+                        extend: 'csv',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        }
+                    }
+                ]
             });
         });
 

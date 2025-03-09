@@ -8,6 +8,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -167,10 +168,8 @@
                 ],
                 // dom: 'Bftp',
                 // dom: 'Bftip',
-                dom: "<'row'<'col-lg-3'l> <'col-lg-4 mt-2'B> <'col-lg-5'f>>" +
-                    "<'row'<'col-sm-12 py-lg-2'tr>>" +
-                    "<'row'<'col-sm-12 col-lg-5'i><'col-sm-12 col-lg-7'p>>",
-                "buttons": [{
+                dom: 'Bftp',
+                buttons: [{
                         extend: 'csv',
                         className: 'btn btn-secondary',
                         exportOptions: {
