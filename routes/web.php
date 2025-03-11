@@ -119,7 +119,7 @@ Route::prefix('roles')->controller(RoleController::class)->group(function () {
     Route::delete('/destroy/{id}', 'destroy');
 });
 
-Route::prefix('dashboard')->controller(DashboardController::class)->middleware(['auth', 'role:super_admin|admin'])->group(function () {
+Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
     Route::get('/', 'index')->name('dashboard.index');
 });
 
