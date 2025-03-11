@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Chenwoo - Exportir Tuna terbesar di Indonesia</title>
+    <title>CV. FARIS INDO SEAFOOD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Exportir Tuna terbesar di Indonesia" name="description" />
     <meta content="Themesbrand" name="author" />
