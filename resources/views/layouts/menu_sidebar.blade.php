@@ -209,7 +209,7 @@
                      </li>
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/order">
-                             <i class="ri-file-list-3-line"></i> <span data-key="t-order">Order</span>
+                             <i class="ri-file-list-3-line"></i> <span data-key="t-order">Daftar Order</span>
                          </a>
                      </li>
                  @endif

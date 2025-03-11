@@ -66,7 +66,7 @@
                                         <th>No</th>
                                         <th>Po Number</th>
                                         <th>Total Harga</th>
-                                        <th>Status</th>
+                                        <th>Status Pesanan</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>

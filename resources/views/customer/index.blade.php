@@ -63,11 +63,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    {{-- <th>Kode</th> --}}
-                                    {{-- <th>customer Group</th> --}}
+                                    <th>Username</th>
                                     <th>Email</th>
-                                    {{-- <th>Phone</th> --}}
-                                    {{-- <th>Alamat</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -101,17 +98,13 @@
                         name: 'name',
                     },
                     {
+                        data: 'username',
+                        name: 'username',
+                    },
+                    {
                         data: 'email',
                         name: 'email',
                     },
-                    // {
-                    //     data: 'phone',
-                    //     name: 'phone',
-                    // },
-                    // {
-                    //     data: 'alamat',
-                    //     name: 'alamat',
-                    // },
                     {
                         data: 'action',
                         name: 'action',
@@ -123,16 +116,16 @@
                 dom: 'Bftp',
                 buttons: [{
                         extend: 'excel',
-                        className: 'btn btn-sm btn-secondary mx-2',
+                        className: 'btn btn-sm btn-success mx-2',
                         exportOptions: {
-                            columns: [0, 1, 2]
+                            columns: [0, 1, 2, 3]
                         }
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-sm btn-secondary',
                         exportOptions: {
-                            columns: [0, 1, 2]
+                            columns: [0, 1, 2, 3]
                         }
                     }
                 ]

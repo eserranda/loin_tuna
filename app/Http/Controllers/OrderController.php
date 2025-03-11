@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderItem;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -168,21 +169,22 @@ class OrderController extends Controller
                 })
                 ->addColumn('bukti_transfer', function ($row) {
                     if ($row->receipt_image != '') {
-                        return '<button type="button" title="Bukti Transfer" class="btn btn-success btn-sm waves-effect waves-light" onclick="showReceiptImg(\'' . $row->id . '\', \'' . $row->receipt_image . '\')">Bukti Transfer';
+                        return '<button type="button" title="Bukti Transfer" class="btn btn-success btn-sm waves-effect waves-light" onclick="showReceiptImg(\'' . $row->id . '\', \'' . $row->receipt_image . '\')">Lihat Bukti Transfer';
                     } else {
-                        return '<span class="badge text-bg-warning">Belum di bayar</span>';
+                        return '-';
                     }
                 })
 
                 ->addColumn('action', function ($row) {
-                    if ($row->status == 'pending') {
-                        $btn = '<div class="d-flex justify-content-start align-items-center">';
-                        $btn .= '<button type="button" title="Confirm" class="btn btn-success btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ',\'confirmed\')" ><i class="ri-check-double-line"></i></button>';
-                        $btn .= '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light mx-2" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
-                        $btn .= '</div>';
-                    } else if ($row->status == 'confirmed') {
+                    if ($row->is_paid == '') {
+                        $btn = '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
+                    } else if ($row->is_paid == 'checked') {
+                        $btn = '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
+                    } else if ($row->is_paid == 'confirmed' && $row->status == 'pending') {
+                        $btn = '<button type="button" title="Confirm" class="btn btn-success btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ',\'confirmed\')" ><i class="ri-check-double-line"></i></button>';
+                    } else if ($row->is_paid == 'confirmed' && $row->status == 'confirmed') {
                         $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Cancel"><i class="ri-close-circle-line"></i></button>';
-                    } else if ($row->status == 'rejected') {
+                    } else if ($row->is_paid == 'rejected') {
                         $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ')"><i class="text-light ri-delete-bin-5-line"></i>';
                     }
                     return $btn;
@@ -267,22 +269,22 @@ class OrderController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp.' . number_format($row->total_price, 0, ',', '.');
+                    return 'Rp' . number_format($row->total_price, 0, ',', '.');
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'pending') {
-                        return '<span class="badge text-bg-warning">' . $row->status . '</span>';
+                        return '<span class="badge text-bg-warning">Pending</span>';
                     } else if ($row->status == 'confirmed') {
-                        return '<span class="badge text-bg-success">' . $row->status . '</span>';
+                        return '<span class="badge text-bg-success">Dikonfirmasi</span>';
                     } else if ($row->status == 'rejected') {
-                        return '<span class="badge text-bg-danger">' . $row->status . '</span>';
+                        return '<span class="badge text-bg-danger">Dibatalkan</span>';
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<div class="d-flex justify-content-start align-items-center">';
-                    $btn = ' <a href="/order/detail-order/' . $row->po_number . '"<i class="ri-file-info-line"></i></a>';
-                    $btn .= '</div>';
-                    return $btn;
+                    if ($row->status != 'rejected') {
+                        $btn = '<a href="/order/detail-order/' . $row->po_number . '" class="btn btn-sm btn-light btn-icon waves-effect waves-light" title="Detail"><i class="ri-file-info-line text-warning"></i></a>';
+                        return $btn;
+                    }
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);

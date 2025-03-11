@@ -49,52 +49,52 @@
                     <div class="card-body">
                         <h4 class="mb-2">{{ $p->nama }} <span class="text-muted h5">({{ $p->berat }}Kg)</span>
                         </h4>
-                        <p class="fw-bold h4  mb-3">{{ formatRupiah($p->harga) }}</p>
-                        {{-- <a href="javascript:void(0);" class="link-success">Detail
-                            <i class="ri-arrow-right-s-line ms-1 align-middle lh-1"></i>
-                        </a> --}}
+                        <p class="fw-bold h4 harga mb-3" data-harga="{{ $p->harga }}">
+                            {{ formatRupiah($p->harga) }} <!-- Harga awal dalam Rupiah -->
+                        </p>
                         <button class="btn btn-sm btn-info" onclick="detail({{ $p->id }})">Detail</button>
                         <button class="btn btn-sm btn-warning float-end" onclick="addTocard({{ $p->id }})">+
                             Keranjang</button>
                     </div>
-
-
-                </div><!-- end card -->
-            </div><!-- end col -->
+                </div>
+            </div>
         @endforeach
     </div>
 @endsection
 
 @push('scripts')
     <script>
-        // const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        // async function getListCart() {
-        //     try {
-        //         const cartResponse = await fetch('{{ route('cart.findOne') }}', {
-        //             method: 'GET',
-        //             headers: {
-        //                 'X-CSRF-TOKEN': csrfToken,
-        //                 'Content-Type': 'application/json',
-        //             }
-        //         });
+        async function getExchangeRate() {
+            try {
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/IDR');
+                const data = await response.json();
+                return data.rates.JPY; // Ambil nilai tukar IDR ke JPY
+            } catch (error) {
+                console.error("Gagal mengambil nilai tukar: ", error);
+                return null;
+            }
+        }
 
-        //         if (!cartResponse.ok) {
-        //             throw new Error('Gagal mengambil data keranjang.');
-        //         }
+        // Fungsi untuk mengonversi semua harga ke Yen Jepang
+        async function convertAllPricesToYen() {
+            const exchangeRate = await getExchangeRate();
+            if (!exchangeRate) return;
 
-        //         const cartData = await cartResponse.json();
+            // Ambil semua elemen harga
+            document.querySelectorAll(".harga").forEach(hargaElement => {
+                let hargaIDR = parseFloat(hargaElement.getAttribute("data-harga"));
 
-        //         console.log(cartData.data);
+                if (!isNaN(hargaIDR)) {
+                    let hargaJPY = hargaIDR * exchangeRate;
+                    // let formattedJPY = `≈ ¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
+                    let formattedJPY = `¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
+                    hargaElement.innerText += ` (${formattedJPY})`; // Gabungkan harga Rupiah & Yen
+                }
+            });
+        }
 
-        //         updateCartUI(cartData.data);
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     }
-        // };
-
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     getListCart();
-        // });
+        // Panggil fungsi konversi saat halaman dimuat
+        convertAllPricesToYen();
 
         async function addTocard(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
