@@ -150,22 +150,15 @@
                 ],
                 dom: 'Bftp',
                 buttons: [{
-                        extend: 'csv',
-                        className: 'btn btn-secondary',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
                         extend: 'excel',
-                        className: 'btn btn-secondary',
+                        className: 'btn btn-sm btn-success mx-2',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn btn-secondary',
+                        className: 'btn btn-sm btn-secondary',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                         }

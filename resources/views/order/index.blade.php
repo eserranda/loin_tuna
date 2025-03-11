@@ -40,7 +40,7 @@
     {{-- <script src="{{ asset('assets') }}/js/pages/datatables.init.js"></script> --}}
 @endpush
 @section('title')
-    <h4 class="mb-sm-0">Receiving</h4>
+    <h4 class="mb-sm-0">List Data Order</h4>
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item"><a href="javascript: void(0);">Order</a></li>
@@ -56,7 +56,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Data Order</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Data Order Anda</h4>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped mt-0 dataOrder" id="dataOrder"
@@ -121,7 +121,7 @@
                     },
                 ],
                 dom: 'Bftp',
-                // dom: 'Bftip',
+                buttons: []
             });
         });
 

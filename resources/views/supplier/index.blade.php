@@ -18,6 +18,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -130,6 +131,21 @@
 
                 ],
                 dom: 'Bftp',
+                buttons: [{
+                        extend: 'excel',
+                        className: 'btn btn-sm btn-success mx-2',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-sm btn-secondary',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ]
             });
         });
 
