@@ -12,6 +12,60 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
 
+    public function update(Request $request)
+    {
+        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'edit_kode' => 'required|unique:products,kode,' . $id,
+            'edit_nama' => 'required|unique:products,nama,' . $id,
+            'edit_harga' => 'required',
+            'edit_berat' => 'required',
+        ], [
+            'edit_kode.required' => 'Kode produk harus diisi',
+            'edit_kode.unique' => 'Kode produk sudah ada',
+            'edit_harga.required' => 'Harga harus diisi',
+            'edit_nama.required' => 'Nama produk harus diisi',
+            'edit_nama.unique' => 'Nama produk sudah ada',
+            'edit_berat.required' => 'Berat harus diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'messages' => $validator->errors()
+            ], 422);
+        }
+
+        if ($request->hasFile('edit_image')) {
+
+            $file = $request->file('edit_image');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $filePath = 'uploads/images/products/' . $fileName;
+            $file->move(public_path('uploads/images/products/'), $fileName);
+        }
+
+        $update = Product::where('id', $id)->update([
+            'kode' => $request->edit_kode,
+            'nama' => $request->edit_nama,
+            'harga' => $request->edit_harga,
+            'berat' => $request->edit_berat,
+            'image' => $filePath ?? null,
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Diupdate',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Produk Gagal Diupdate',
+            ]);
+        }
+    }
+
     public function saveImage(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -98,6 +152,12 @@ class ProductController extends Controller
         }
     }
 
+    public function findById($id)
+    {
+        $data = Product::find($id);
+        return response()->json($data);
+    }
+
     public function productWithCustomerGroup(Request $request)
     {
         if ($request->ajax()) {
@@ -120,6 +180,12 @@ class ProductController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('berat', function ($row) {
+                    return $row->berat . ' Kg';
+                })
+                ->editColumn('harga', function ($row) {
+                    return 'Rp' . number_format($row->harga, 0, ',', '.');
+                })
                 ->editColumn('images', function ($row) {
                     $images = $row->image;
                     $img = '';
@@ -131,9 +197,14 @@ class ProductController extends Controller
                     return $img;
                 })
 
+
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line "></i></a>';
-                    $btn .= '<a href="javascript:void(0);" onclick="showModalAddImage(\'' . $row->id . '\')"><i class="text-warning ri-image-add-line mx-3"></i></a>';
+                    $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-light" onclick="edit(' . $row->id . ')"><i class="ri-pencil-line text-info"></i></button>';
+
+                    $btn .= '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-light mx-2" onclick="showModalAddImage(' . $row->id . ')"><i class="text-warning ri-image-add-line"></i></button>';
+
+                    $btn .= '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-light" onclick="hapus(' . $row->id . ')"><i class="ri-delete-bin-5-line text-danger"></i></button>';
+
                     return $btn;
                 })
                 ->rawColumns(['action', 'images'])
@@ -164,7 +235,7 @@ class ProductController extends Controller
     // }
 
 
-
+    // fungsi ini sudah tidak di gunakan 
     public function productLogGetData(Request $request, $customer_group)
     {
         if ($request->ajax()) {
@@ -186,8 +257,8 @@ class ProductController extends Controller
             'kode' => 'required|unique:products,kode',
             'nama' => 'required|unique:products,nama',
             'harga' => 'required',
-            'customer_group' => 'required',
             'berat' => 'required',
+            // 'customer_group' => 'required',
         ], [
             'kode.required' => 'Kode produk harus diisi',
             'kode.unique' => 'Kode produk sudah ada',
@@ -195,7 +266,7 @@ class ProductController extends Controller
             'nama.required' => 'Nama produk harus diisi',
             'nama.unique' => 'Nama produk sudah ada',
             'berat.required' => 'Berat harus diisi',
-            'customer_group.required' => 'Customer group harus diisi',
+            // 'customer_group.required' => 'Customer group harus diisi',
         ]);
 
         if ($validator->fails()) {
@@ -220,7 +291,7 @@ class ProductController extends Controller
             'harga' => $request->harga,
             'berat' => $request->berat,
             'image' => $filePath ?? null,
-            'customer_group' => $request->customer_group,
+            // 'customer_group' => $request->customer_group,
         ]);
 
         if ($products) {

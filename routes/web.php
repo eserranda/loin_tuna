@@ -219,6 +219,8 @@ Route::prefix('product')->controller(ProductController::class)->group(function (
     Route::delete('/{id}', 'destroy')->name('product.destroy');
     Route::get('/getAllData', 'getAllData')->name('product.getAllData');
     Route::get('/productWithCustomerGroup', 'productWithCustomerGroup');
+    Route::get('/findById/{id}', 'findById');
+    Route::post('/update', 'update');
 
     // pindahkan ke sini
     Route::get('/getAllDataProductLog', 'getAllDataProductLog');

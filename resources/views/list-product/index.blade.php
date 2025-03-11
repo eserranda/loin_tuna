@@ -50,17 +50,12 @@
                         <h4 class="mb-2">{{ $p->nama }} <span class="text-muted h5">({{ $p->berat }}Kg)</span>
                         </h4>
                         <p class="fw-bold h4  mb-3">{{ formatRupiah($p->harga) }}</p>
-                        {{-- <span class="text-muted h5">/Kg</span> --}}
-                        <a href="javascript:void(0);" class="link-success">Detail
+                        {{-- <a href="javascript:void(0);" class="link-success">Detail
                             <i class="ri-arrow-right-s-line ms-1 align-middle lh-1"></i>
-                        </a>
-                        <a href="javascript:void(0);" onclick="addTocard({{ $p->id }})"
-                            class="btn btn-outline-info btn-sm btn-icon waves-effect waves-light float-end">
-                            <i class="ri-shopping-basket-line"></i>
-                        </a>
-                        {{-- <button type="button"
-                            class="btn btn-outline-info btn-sm btn-icon waves-effect waves-light float-end">
-                            <i class="ri-shopping-basket-line"></i></button> --}}
+                        </a> --}}
+                        <button class="btn btn-sm btn-info" onclick="detail({{ $p->id }})">Detail</button>
+                        <button class="btn btn-sm btn-warning float-end" onclick="addTocard({{ $p->id }})">+
+                            Keranjang</button>
                     </div>
 
 

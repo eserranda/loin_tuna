@@ -178,14 +178,14 @@
                                     <div class="col-lg-12">
 
                                         <div class="hstack gap-2 justify-content-end">
-                                            <button type="submit" class="btn btn-info">Save</button>
+                                            <button type="submit" class="btn btn-info">Simpan</button>
                                             {{-- <button type="submit" class="btn btn-info"
                                                 {{ $order->status == 'confirmed' || $order->status == 'rejected' ? 'disabled' : '' }}>Save</button> --}}
 
-                                            <button type="button" class="btn btn-primary btn-label  nexttab"
-                                                data-nexttab="pills-finish-tab">
-                                                <i class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>
-                                                Cek Status
+                                            <button type="button" class="btn btn-primary btn-label nexttab"
+                                                data-nexttab="pills-payment-tab">
+                                                <i class="ri-money-dollar-box-line label-icon align-middle fs-16"></i>
+                                                Cek Status Pembayaran
                                             </button>
                                         </div>
                                     </div>
@@ -267,15 +267,14 @@
                                         with SSL encryption
                                     </div> --}}
                                 </div>
+                                <div class="hstack gap-2 justify-content-end mt-4">
+                                    <button type="submit" class="btn btn-info">Simpan</button>
 
-                                <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-light btn-label previestab"
-                                        data-previous="pills-bill-address-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back</button>
 
-                                    <button type="submit" class="btn btn-primary btn-label right ms-auto">
-                                        <i class="ri-checkbox-circle-line label-icon align-middle fs-16 ms-2"></i>
-                                        Upload Bukti Pembayaran
+                                    <button type="button" class="btn btn-primary btn-label nexttab"
+                                        data-nexttab="pills-finish-tab">
+                                        <i class="ri-time-line label-icon align-middle fs-16"></i>
+                                        Cek Status Pesanan
                                     </button>
                                 </div>
                             </form>

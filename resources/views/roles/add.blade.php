@@ -11,7 +11,7 @@
 
             <form id="addForm">
                 <div class="modal-body">
-                    <div class="col-xxl-3 col-md-12 mb-3">
+                    <div class="col-xxl-12 col-md-12 mb-3">
                         <div>
                             <label class="form-label" for="name">Role</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="role">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-xxl-3 col-md-12">
+                    <div class="col-xxl-12 col-md-12">
                         <div>
                             <label class="form-label" for="description">Deskripsi</label>
                             <textarea class="form-control" placeholder="description" rows="3" name="description" id="description"></textarea>

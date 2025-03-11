@@ -7,6 +7,8 @@
             <li class="breadcrumb-item active">data</li>
         </ol>
     </div>
+
+    @include('produk.edit')
 @endsection
 
 @push('head_component')
@@ -18,6 +20,7 @@
             display: flex;
             justify-content: flex-start;
             /* Memulai dari kiri */
+            margin-top: 10px;
         }
 
         .dataTables_filter label {
@@ -68,8 +71,8 @@
                                     <th>Image</th>
                                     <th>Kode</th>
                                     <th>Nama</th>
-                                    <th>Berat (Kg)</th>
-                                    <th>customer Group</th>
+                                    <th>Berat</th>
+                                    <th>Harga</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -133,7 +136,7 @@
                                         name="berat" step="0.01">
                                 </div>
                             </div>
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <div class="mb-3">
                                     <label for="customer_group" class="form-label">Customer Group</label>
                                     <select class="form-control" name="customer_group" id="customer_group">
@@ -144,7 +147,7 @@
                                         <option value="LOCAL">LOCAL</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -238,6 +241,28 @@
             document.getElementById('id_product').value = id;
         }
 
+        function edit(id) {
+            fetch('/product/findById/' + id)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('edit_id').value = data.id;
+                    document.getElementById('edit_kode').value = data.kode;
+                    document.getElementById('edit_nama').value = data.nama;
+                    document.getElementById('edit_harga').value = data.harga;
+                    document.getElementById('edit_berat').value = data.berat;
+                    // Menampilkan gambar jika tersedia
+                    let photoPreview = document.getElementById('photoPreview');
+                    if (data.image) {
+                        photoPreview.src = data.image;
+                    } else {
+                        photoPreview.src = '';
+                    }
+                })
+                .catch(error => console.error(error));
+            // show modal edit
+            $('#editModal').modal('show');
+        }
+
         document.getElementById('product_image').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -328,8 +353,8 @@
                         name: 'berat',
                     },
                     {
-                        data: 'customer_group',
-                        name: 'customer_group',
+                        data: 'harga',
+                        name: 'harga',
                     },
                     {
                         data: 'action',
@@ -340,6 +365,21 @@
 
                 ],
                 dom: 'Bftp',
+                buttons: [{
+                        extend: 'excel',
+                        className: 'btn btn-sm btn-success mx-2',
+                        exportOptions: {
+                            columns: [0, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-sm btn-secondary',
+                        exportOptions: {
+                            columns: [0, 2, 3, 4]
+                        }
+                    }
+                ]
             });
         });
 
