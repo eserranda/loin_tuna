@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductLog;
 use Illuminate\Http\Request;
 use App\Models\ProductImages;
+use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,10 +46,17 @@ class ProductController extends Controller
             $file->move(public_path('uploads/images/products/'), $fileName);
         }
 
+        $rupiah = $request->edit_harga;
+        $getYen = Http::get('https://open.er-api.com/v6/latest/IDR');
+
+        $data = $getYen->json();
+        $yen = $rupiah * $data['rates']['JPY'];
+
         $update = Product::where('id', $id)->update([
             'kode' => $request->edit_kode,
             'nama' => $request->edit_nama,
             'harga' => $request->edit_harga,
+            'yen' => $yen,
             'berat' => $request->edit_berat,
             'image' => $filePath ?? null,
         ]);
@@ -184,7 +192,7 @@ class ProductController extends Controller
                     return $row->berat . ' Kg';
                 })
                 ->editColumn('harga', function ($row) {
-                    return 'Rp' . number_format($row->harga, 0, ',', '.');
+                    return 'Rp' . number_format($row->harga, 0, ',', '.') . ' (¥ ' . number_format($row->yen, 1, ',', '.') . ')';
                 })
                 ->editColumn('images', function ($row) {
                     $images = $row->image;
@@ -285,10 +293,17 @@ class ProductController extends Controller
             $file->move(public_path('uploads/images/products/'), $fileName);
         }
 
+        $rupiah = $request->harga;
+        $getYen = Http::get('https://open.er-api.com/v6/latest/IDR');
+
+        $data = $getYen->json();
+        $yen = $rupiah * $data['rates']['JPY'];
+
         $products = Product::create([
             'kode' => $request->kode,
             'nama' => $request->nama,
             'harga' => $request->harga,
+            'yen' => $yen,
             'berat' => $request->berat,
             'image' => $filePath ?? null,
             // 'customer_group' => $request->customer_group,

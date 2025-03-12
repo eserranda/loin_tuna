@@ -49,9 +49,10 @@
                     <div class="card-body">
                         <h4 class="mb-2">{{ $p->nama }} <span class="text-muted h5">({{ $p->berat }}Kg)</span>
                         </h4>
-                        <p class="fw-bold h4 harga mb-3" data-harga="{{ $p->harga }}">
+                        <p class="fw-bold h4 harga mb-3">{{ formatRupiah($p->harga) }} (¥{{ $p->yen }})</p>
+                        {{-- <p class="fw-bold h4 harga mb-3" data-harga="{{ $p->harga }}">
                             {{ formatRupiah($p->harga) }} <!-- Harga awal dalam Rupiah -->
-                        </p>
+                        </p> --}}
                         <button class="btn btn-sm btn-info" onclick="detail({{ $p->id }})">Detail</button>
                         <button class="btn btn-sm btn-warning float-end" onclick="addTocard({{ $p->id }})">+
                             Keranjang</button>
@@ -64,37 +65,37 @@
 
 @push('scripts')
     <script>
-        async function getExchangeRate() {
-            try {
-                const response = await fetch('https://api.exchangerate-api.com/v4/latest/IDR');
-                const data = await response.json();
-                return data.rates.JPY; // Ambil nilai tukar IDR ke JPY
-            } catch (error) {
-                console.error("Gagal mengambil nilai tukar: ", error);
-                return null;
-            }
-        }
+        // async function getExchangeRate() {
+        //     try {
+        //         const response = await fetch('https://api.exchangerate-api.com/v4/latest/IDR');
+        //         const data = await response.json();
+        //         return data.rates.JPY; // Ambil nilai tukar IDR ke JPY
+        //     } catch (error) {
+        //         console.error("Gagal mengambil nilai tukar: ", error);
+        //         return null;
+        //     }
+        // }
 
-        // Fungsi untuk mengonversi semua harga ke Yen Jepang
-        async function convertAllPricesToYen() {
-            const exchangeRate = await getExchangeRate();
-            if (!exchangeRate) return;
+        // // Fungsi untuk mengonversi semua harga ke Yen Jepang
+        // async function convertAllPricesToYen() {
+        //     const exchangeRate = await getExchangeRate();
+        //     if (!exchangeRate) return;
 
-            // Ambil semua elemen harga
-            document.querySelectorAll(".harga").forEach(hargaElement => {
-                let hargaIDR = parseFloat(hargaElement.getAttribute("data-harga"));
+        //     // Ambil semua elemen harga
+        //     document.querySelectorAll(".harga").forEach(hargaElement => {
+        //         let hargaIDR = parseFloat(hargaElement.getAttribute("data-harga"));
 
-                if (!isNaN(hargaIDR)) {
-                    let hargaJPY = hargaIDR * exchangeRate;
-                    // let formattedJPY = `≈ ¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
-                    let formattedJPY = `¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
-                    hargaElement.innerText += ` (${formattedJPY})`; // Gabungkan harga Rupiah & Yen
-                }
-            });
-        }
+        //         if (!isNaN(hargaIDR)) {
+        //             let hargaJPY = hargaIDR * exchangeRate;
+        //             // let formattedJPY = `≈ ¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
+        //             let formattedJPY = `¥ ${hargaJPY.toFixed(1)}`; // Batasi 1 angka desimal
+        //             hargaElement.innerText += ` (${formattedJPY})`; // Gabungkan harga Rupiah & Yen
+        //         }
+        //     });
+        // }
 
-        // Panggil fungsi konversi saat halaman dimuat
-        convertAllPricesToYen();
+        // // Panggil fungsi konversi saat halaman dimuat
+        // convertAllPricesToYen();
 
         async function addTocard(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
