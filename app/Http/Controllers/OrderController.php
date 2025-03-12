@@ -176,8 +176,10 @@ class OrderController extends Controller
                 })
 
                 ->addColumn('action', function ($row) {
-                    if ($row->is_paid == '') {
+                    if ($row->is_paid == '' && $row->status != 'rejected') {
                         $btn = '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
+                    } else if ($row->is_paid == '' && $row->status == 'rejected') {
+                        $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ')"><i class="text-light ri-delete-bin-5-line"></i>';
                     } else if ($row->is_paid == 'checked') {
                         $btn = '<button type="button" title="Reject" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'rejected\') "><i class="ri-close-circle-line"></i></button>';
                     } else if ($row->is_paid == 'confirmed' && $row->status == 'pending') {
