@@ -151,7 +151,7 @@ class OrderController extends Controller
                     if ($row->status == 'pending') {
                         return '<span class="badge text-bg-warning">' . $row->status . '</span>';
                     } else if ($row->status == 'confirmed') {
-                        return '<span class="badge text-bg-success">' . $row->status . '</span>';
+                        return '<span class="badge text-bg-success">Disetujui pimpinan</span>';
                     } else if ($row->status == 'rejected') {
                         return '<span class="badge text-bg-danger">' . $row->status . '</span>';
                     }
@@ -162,14 +162,14 @@ class OrderController extends Controller
                     } else if ($row->is_paid == 'confirmed') {
                         return '<span class="badge text-bg-success">Succes</span>';
                     } else if ($row->is_paid == 'rejected') {
-                        return '<span class="badge text-bg-danger">Ditolak</span>';
+                        return '<span class="badge text-bg-danger">Pembayaran ditolak</span>';
                     } else {
                         return '<span class="badge text-bg-danger">Belum di bayar</span>';
                     }
                 })
                 ->addColumn('bukti_transfer', function ($row) {
                     if ($row->receipt_image != '') {
-                        return '<button type="button" title="Bukti Transfer" class="btn btn-success btn-sm waves-effect waves-light" onclick="showReceiptImg(\'' . $row->id . '\', \'' . $row->receipt_image . '\')">Lihat Bukti Transfer';
+                        return '<button type="button" title="Bukti Transfer" class="btn btn-success btn-sm waves-effect waves-light" onclick="showReceiptImg(\'' . $row->id . '\', \'' . $row->receipt_image . '\',\'' . $row->is_paid . '\',\'' . $row->status . '\')">Lihat Bukti Transfer';
                     } else {
                         return '-';
                     }

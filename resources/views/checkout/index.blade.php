@@ -229,9 +229,28 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row gy-3 mb-2">
+                                <div class="col-lg-4 col-sm-6">
+                                    <p class="mb-0">Total Pembayaran :</p>
+                                    <h4>{{ formatRupiah($total_amount) }}</h4>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+                                    <p class="mb-0">Status Pembayaran :</p>
+                                    <h4>{{ $order->is_paid ? $order->is_paid : '-' }}</h4>
+                                    @if ($order->is_paid == 'confirmed')
+                                        <p>Terima kasih, pembayaran anda telah di konfirmasi</p>
+                                    @elseif ($order->is_paid == 'checked')
+                                        <p>Terima kasih, pembayaran anda sedang di cek</p>
+                                    @elseif ($order->is_paid == 'rejected')
+                                        <p>Maaf, pembayaran anda di tolak, pastikan bukti pembayaran terlihat jelas</p>
+                                    @else
+                                        <p>Silahkan upload bukti pembayaran</p>
+                                    @endif
+                                </div>
+                            </div>
 
-                            <p class="mb-0">Total Pembayaran :</p>
-                            <h4>{{ formatRupiah($total_amount) }}</h4>
+                            {{-- <p class="mb-0">Total Pembayaran :</p>
+                            <h4>{{ formatRupiah($total_amount) }}</h4> --}}
 
                             <form id="pembayaranForm">
                                 <div class="collapse show" id="paymentmethodCollapse">
@@ -242,7 +261,8 @@
                                                 <input type="hidden" class="form-control" id="bank"
                                                     name="bank">
                                                 <input type="text" class="form-control" id="nama" name="nama"
-                                                    placeholder="Nama Lengkap">
+                                                    placeholder="Nama Lengkap"
+                                                    value="{{ $order->nama ? $order->nama : '' }}">
                                                 <small class="text-muted">Nama lengkap sesuai pemilik akun bank</small>
                                                 <div class="invalid-feedback">
                                                 </div>

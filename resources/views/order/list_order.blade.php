@@ -93,11 +93,31 @@
     <script type="text/javascript">
         var baseUrl = "{{ asset('') }}";
 
-        function showReceiptImg(id, img_url) {
+        function showReceiptImg(id, img_url, payment_status, status) {
+
             var receiptImage = baseUrl + img_url;
             $('#receiptImgModal').modal('show');
             $('#receiptImgModal').find('#id').val(id);
             $('#receiptImgModal').find('#receipt_img').attr('src', receiptImage);
+
+            if (status === 'rejected') {
+                $('#receiptImgModal').find('#status_payment').text('Order ini telah ditolak!');
+                $('#rejectButton').prop('disabled', true);
+                $('#confirmButton').prop('disabled', true);
+            } else if (payment_status === 'confirmed') {
+                $('#rejectButton').prop('disabled', true);
+                $('#confirmButton').prop('disabled', true);
+                $('#receiptImgModal').find('#status_payment').text('Pembayaran telah dikonfirmasi!');
+            } else {
+                $('#rejectButton').prop('disabled', false);
+                $('#confirmButton').prop('disabled', false);
+            }
+
+            // if (payment_status === 'confirmed') {
+            //     $('#rejectButton').prop('disabled', true);
+            // } else {
+            //     $('#rejectButton').prop('disabled', false);
+            // }
         }
 
         async function hapusOrder(id) {
@@ -151,6 +171,18 @@
 
         async function updateStatus(id, status) {
             try {
+                const roleString = "{{ auth()->user()->roles->implode('name', ', ') }}";
+                if (status == 'confirmed' && roleString != 'pimpinan') {
+                    Swal.fire({
+                        title: 'Anda tidak memiliki akses!',
+                        text: 'Hanya pimpinan yang dapat mengkonfirmasi order.',
+                        icon: 'warning',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+
+                    return;
+                }
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                 const response = await fetch(`/order/update-status-order/` + id, {
                     method: 'POST',
@@ -237,14 +269,14 @@
                         extend: 'excel',
                         className: 'btn btn-sm btn-success mx-2',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: [0, 1, 2, 3, 4, 6, 7]
                         }
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-sm btn-secondary',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: [0, 1, 2, 3, 4, 6, 7]
                         }
                     }
                 ]

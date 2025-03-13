@@ -11,7 +11,7 @@
                 <form id="updateForm">
                     <!-- Basic Input -->
                     <div class="row gy-3">
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div>
                                 <label class="form-label">Lab Check</label>
                                 <input type="hidden" id="id" name="id">
@@ -19,73 +19,73 @@
                                 <input type="hidden" id="stage" name="stage">
                                 <select class="form-select" id="uji_lab" name="uji_lab">
                                     <option selected disabled>pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="1" class="text-danger">1 - Tidak sesuai standar</option>
+                                    <option value="2" class="text-warning">2 - Kurang sesuai standar</option>
+                                    <option value="3" class="text-info">3 - Hampir sesuai standar</option>
+                                    <option value="4" class="text-success">4 - Sesuai dengan standar</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end col-->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div>
-                                <label class="form-label">Tekstur Check</label>
+                                <label class="form-label">Tekstur</label>
                                 <select class="form-select" id="tekstur" name="tekstur">
                                     <option selected disabled>pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="1" class="text-danger">1 - Tidak sesuai standar</option>
+                                    <option value="2" class="text-warning">2 - Kurang sesuai standar</option>
+                                    <option value="3" class="text-info">3 - Hampir sesuai standar</option>
+                                    <option value="4" class="text-success">4 - Sesuai dengan standar</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end col-->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div>
                                 <label class="form-label">Bau</label>
                                 <select class="form-select" id="bau" name="bau">
                                     <option selected disabled>pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="1" class="text-danger">1 - Tidak sesuai standar</option>
+                                    <option value="2" class="text-warning">2 - Kurang sesuai standar</option>
+                                    <option value="3" class="text-info">3 - Hampir sesuai standar</option>
+                                    <option value="4" class="text-success">4 - Sesuai dengan standar</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end col-->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div>
                                 <label class="form-label">Kecukupan Es</label>
                                 <select class="form-select" id="es" name="es">
                                     <option selected disabled>pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="1" class="text-danger">1 - Tidak sesuai standar</option>
+                                    <option value="2" class="text-warning">2 - Kurang sesuai standar</option>
+                                    <option value="3" class="text-info">3 - Hampir sesuai standar</option>
+                                    <option value="4" class="text-success">4 - Sesuai dengan standar</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end col-->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div>
                                 <label class="form-label">Suhu</label>
                                 <select class="form-select" id="suhu" name="suhu">
                                     <option selected disabled>pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="1" class="text-danger">1 - Tidak sesuai standar</option>
+                                    <option value="2" class="text-warning">2 - Kurang sesuai standar</option>
+                                    <option value="3" class="text-info">3 - Hampir sesuai standar</option>
+                                    <option value="4" class="text-success">4 - Sesuai dengan standar</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>

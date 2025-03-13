@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
+    public function getAllUserTest()
+    {
+        $data = User::all();
+        return response()->json($data);
+    }
+    public function findOneUser($id)
+    {
+        $data = User::find($id);
+        return response()->json($data);
+    }
+
+
     public function profile()
     {
         $user = Auth::user();

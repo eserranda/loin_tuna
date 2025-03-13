@@ -95,7 +95,7 @@ Route::prefix('users')->controller(UserController::class)->group(function () {
 
     Route::get('/profile', 'profile');
     Route::get('/edit-profile', 'editProfile');
-})->middleware('auth');
+});
 
 Route::prefix('packing')->controller(PackingController::class)->group(function () {
     // Users costumer enkripsi 
