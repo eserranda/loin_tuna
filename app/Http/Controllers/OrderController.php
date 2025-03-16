@@ -38,7 +38,7 @@ class OrderController extends Controller
                 ->editColumn('total_price', function ($row) {
                     return 'Rp.' . number_format($row->total_price, 0, ',', '.');
                 })
-                ->editColumn('status', function ($row) {
+                ->editColumn('status', function () {
                     return '<span class="badge text-bg-light">Selesai</span>';
                 })
                 ->rawColumns(['status'])

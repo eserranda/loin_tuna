@@ -52,7 +52,7 @@
             <div class="d-flex flex-column h-100">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Pembelian Bahan Baku Supplier {{ $ilc }}</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Pembelian Bahan Baku Dari Supplier {{ $ilc }}</h4>
                         {{-- <div class="flex-shrink-0">
                             <a href={{ route('produk.add') }} class="btn btn-info ">Tambah Produk</a>
                         </div> --}}
@@ -75,6 +75,16 @@
                             </thead>
                             <tbody>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total:</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th> <!-- berat total akan muncul disini -->
+                                    <th></th> <!-- harga total akan muncul disini -->
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -102,7 +112,6 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
-
                     },
                     {
                         data: 'no_loin',
@@ -132,18 +141,33 @@
                         extend: 'excel',
                         className: 'btn btn-sm btn-success mx-2',
                         exportOptions: {
-                            columns: [0, 2, 3]
-                        }
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        footer: true
                     },
                     {
                         extend: 'print',
+                        text: 'Print nota timbang',
                         className: 'btn btn-sm btn-secondary',
                         exportOptions: {
-                            columns: [0, 2, 3]
-                        }
+                            columns: [0, 1, 2, 3, 4]
+                        },
+                        footer: true
                     }
-                ]
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    let api = this.api();
+
+                    // Ambil data tambahan dari AJAX response
+                    let json = api.ajax.json();
+
+                    // Tampilkan total di footer
+                    $(api.column(3).footer()).html(parseFloat(json.totalBerat).toFixed(2) + ' Kg');
+                    $(api.column(4).footer()).html('Rp ' + parseFloat(json.totalHarga)
+                        .toLocaleString());
+                }
             });
+
         });
     </script>
 @endpush

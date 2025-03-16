@@ -99,11 +99,6 @@ class RawMaterialController extends Controller
     {
         if ($request->ajax()) {
             $data = Receiving::latest('created_at')->get();
-            // $data->transform(function ($item) {
-            //     $item->tanggal = Carbon::parse($item->tanggal)->format('d-m-Y');
-            //     return $item;
-            // });
-
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('tanggal', function ($row) {
@@ -131,9 +126,11 @@ class RawMaterialController extends Controller
     public function dataDetailPembelianPerILC(Request $request, $ilc)
     {
         if ($request->ajax()) {
-            $data = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
+            $query = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
 
-            return DataTables::of($data)
+            $totalBerat = $query->sum('berat');
+            $totalHarga = $query->sum('harga');
+            return DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('berat', function ($row) {
                     return $row->berat . ' Kg';
@@ -147,6 +144,10 @@ class RawMaterialController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['action'])
+                ->with([
+                    'totalBerat' => $totalBerat,
+                    'totalHarga' => $totalHarga
+                ])
                 ->make(true);
         }
     }
