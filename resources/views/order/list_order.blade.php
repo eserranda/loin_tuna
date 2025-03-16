@@ -69,7 +69,7 @@
                                         <th>Tanggal</th>
                                         <th>Total Harga</th>
                                         <th>Bukti Transfer</th>
-                                        <th>Status Pembayaran</th>
+                                        <th>Pembayaran</th>
                                         <th>Status Order</th>
                                         <th>Opsi</th>
                                     </tr>

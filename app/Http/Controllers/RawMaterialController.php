@@ -112,7 +112,7 @@ class RawMaterialController extends Controller
                 })
                 ->editColumn('total_harga', function ($row) {
                     $totalHarga = RawMaterial::where('ilc', $row->ilc)->sum('harga');
-                    return $totalHarga > 0 ? 'Rp. ' . number_format($totalHarga, 0, ',', '.') : 'harga belum diinput';
+                    return $totalHarga > 0 ? 'Rp' . number_format($totalHarga, 0, ',', '.') : 'harga belum diinput';
                 })
                 ->addColumn('action', function ($row) {
                     $btn = ' <a href="/pembelian/detail/' . $row->ilc . '"<i class="ri-arrow-right-line"></i></a>';
@@ -136,11 +136,10 @@ class RawMaterialController extends Controller
                     return $row->berat . ' Kg';
                 })
                 ->editColumn('harga', function ($row) {
-                    return $row->harga > 0 ? 'Rp. ' . number_format($row->harga, 0, ',', '.') : '-';
+                    return $row->harga > 0 ? 'Rp' . number_format($row->harga, 0, ',', '.') : '-';
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-danger" onclick="updateHarga(\'' . $row->id . '\')"><i class="ri-pencil-line" title="Update Harga"></i></button>';
-
                     return $btn;
                 })
                 ->rawColumns(['action'])

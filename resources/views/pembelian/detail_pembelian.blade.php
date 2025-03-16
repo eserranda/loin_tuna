@@ -163,7 +163,7 @@
 
                     // Tampilkan total di footer
                     $(api.column(3).footer()).html(parseFloat(json.totalBerat).toFixed(2) + ' Kg');
-                    $(api.column(4).footer()).html('Rp ' + parseFloat(json.totalHarga)
+                    $(api.column(4).footer()).html('Rp' + parseFloat(json.totalHarga)
                         .toLocaleString());
                 }
             });

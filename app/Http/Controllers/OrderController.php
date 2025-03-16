@@ -164,7 +164,7 @@ class OrderController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp.' . number_format($row->total_price, 0, ',', '.');
+                    return 'Rp' . number_format($row->total_price, 0, ',', '.');
                 })
                 ->editColumn('customer', function ($row) {
                     return  $row->user->name;
@@ -174,11 +174,13 @@ class OrderController extends Controller
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'pending') {
-                        return '<span class="badge text-bg-warning">' . $row->status . '</span>';
+                        return '<span class="badge text-bg-warning">Pending</span>';
                     } else if ($row->status == 'confirmed') {
                         return '<span class="badge text-bg-success">Disetujui pimpinan</span>';
-                    } else if ($row->status == 'rejected') {
-                        return '<span class="badge text-bg-danger">' . $row->status . '</span>';
+                    } else if ($row->status == 'done') {
+                        return '<button type="button" class="btn btn-light btn-sm waves-effect waves-light">Selesai</i>';
+                    } else {
+                        return '-';
                     }
                 })
                 ->addColumn('is_paid', function ($row) {
@@ -215,7 +217,7 @@ class OrderController extends Controller
                     } else if ($row->is_paid == 'rejected') {
                         $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ')"><i class="text-light ri-delete-bin-5-line"></i>';
                     } else {
-                        $btn = '<button type="button" class="btn btn-light btn-sm waves-effect waves-light">Order Selesai</i>';
+                        $btn = '-';
                     }
                     return $btn;
                 })
