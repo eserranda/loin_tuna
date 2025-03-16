@@ -42,32 +42,38 @@
                      </a>
                  </li>
 
-                 @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin']))
-                     <li class="menu-title"><span data-key="t-menu">Processing</span></li>
+                 <li class="menu-title"><span data-key="t-menu">Processing</span></li>
 
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['receiving', 'super_admin']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/receiving">
                              <i class="ri-share-forward-2-line"></i> <span data-key="t-receiving">Receiving</span>
                          </a>
                      </li>
+                 @endif
 
-                     {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'cutting'])) --}}
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['cutting', 'super_admin']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/cutting">
                              <i class="ri-knife-blood-line"></i> <span data-key="t-cutting">Cutting/Trimming</span>
                          </a>
                      </li>
-                     {{-- @endif --}}
+                 @endif
 
-                     {{-- @if (auth()->user()->hasAnyRole(['super_admin', 'retouching'])) --}}
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['retouching', 'super_admin']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/retouching">
-                             <i class="ri-dashboard-line"></i> <span data-key="t-retouching">RTC/Timbang Ulang</span>
+                             <i class="ri-dashboard-line"></i> <span data-key="t-retouching">RTC/Timbang
+                                 Ulang</span>
                          </a>
                      </li>
-                     {{-- @endif --}}
+                 @endif
 
+                 @if (auth()->check() &&
+                         auth()->user()->hasRole(['packing', 'super_admin']))
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/packing">
                              <i class=" ri-inbox-archive-fill"></i> <span data-key="t-retouching">Packing</span>
@@ -111,7 +117,7 @@
                  --}}
 
                  @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin']))
+                         auth()->user()->hasRole(['super_admin', 'admin', 'qc']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Quality
                              Control</span>
                      </li>
@@ -138,8 +144,9 @@
                  @endif
 
                  @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin', 'pimpinan']))
-                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span></li>
+                         auth()->user()->hasRole(['super_admin', 'pimpinan', 'admin']))
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>
+                     </li>
 
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/order/list-order">
@@ -161,7 +168,7 @@
                  @endif
 
                  @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin']))
+                         auth()->user()->hasRole(['super_admin', 'admin']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pengaturan</span>
                      </li>
 
