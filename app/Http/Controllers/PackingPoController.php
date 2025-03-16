@@ -86,21 +86,23 @@ class PackingPoController extends Controller
 
         $orderItem = PackingPo::where('po_number', $request->po_number)
             ->where('id_product', $product_log->id_produk)
+            ->where('box_number', $request->box_number)
             ->first();
 
         // ambil data untuk menghitung total progress
         $po_number = Order::where('po_number', $request->po_number)->first();
+
         $dataOrderItem = OrderItem::where('order_id', $po_number->id)
             ->where('id_product', $product_log->id_produk)
             ->first();
 
         if ($orderItem) {
-            $progress = $orderItem->total_qty + 1;
-            $total_progress = ($progress / $dataOrderItem->qty) * 100;
+            // $progress = $orderItem->total_qty + 1;
+            // $total_progress = ($progress / $dataOrderItem->qty) * 100;
+            // $orderItem->progress = number_format($total_progress, 2);
 
             $orderItem->total_qty += 1;
             $orderItem->total_weight += $request->berat;
-            $orderItem->progress = number_format($total_progress, 2);
             $save = $orderItem->save();
         } else {
             $total_progress = (1 / $dataOrderItem->qty) * 100;
@@ -186,7 +188,10 @@ class PackingPoController extends Controller
     public function getAllPackingPo(Request $request, $po_number)
     {
         if ($request->ajax()) {
-            $data = PackingPo::where('po_number', $po_number)->get();
+            $data = PackingPo::where('po_number', $po_number)
+                ->orderBy('box_number', 'asc')
+                ->get();
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('id_produk', function ($row) {

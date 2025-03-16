@@ -154,7 +154,9 @@
 
                                         <div class="col-lg-12">
                                             <div class="text-start">
-                                                <button type="submit" class="btn btn-primary">Packing Product</button>
+                                                <button type="submit" id="btnPackingProduct" class="btn btn-primary">
+                                                    Packing Product
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +182,7 @@
                                             <th>Total QTY</th>
                                             <th>Nomor Box</th>
                                             <th>Total Berat</th>
-                                            <th>Progres</th>
+                                            {{-- <th>Progres</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -203,12 +205,27 @@
             fetch("/packing-po/progres/{{ $data_po->po_number }}")
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('total_progres').textContent = `${data.total_progress} %`;
+                    const totalProgress = Math.floor(data.total_progress);
+
+                    // Menampilkan progress ke elemen dengan id 'total_progres'
+                    document.getElementById('total_progres').textContent = `${totalProgress} %`;
+
+                    // Disable tombol jika total progress >= 100
+                    if (totalProgress >= 100) {
+                        document.getElementById('btnPackingProduct').setAttribute('disabled', 'disabled');
+                    } else {
+                        document.getElementById('btnPackingProduct').removeAttribute('disabled');
+                    }
                 })
                 .catch(error => {
-                    console.error('Error fetching next no_ikan:', error);
+                    console.error('Error fetching total progress:', error);
                 });
         }
+
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
+            getTotalProgres();
+        });
 
         async function setProduct(id, nama_produk, berat) {
             document.getElementById('id_produk_log').value = id;
@@ -311,10 +328,10 @@
                         data: 'total_weight',
                         name: 'total_weight',
                     },
-                    {
-                        data: 'progress',
-                        name: 'progress',
-                    },
+                    // {
+                    //     data: 'progress',
+                    //     name: 'progress',
+                    // },
                 ],
                 dom: 'Bftp',
                 buttons: [{
