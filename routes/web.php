@@ -47,6 +47,21 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
     Route::delete('/destroy/{id}', 'destroy')->name('order.destroy');
 });
 
+Route::prefix('penjualan')->controller(OrderController::class)->group(function () {
+    Route::get('/laporan', 'laporanPenjualan');
+    Route::get('/data-penjualan', 'dataLaporanPenjualan')->name('penjualan.dataLaporanPenjualan');
+});
+
+Route::prefix('pembelian')->controller(RawMaterialController::class)->group(function () {
+    Route::get('/laporan', 'laporanPembelian');
+    Route::get('/data-pembelian', 'getAllDataPembelian')->name('pembelian.getAllDataPembelian');
+
+    Route::get('/detail/{ilc}', 'detailPembelian');
+    Route::get('/detail-pembelian/{ilc}', 'dataDetailPembelianPerILC')->name('pembelian.detailPembelianPerILC');
+    Route::post('/update-harga/{id}', 'updateHarga')->name('pembelian.updateHarga');
+});
+
+
 Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::get('/', 'index')->name('cart.index');
     Route::post('/store', 'store')->name('cart.store');
@@ -129,6 +144,7 @@ Route::prefix('receiving')->controller(ReceivingController::class)->middleware([
     Route::post('/store', 'store')->name('receiving.store');
     Route::delete('/{id}/{ilc}', 'destroy')->name('receiving.destroy');
 });
+
 
 
 Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware('auth')->group(function () {

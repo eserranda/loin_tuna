@@ -20,6 +20,49 @@ class RawMaterialController extends Controller
         return view('raw-material.index');
     }
 
+    public function laporanPembelian()
+    {
+        return view('pembelian.index');
+    }
+
+    public function detailPembelian($ilc)
+    {
+        return view('pembelian.detail_pembelian', compact('ilc'));
+    }
+
+    public function updateHarga(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'harga' => 'required|numeric',
+        ], [
+            'harga.required' => 'Harga Wajib Diisi',
+            'harga.numeric' => 'Harga Harus Berupa Angka',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $update = RawMaterial::where('id', $id)->update([
+            'harga' => $request->harga,
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diupdate',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data gagal diupdate',
+            ], 500);
+        }
+    }
+
     public function updateGrade(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -49,6 +92,62 @@ class RawMaterialController extends Controller
                 'success' => false,
                 'message' => 'Data gagal diupdate',
             ], 500);
+        }
+    }
+
+    public function getAllDataPembelian(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Receiving::latest('created_at')->get();
+            // $data->transform(function ($item) {
+            //     $item->tanggal = Carbon::parse($item->tanggal)->format('d-m-Y');
+            //     return $item;
+            // });
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('tanggal', function ($row) {
+                    return Carbon::parse($row->tanggal)->format('d-m-Y');
+                })
+                ->editColumn('total_loin', function ($row) {
+                    return RawMaterial::where('ilc', $row->ilc)->count() . ' Loin';
+                })
+                ->editColumn('total_berat', function ($row) {
+                    return RawMaterial::where('ilc', $row->ilc)->sum('berat') . ' Kg';
+                })
+                ->editColumn('total_harga', function ($row) {
+                    $totalHarga = RawMaterial::where('ilc', $row->ilc)->sum('harga');
+                    return $totalHarga > 0 ? 'Rp. ' . number_format($totalHarga, 0, ',', '.') : 'harga belum diinput';
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = ' <a href="/pembelian/detail/' . $row->ilc . '"<i class="ri-arrow-right-line"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
+    public function dataDetailPembelianPerILC(Request $request, $ilc)
+    {
+        if ($request->ajax()) {
+            $data = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('berat', function ($row) {
+                    return $row->berat . ' Kg';
+                })
+                ->editColumn('harga', function ($row) {
+                    return $row->harga > 0 ? 'Rp. ' . number_format($row->harga, 0, ',', '.') : '-';
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-danger" onclick="updateHarga(\'' . $row->id . '\')"><i class="ri-pencil-line" title="Update Harga"></i></button>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
     }
 

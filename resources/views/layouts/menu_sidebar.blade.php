@@ -139,12 +139,23 @@
 
                  @if (auth()->check() &&
                          auth()->user()->hasRole(['super_admin', 'pimpinan']))
-                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span>
-                     </li>
+                     <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ecommerce</span></li>
 
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/order/list-order">
                              <i class="ri-list-check-2"></i> <span>List Order</span>
+                         </a>
+                     </li>
+
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/pembelian/laporan">
+                             <i class="ri-file-add-line"></i><span>Laporan Pembelian</span>
+                         </a>
+                     </li>
+
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/penjualan/laporan">
+                             <i class="ri-file-transfer-line"></i> <span>Laporan Penjualan</span>
                          </a>
                      </li>
                  @endif
@@ -154,14 +165,22 @@
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pengaturan</span>
                      </li>
 
-                     <li class="nav-item">
-                         <a class="nav-link menu-link" href="/supplier">
-                             <i class="ri-group-line"></i> <span data-key="t-supplier">Supplier</span>
+                     {{-- <li class="nav-item">
+                         <a class="nav-link menu-link" href="/bahan-baku">
+                             <i class="ri-todo-line"></i> <span data-key="t-supplier">Bahan Baku</span>
                          </a>
-                     </li>
+                     </li> --}}
+
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/product">
                              <i class="ri-file-list-2-line"></i> <span data-key="t-supplier">Produk</span>
+                         </a>
+                     </li>
+
+
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/supplier">
+                             <i class="ri-group-line"></i> <span data-key="t-supplier">Supplier</span>
                          </a>
                      </li>
 

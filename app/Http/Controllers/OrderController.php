@@ -7,7 +7,6 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderItem;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,6 +18,32 @@ class OrderController extends Controller
     public function index()
     {
         return view('order.index');
+    }
+
+    public function laporanPenjualan()
+    {
+        return view('penjualan.index');
+    }
+
+    public function dataLaporanPenjualan(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Order::where('status', 'done')->latest('created_at')->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('id_user', function ($row) {
+                    return $row->user->name;
+                })
+                ->editColumn('total_price', function ($row) {
+                    return 'Rp.' . number_format($row->total_price, 0, ',', '.');
+                })
+                ->editColumn('status', function ($row) {
+                    return '<span class="badge text-bg-light">Selesai</span>';
+                })
+                ->rawColumns(['status'])
+                ->make(true);
+        }
     }
 
     public function listOrder()
@@ -185,9 +210,12 @@ class OrderController extends Controller
                     } else if ($row->is_paid == 'confirmed' && $row->status == 'pending') {
                         $btn = '<button type="button" title="Confirm" class="btn btn-success btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ',\'confirmed\')" ><i class="ri-check-double-line"></i></button>';
                     } else if ($row->is_paid == 'confirmed' && $row->status == 'confirmed') {
-                        $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Cancel"><i class="ri-close-circle-line"></i></button>';
+                        $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light mx-1" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Cancel"><i class="ri-close-circle-line"></i></button>';
+                        $btn .= '<button type="button" class="btn btn-success  btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'done\')" title="Selesai">Selesai</button>';
                     } else if ($row->is_paid == 'rejected') {
                         $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ')"><i class="text-light ri-delete-bin-5-line"></i>';
+                    } else {
+                        $btn = '<button type="button" class="btn btn-light btn-sm waves-effect waves-light">Order Selesai</i>';
                     }
                     return $btn;
                 })
