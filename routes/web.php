@@ -38,6 +38,8 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
     Route::post('/update/{po_number}', 'update');
     Route::post('/payment/{po_number}', 'payment');
     Route::post('/update-status-paid/{id}', 'updateStatusPaid');
+    Route::get('/po-status', 'poStatus');
+    Route::get('/data-po-status', 'poStatusData')->name('order.poStatusData');
 
     // admin or super admin
     Route::get('/list-order', 'listOrder')->name('order.getOne');
@@ -59,6 +61,7 @@ Route::prefix('pembelian')->controller(RawMaterialController::class)->group(func
     Route::get('/detail/{ilc}', 'detailPembelian');
     Route::get('/detail-pembelian/{ilc}', 'dataDetailPembelianPerILC')->name('pembelian.detailPembelianPerILC');
     Route::post('/update-harga/{id}', 'updateHarga')->name('pembelian.updateHarga');
+    Route::get('/detail/{ilc}/invoice', 'invoicePembelian');
 });
 
 

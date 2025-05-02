@@ -25,6 +25,11 @@ class RawMaterialController extends Controller
         return view('pembelian.index');
     }
 
+    public function invoicePembelian()
+    {
+        return view('pembelian.invoice');
+    }
+
     public function detailPembelian($ilc)
     {
         return view('pembelian.detail_pembelian', compact('ilc'));

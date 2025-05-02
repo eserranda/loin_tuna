@@ -53,12 +53,12 @@
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Pembelian Bahan Baku Dari Supplier {{ $ilc }}</h4>
-                        {{-- <div class="flex-shrink-0">
-                            <a href={{ route('produk.add') }} class="btn btn-info ">Tambah Produk</a>
-                        </div> --}}
+                        <div class="flex-shrink-0">
+                            <a href="/pembelian/detail/{{ $ilc }}/invoice" class="btn btn-info ">Invoice</a>
+                        </div>
                         {{-- <div class="flex-shrink-0">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#addModal">Tambah Data</button>
+                                data-bs-target="#addModal">Print invoice</button>
                         </div> --}}
                     </div>
                     <div class="card-body">
@@ -139,7 +139,7 @@
                 dom: 'Bftp',
                 buttons: [{
                         extend: 'excel',
-                        className: 'btn btn-sm btn-success mx-2',
+                        className: 'btn btn-sm btn-success rounded mx-2',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4]
                         },
@@ -148,7 +148,7 @@
                     {
                         extend: 'print',
                         text: 'Print nota timbang',
-                        className: 'btn btn-sm btn-secondary',
+                        className: 'btn btn-sm rounded btn-secondary',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4]
                         },

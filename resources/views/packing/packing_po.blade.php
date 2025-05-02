@@ -122,7 +122,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-7">
                         <div class="card mb-2">
                             <div class="card-body">

@@ -117,7 +117,7 @@
                  --}}
 
                  @if (auth()->check() &&
-                         auth()->user()->hasRole(['super_admin', 'admin', 'qc']))
+                         auth()->user()->hasRole(['super_admin', 'admin', 'qc', 'pimpinan']))
                      <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-inspection">Quality
                              Control</span>
                      </li>
@@ -151,6 +151,12 @@
                      <li class="nav-item">
                          <a class="nav-link menu-link" href="/order/list-order">
                              <i class="ri-list-check-2"></i> <span>List Order</span>
+                         </a>
+                     </li>
+
+                     <li class="nav-item">
+                         <a class="nav-link menu-link" href="/order/po-status">
+                             <i class="ri-file-list-2-line"></i><span>PO Status</span>
                          </a>
                      </li>
 
