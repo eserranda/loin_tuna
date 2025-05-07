@@ -100,7 +100,10 @@
                                                 </span>
                                             </div>
                                             <div class="col-sm-6 mb-2">
-                                                Tanggal : <span class="fw-bold"> {{ $receiving->tanggal }}</span>
+                                                Tanggal :
+                                                <span class="fw-bold">
+                                                    {{ \Carbon\Carbon::parse($receiving->tanggal)->format('d-m-Y') }}
+                                                </span>
                                             </div>
                                             <div class="col-sm-6">
                                                 Inspection :
@@ -165,7 +168,10 @@
                                                 </span>
                                             </div>
                                             <div class="col-sm-6 mb-2">
-                                                Tanggal : <span class="fw-bold"> {{ $cutting->created_at ?? '-' }}</span>
+                                                Tanggal :
+                                                <span class="fw-bold">
+                                                    {{ \Carbon\Carbon::parse($receiving->created_at)->format('d-m-Y') ?? '-' }}
+                                                </span>
                                             </div>
 
                                             <div class="col-sm-6">
@@ -232,7 +238,7 @@
                                             <div class="col-sm-6 mb-2">
                                                 Tanggal :
                                                 <span class="fw-bold">
-                                                    {{ $retouching->created_at ?? '-' }}
+                                                    {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
                                                 </span>
                                             </div>
 
@@ -329,7 +335,8 @@
                                             <div class="col-sm-6 mb-2">
                                                 Tanggal :
                                                 <span class="fw-bold">
-                                                    {{ $retouching->created_at ?? '-' }}
+                                                    {{-- {{ $retouching->created_at ?? '-' }} --}}
+                                                    {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
                                                 </span>
                                             </div>
 

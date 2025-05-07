@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cutting;
-use App\Models\CuttingGrading;
 use App\Models\Receiving;
-use App\Models\RawMaterial;
-use Illuminate\Http\Request;
-use App\Models\ForwardTraceability;
 use App\Models\ProductLog;
 use App\Models\Retouching;
+use App\Models\RawMaterial;
+use Illuminate\Http\Request;
+use App\Models\CuttingGrading;
+use Illuminate\Support\Carbon;
+use App\Models\ForwardTraceability;
 use Yajra\DataTables\Facades\DataTables;
 
 class ForwardTraceabilityController extends Controller
@@ -37,23 +38,30 @@ class ForwardTraceabilityController extends Controller
             $data = ForwardTraceability::latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('tanggal_receiving', function ($row) {
+                    if ($row->tanggal_receiving != "") {
+                        return Carbon::parse($row->tanggal_receiving)->format('d-m-Y');
+                    } else {
+                        return "-";
+                    }
+                })
                 ->editColumn('tanggal_cutting', function ($row) {
                     if ($row->tanggal_cutting != "") {
-                        return $row->tanggal_cutting;
+                        return Carbon::parse($row->tanggal_cutting)->format('d-m-Y');
                     } else {
                         return "-";
                     }
                 })
                 ->editColumn('tanggal_retouching', function ($row) {
                     if ($row->tanggal_retouching != "") {
-                        return $row->tanggal_retouching;
+                        return Carbon::parse($row->tanggal_retouching)->format('d-m-Y');
                     } else {
                         return "-";
                     }
                 })
                 ->editColumn('tanggal_packing', function ($row) {
                     if ($row->tanggal_packing != "") {
-                        return $row->tanggal_packing;
+                        return Carbon::parse($row->tanggal_packing)->format('d-m-Y');
                     } else {
                         return "-";
                     }

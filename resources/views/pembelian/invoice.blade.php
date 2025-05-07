@@ -31,7 +31,8 @@
                                         </p>
                                         <p class="text-muted mb-1" id="address-details">Makassar, Indonesia</p>
                                         <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span>
-                                            90551</p>
+                                            90551
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0 mt-sm-0 mt-3">
@@ -41,9 +42,11 @@
                                         <span class="text-muted fw-normal">Email:</span>
                                         <span id="email">fis@dipomelo.com</span>
                                     </h6>
-                                    <h6><span class="text-muted fw-normal">Website:</span> <a
-                                            href="https://tuna.dipomelo.com" class="link-primary" target="_blank"
-                                            id="website">www.tuna.dipomelo.com</a></h6>
+                                    <h6>
+                                        <span class="text-muted fw-normal">Website:</span>
+                                        <a href="https://tuna.dipomelo.com" class="link-primary" target="_blank"
+                                            id="website">www.tuna.dipomelo.com</a>
+                                    </h6>
                                     <h6 class="mb-0">
                                         <span class="text-muted fw-normal">Contact :</span>
                                         <span id="contact-no"> +(62) 823-9649-9875</span>
@@ -89,32 +92,34 @@
                         <div class="card-body p-4 border-top border-top-dashed">
                             <div class="row g-3">
                                 <div class="col-6">
-                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Billing
-                                        Address</h6>
+                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Billing Address</h6>
                                     <p class="fw-medium mb-2" id="billing-name">David Nichols</p>
-                                    <p class="text-muted mb-1" id="billing-address-line-1">305 S San
-                                        Gabriel Blvd</p>
-                                    <p class="text-muted mb-1"><span>Phone: +</span><span id="billing-phone-no">(123)
-                                            456-7890</span></p>
-                                    <p class="text-muted mb-0"><span>Tax: </span><span id="billing-tax-no">12-3456789</span>
+                                    <p class="text-muted mb-1" id="billing-address-line-1">305 S San Gabriel Blvd</p>
+                                    <p class="text-muted mb-1">
+                                        <span>Phone: +</span>
+                                        <span id="billing-phone-no">(123)456-7890</span>
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <span>Tax: </span>
+                                        <span id="billing-tax-no">12-3456789</span>
                                     </p>
                                 </div>
                                 <!--end col-->
                                 <div class="col-6">
-                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping
-                                        Address</h6>
+                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping Address</h6>
                                     <p class="fw-medium mb-2" id="shipping-name">David Nichols</p>
                                     <p class="text-muted mb-1" id="shipping-address-line-1">305 S San
                                         Gabriel Blvd</p>
-                                    <p class="text-muted mb-1"><span>Phone: +</span><span id="shipping-phone-no">(123)
-                                            456-7890</span></p>
+                                    <p class="text-muted mb-1">
+                                        <span>Phone: +</span>
+                                        <span id="shipping-phone-no">(123)
+                                            456-7890
+                                        </span>
+                                    </p>
                                 </div>
-                                <!--end col-->
                             </div>
-                            <!--end row-->
                         </div>
-                        <!--end card-body-->
-                    </div><!--end col-->
+                    </div>
                     <div class="col-lg-12">
                         <div class="card-body p-4">
                             <div class="table-responsive">
@@ -133,8 +138,7 @@
                                             <th scope="row">01</th>
                                             <td class="text-start">
                                                 <span class="fw-medium">Sweatshirt for Men (Pink)</span>
-                                                <p class="text-muted mb-0">Graphic Print Men & Women
-                                                    Sweatshirt</p>
+                                                <p class="text-muted mb-0">Graphic Print Men & Women Sweatshirt</p>
                                             </td>
                                             <td>$119.99</td>
                                             <td>02</td>
@@ -240,13 +244,10 @@
                                         class="ri-download-2-line align-bottom me-1"></i> Download</a> --}}
                             </div>
                         </div>
-                        <!--end card-body-->
-                    </div><!--end col-->
-                </div><!--end row-->
+                    </div>
+                </div>
             </div>
-            <!--end card-->
         </div>
-        <!--end col-->
     </div>
 @endsection
 @push('scripts')
