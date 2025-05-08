@@ -170,7 +170,11 @@
                                             <div class="col-sm-6 mb-2">
                                                 Tanggal :
                                                 <span class="fw-bold">
-                                                    {{ \Carbon\Carbon::parse($receiving->created_at)->format('d-m-Y') ?? '-' }}
+                                                    @if ($receiving && $receiving->created_at)
+                                                        {{ \Carbon\Carbon::parse($receiving->created_at)->format('d-m-Y') ?? '-' }}
+                                                    @else
+                                                        {{ '-' }}
+                                                    @endif
                                                 </span>
                                             </div>
 
@@ -238,7 +242,11 @@
                                             <div class="col-sm-6 mb-2">
                                                 Tanggal :
                                                 <span class="fw-bold">
-                                                    {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
+                                                    @if ($retouching && $retouching->created_at)
+                                                        {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
+                                                    @else
+                                                        {{ '-' }}
+                                                    @endif
                                                 </span>
                                             </div>
 
@@ -335,8 +343,11 @@
                                             <div class="col-sm-6 mb-2">
                                                 Tanggal :
                                                 <span class="fw-bold">
-                                                    {{-- {{ $retouching->created_at ?? '-' }} --}}
-                                                    {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
+                                                    @if ($retouching && $retouching->created_at)
+                                                        {{ \Carbon\Carbon::parse($retouching->created_at)->format('d-m-Y') }}
+                                                    @else
+                                                        {{ '-' }}
+                                                    @endif
                                                 </span>
                                             </div>
 

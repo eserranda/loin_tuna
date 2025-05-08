@@ -20,6 +20,18 @@ class ForwardTraceabilityController extends Controller
         return view('forward-traceability.index');
     }
 
+    public function listDetail($ilc)
+    {
+        $receiving = Receiving::where('ilc', $ilc)->first();
+        $cutting = Cutting::where('ilc', $ilc)->first();
+        $retouching = Retouching::where('ilc', $ilc)->first();
+        $raw_materials = RawMaterial::where('ilc', $ilc)->get();
+        $cutting_grading = CuttingGrading::where('ilc', $ilc)->get();
+        $retouchings = Retouching::where('ilc', $ilc)->get();
+        $product_logs = ProductLog::where('ilc', $ilc)->get();
+        return view('forward-traceability.list-detail', compact('receiving', 'cutting', 'retouching', 'raw_materials', 'cutting_grading', 'retouchings', 'product_logs'));
+    }
+
     public function detail($ilc)
     {
         $receiving = Receiving::where('ilc', $ilc)->first();
@@ -67,8 +79,8 @@ class ForwardTraceabilityController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a href="javascript:void(0);" onclick="kodeILC(\'' . $row->ilc . '\')"><i class="ri-arrow-right-line"></i></a>';
-                    $btn = ' <a href="/forward-traceability/detail/' . $row->ilc . '"<i class="ri-arrow-right-line ms-2"></i></a>';
+                    $btn = '<a href="/forward-traceability/list-detail/' . $row->ilc . '"><i class="ri-file-list-line"></i></a>';
+                    $btn .= '<a href="/forward-traceability/detail/' . $row->ilc . '"<i class="ri-arrow-right-line ms-2"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

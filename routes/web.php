@@ -94,6 +94,7 @@ Route::prefix('forward-traceability')->controller(ForwardTraceabilityController:
     Route::get('/', 'index')->name('forward-traceability.index');
     Route::get('/getAll', 'getAll')->name('forward-traceability.getAll');
     Route::get('/detail/{ilc}', 'detail')->name('forward-traceability.detail');
+    Route::get('/list-detail/{ilc}', 'listDetail')->name('forward-traceability.listDetail');
 });
 
 Route::prefix('inspection')->controller(InspectionController::class)->group(function () {

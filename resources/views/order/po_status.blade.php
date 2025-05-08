@@ -71,17 +71,17 @@
                                         <th>Total Berat</th>
                                         <th>Total Bayar</th>
                                         <th>Status PO</th>
-                                        {{-- <th>Opsi</th> --}}
+                                        {{-- <th>Opsi</th>   --}}
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                 </tbody>
                             </table>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
-            </div> <!-- end row-->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
