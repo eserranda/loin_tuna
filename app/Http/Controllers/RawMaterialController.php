@@ -103,7 +103,52 @@ class RawMaterialController extends Controller
     public function getAllDataPembelian(Request $request)
     {
         if ($request->ajax()) {
-            $data = Receiving::latest('created_at')->get();
+            $filterMinggu = $request->input('filterMinggu');
+            $filterBulan = $request->input('filterBulan');
+            $filterTahun = $request->input('filterTahun');
+
+            $query = RawMaterial::query();
+
+            // Filter berdasarkan minggu
+            if ($filterMinggu !== null) {
+                if ($filterMinggu == 0) {
+                    // Minggu ini
+                    $query->whereBetween('created_at', [
+                        Carbon::now()->startOfWeek(),
+                        Carbon::now()->endOfWeek()
+                    ]);
+                } else {
+                    // X minggu yang lalu
+                    $query->whereBetween('created_at', [
+                        Carbon::now()->subWeeks($filterMinggu)->startOfWeek(),
+                        Carbon::now()->subWeeks($filterMinggu)->endOfWeek()
+                    ]);
+                }
+            }
+
+            // Filter berdasarkan bulan (tanpa tahun)
+            if ($filterBulan !== null) {
+                $query->whereMonth('created_at', $filterBulan)
+                    ->whereYear('created_at', Carbon::now()->year); // Tahun berjalan
+            }
+
+            // Filter berdasarkan tahun (tanpa bulan)
+            if ($filterTahun !== null) {
+                $query->whereYear('created_at', $filterTahun);
+            }
+
+            // Filter berdasarkan bulan dan tahun
+            // if ($filterBulan !== null && $filterTahun !== null) {
+            //     $query->whereMonth('created_at', $filterBulan)
+            //         ->whereYear('created_at', $filterTahun);
+            // }
+
+            $data = $query->get();
+            $totalBerat = $data->sum('berat');
+            $totalHarga = $data->sum('harga');
+            $totalLoin = $data->count('no_loin');
+
+            // $data = Receiving::latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('tanggal', function ($row) {
@@ -124,6 +169,11 @@ class RawMaterialController extends Controller
                     return $btn;
                 })
                 ->rawColumns(['action'])
+                ->with([
+                    'totalBerat' => $totalBerat,
+                    'totalHarga' => $totalHarga,
+                    'totalLoin' => $totalLoin,
+                ])
                 ->make(true);
         }
     }

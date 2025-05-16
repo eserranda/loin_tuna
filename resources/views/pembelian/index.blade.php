@@ -47,38 +47,86 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 @endpush
 @section('content')
-    <div class="row">
-        <div class="col-xxl-12 col-lg-12">
-            <div class="d-flex flex-column h-100">
-                <div class="card">
-                    <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Pembelian Bahan Baku</h4>
-                        {{-- <div class="flex-shrink-0">
-                            <a href={{ route('produk.add') }} class="btn btn-info ">Tambah Produk</a>
-                        </div> --}}
-                        {{-- <div class="flex-shrink-0">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#addModal">Tambah Data</button>
-                        </div> --}}
+    <div class="col-xxl-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
+                    <div class="list-inline-item col-2">
+                        <select class="form-select" id="filterMinggu">
+                            <option value="" selected disabled>- Pilih Minggu -</option>
+                            <option value="1">Minggu ini</option>
+                            <option value="2">2 Minggu lalu</option>
+                            <option value="3">3 Minggu lalu</option>
+                            <option value="4">4 Minggu lalu</option>
+                        </select>
                     </div>
-                    <div class="card-body">
-                        <table class="table dataPembelian" id="dataPembelian">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>ILC</th>
-                                    <th>Total Loin</th>
-                                    <th>Total Berat</th>
-                                    <th>Total Harga</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div class="list-inline-item col-2">
+                        <select class="form-select" id="filterBulan">
+                            <option value="" selected disabled>- Pilih Bulan -</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
                     </div>
+                    <div class="list-inline-item col-2">
+                        <select class="form-select" id="filterTahun">
+                            <option value="" selected disabled>- Pilih Tahun -</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+                    {{-- <div class="list-inline-item">
+                        <a class="btn btn-icon" aria-label="Button" id="search">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <circle cx="10" cy="10" r="7" />
+                                <line x1="21" y1="21" x2="15" y2="15" />
+                            </svg>
+                        </a>
+                    </div> --}}
                 </div>
+            </div>
+
+
+
+            <div class="card-body border-bottom py-3 ">
+                <table class="table dataPembelian" id="dataPembelian">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>ILC</th>
+                            <th>Total Loin</th>
+                            <th>Total Berat</th>
+                            <th>Total Harga</th>
+                            <th>Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    {{-- <tfoot>
+                        <tr>
+                            <th>Total:</th>
+                            <th></th>
+                            <th></th>
+                            <th></th> <!-- berat total akan muncul disini -->
+                            <th></th> <!-- harga total akan muncul disini -->
+                            <th></th>
+                        </tr>
+                    </tfoot> --}}
+                </table>
             </div>
         </div>
     </div>
@@ -132,17 +180,73 @@
                         className: 'btn btn-sm btn-success mx-2',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5]
-                        }
+                        },
+                        footer: true
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-sm btn-secondary',
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5]
-                        }
+                        },
+                        footer: true
                     }
-                ]
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    let api = this.api();
+
+                    // Ambil data tambahan dari AJAX response
+                    let json = api.ajax.json();
+
+                    // Tampilkan total di footer
+                    $(api.column(3).footer()).html(parseFloat(json.totalLoin).toFixed(0) + ' Loin');
+                    $(api.column(4).footer()).html(parseFloat(json.totalBerat).toFixed(0) + ' Kg');
+                    $(api.column(5).footer()).html('Rp' + parseFloat(json.totalHarga).toLocaleString());
+                }
             });
+
+            $('#filterMinggu').on('change', function() {
+                $('#filterBulan').val('');
+                $('#filterTahun').val('');
+                var selectedMinggu = $(this).val();
+                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterMinggu=' + selectedMinggu;
+                datatable.ajax.url(url).load();
+
+            });
+
+            $('#filterBulan').on('change', function() {
+                $('#filterMinggu').val('');
+                $('#filterTahun').val('');
+                var selectedBulan = $(this).val();
+                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' + selectedBulan;
+                datatable.ajax.url(url).load();
+            });
+
+            $('#filterTahun').on('change', function() {
+                $('#filterMinggu').val('');
+                $('#filterBulan').val('');
+                var selectedTahun = $(this).val();
+                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterTahun=' + selectedTahun;
+                datatable.ajax.url(url).load();
+            });
+
+
+            // $('#search').on('click', function() {
+            //     alert(filterSelected);
+            // var selectedMinggu = $('#filterMinggu').val();
+            // var selectedBulan = $('#filterBulan').val();
+            // var selectedTahun = $('#filterTahun').val();
+
+            // alert(selectedMinggu);
+            // if (!selectedMinggu && !selectedBulan && !selectedTahun) {
+            //     alert('Pilih minggu, bulan, atau tahun terlebih dahulu');
+            //     return;
+            // }
+
+            // const url = '{{ route('pembelian.getAllDataPembelian') }}?filterMinggu=' + selectedMinggu +
+            //     '&filterBulan=' + selectedBulan + '&filterTahun=' + selectedTahun;
+            // datatable.ajax.url(url).load();
+            // });
         });
     </script>
 @endpush
