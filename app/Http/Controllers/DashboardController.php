@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cutting;
 use App\Models\Dashboard;
+use App\Models\Order;
+use App\Models\Packing;
+use App\Models\Receiving;
+use App\Models\Retouching;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +17,20 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        $totalReceiving = Receiving::count();
+        $totalReceivingToday = Receiving::whereDate('created_at', now())->count();
+
+        $totalCutting = Cutting::count();
+        $totalCuttingToday = Cutting::whereDate('created_at', now())->count();
+
+        $totalRetouching = Retouching::count();
+        $totalRetouchingToday = Retouching::whereDate('created_at', now())->count();
+
+        $totalPacking = Packing::count();
+        $totalPackingToday = Packing::whereDate('created_at', now())->count();
+
+        $totalOrders = Order::count();
+        return view('dashboard.index', compact('totalReceiving', 'totalReceivingToday', 'totalCutting', 'totalCuttingToday', 'totalRetouching', 'totalRetouchingToday', 'totalPacking', 'totalPackingToday', 'totalOrders'));
     }
 
     /**
