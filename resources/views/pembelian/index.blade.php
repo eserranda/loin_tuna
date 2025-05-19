@@ -236,9 +236,15 @@
                 $('#filterMinggu').val('');
                 var selectedTahun = $(this).val();
                 var selectedBulan = $('#filterBulan').val();
-                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' + selectedBulan +
-                    '&filterTahun=' + selectedTahun;
-                datatable.ajax.url(url).load();
+                if (selectedBulan === null) {
+                    const url = '{{ route('pembelian.getAllDataPembelian') }}?filterTahun=' +
+                        selectedTahun;
+                    datatable.ajax.url(url).load();
+                } else {
+                    const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' +
+                        selectedBulan + '&filterTahun=' + selectedTahun;
+                    datatable.ajax.url(url).load();
+                }
             });
 
             $('#reload').on('click', function() {
