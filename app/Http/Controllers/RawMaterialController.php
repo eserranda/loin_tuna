@@ -107,7 +107,7 @@ class RawMaterialController extends Controller
             $filterBulan = $request->input('filterBulan');
             $filterTahun = $request->input('filterTahun');
 
-            $query = RawMaterial::query();
+            $query = Receiving::query();
 
             // Filter berdasarkan minggu
             if ($filterMinggu !== null) {
@@ -138,15 +138,25 @@ class RawMaterialController extends Controller
             }
 
             // Filter berdasarkan bulan dan tahun
-            // if ($filterBulan !== null && $filterTahun !== null) {
-            //     $query->whereMonth('created_at', $filterBulan)
-            //         ->whereYear('created_at', $filterTahun);
-            // }
+            if ($filterBulan !== null && $filterTahun !== null) {
+                $query->whereMonth('created_at', $filterBulan)
+                    ->whereYear('created_at', $filterTahun);
+            }
 
-            $data = $query->get();
-            $totalBerat = $data->sum('berat');
-            $totalHarga = $data->sum('harga');
-            $totalLoin = $data->count('no_loin');
+            $data = $query->latest('created_at')->get();
+
+            $totalLoin = 0;
+            foreach ($data as $item) {
+                $totalLoin += RawMaterial::where('ilc', $item->ilc)->count();
+            }
+            $totalHarga = 0;
+            foreach ($data as $item) {
+                $totalHarga += RawMaterial::where('ilc', $item->ilc)->sum('harga');
+            }
+            $totalBerat = 0;
+            foreach ($data as $item) {
+                $totalBerat += RawMaterial::where('ilc', $item->ilc)->sum('berat');
+            }
 
             // $data = Receiving::latest('created_at')->get();
             return DataTables::of($data)

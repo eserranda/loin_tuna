@@ -54,7 +54,8 @@
                     <div class="list-inline-item col-2">
                         <select class="form-select" id="filterMinggu">
                             <option value="" selected disabled>- Pilih Minggu -</option>
-                            <option value="1">Minggu ini</option>
+                            <option value="0">Minggu ini</option>
+                            <option value="1">1 Minggu lalu</option>
                             <option value="2">2 Minggu lalu</option>
                             <option value="3">3 Minggu lalu</option>
                             <option value="4">4 Minggu lalu</option>
@@ -85,17 +86,17 @@
                             <option value="2025">2025</option>
                         </select>
                     </div>
-                    {{-- <div class="list-inline-item">
-                        <a class="btn btn-icon" aria-label="Button" id="search">
+                    <div class="list-inline-item">
+                        <button class="btn   btn-icon mx-2" id="reload">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <circle cx="10" cy="10" r="7" />
-                                <line x1="21" y1="21" x2="15" y2="15" />
+                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                             </svg>
-                        </a>
-                    </div> --}}
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -116,16 +117,16 @@
                     </thead>
                     <tbody>
                     </tbody>
-                    {{-- <tfoot>
+                    <tfoot>
                         <tr>
                             <th>Total:</th>
                             <th></th>
                             <th></th>
-                            <th></th> <!-- berat total akan muncul disini -->
-                            <th></th> <!-- harga total akan muncul disini -->
+                            <th></th>
+                            <th></th>
                             <th></th>
                         </tr>
-                    </tfoot> --}}
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -200,7 +201,7 @@
 
                     // Tampilkan total di footer
                     $(api.column(3).footer()).html(parseFloat(json.totalLoin).toFixed(0) + ' Loin');
-                    $(api.column(4).footer()).html(parseFloat(json.totalBerat).toFixed(0) + ' Kg');
+                    $(api.column(4).footer()).html(parseFloat(json.totalBerat).toFixed(2) + ' Kg');
                     $(api.column(5).footer()).html('Rp' + parseFloat(json.totalHarga).toLocaleString());
                 }
             });
@@ -216,36 +217,52 @@
 
             $('#filterBulan').on('change', function() {
                 $('#filterMinggu').val('');
-                $('#filterTahun').val('');
                 var selectedBulan = $(this).val();
-                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' + selectedBulan;
-                datatable.ajax.url(url).load();
+                var selectedTahun = $('#filterTahun').val();
+
+                if (selectedTahun === null) {
+                    const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' +
+                        selectedBulan;
+                    datatable.ajax.url(url).load();
+
+                } else {
+                    const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' +
+                        selectedBulan + '&filterTahun=' + selectedTahun;
+                    datatable.ajax.url(url).load();
+                }
             });
 
             $('#filterTahun').on('change', function() {
                 $('#filterMinggu').val('');
-                $('#filterBulan').val('');
                 var selectedTahun = $(this).val();
-                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterTahun=' + selectedTahun;
+                var selectedBulan = $('#filterBulan').val();
+                const url = '{{ route('pembelian.getAllDataPembelian') }}?filterBulan=' + selectedBulan +
+                    '&filterTahun=' + selectedTahun;
+                datatable.ajax.url(url).load();
+            });
+
+            $('#reload').on('click', function() {
+                $('#filterMinggu').val('');
+                $('#filterBulan').val('');
+                $('#filterTahun').val('');
+                const url = '{{ route('pembelian.getAllDataPembelian') }}';
                 datatable.ajax.url(url).load();
             });
 
 
             // $('#search').on('click', function() {
-            //     alert(filterSelected);
-            // var selectedMinggu = $('#filterMinggu').val();
-            // var selectedBulan = $('#filterBulan').val();
-            // var selectedTahun = $('#filterTahun').val();
+            //     var selectedMinggu = $('#filterMinggu').val();
+            //     var selectedBulan = $('#filterBulan').val();
+            //     var selectedTahun = $('#filterTahun').val();
 
-            // alert(selectedMinggu);
-            // if (!selectedMinggu && !selectedBulan && !selectedTahun) {
-            //     alert('Pilih minggu, bulan, atau tahun terlebih dahulu');
-            //     return;
-            // }
+            //     // if (!selectedMinggu && !selectedBulan && !selectedTahun) {
+            //     //     alert('Pilih minggu, bulan, atau tahun terlebih dahulu');
+            //     //     return;
+            //     // }
 
-            // const url = '{{ route('pembelian.getAllDataPembelian') }}?filterMinggu=' + selectedMinggu +
-            //     '&filterBulan=' + selectedBulan + '&filterTahun=' + selectedTahun;
-            // datatable.ajax.url(url).load();
+            //     const url = '{{ route('pembelian.getAllDataPembelian') }}?filterMinggu=' + selectedMinggu +
+            //         '&filterBulan=' + selectedBulan + '&filterTahun=' + selectedTahun;
+            //     datatable.ajax.url(url).load();
             // });
         });
     </script>
