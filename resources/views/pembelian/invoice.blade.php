@@ -9,8 +9,6 @@
     </div>
 @endsection
 
-@push('head_component')
-@endpush
 @section('content')
     <div class="row justify-content-center">
         <div class="col-xxl-9">
@@ -60,27 +58,26 @@
                         <div class="card-body p-4">
                             <div class="row g-3">
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Invoice No</p>
-                                    <h5 class="fs-14 mb-0">#VL<span id="invoice-no">25000355</span></h5>
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">No. Nota</p>
+                                    <h5 class="fs-14 mb-0">{{ $invoice_number }}</h5>
                                 </div>
                                 <!--end col-->
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Date</p>
-                                    <h5 class="fs-14 mb-0"><span id="invoice-date">23 Nov, 2021</span>
-                                        <small class="text-muted" id="invoice-time">02:36PM</small>
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Tanggal</p>
+                                    <h5 class="fs-14 mb-0"><span id="invoice-date">{{ $tanggal }}</span></h5>
                                     </h5>
                                 </div>
                                 <!--end col-->
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Status Pemayaran
                                     </p>
-                                    <span class="badge badge-soft-success fs-11" id="payment-status">Paid</span>
+                                    <span class="badge badge-soft-success fs-11" id="payment-status">Lunas</span>
                                 </div>
                                 <!--end col-->
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Total Amount
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Total Pembayaran
                                     </p>
-                                    <h5 class="fs-14 mb-0">$<span id="total-amount">755.96</span></h5>
+                                    <h5 class="fs-14 mb-0">Rp<span id="total-amount">{{ $total_harga }}</span></h5>
                                 </div>
                                 <!--end col-->
                             </div>
@@ -88,38 +85,7 @@
                         </div>
                         <!--end card-body-->
                     </div><!--end col-->
-                    <div class="col-lg-12">
-                        <div class="card-body p-4 border-top border-top-dashed">
-                            <div class="row g-3">
-                                <div class="col-6">
-                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Billing Address</h6>
-                                    <p class="fw-medium mb-2" id="billing-name">David Nichols</p>
-                                    <p class="text-muted mb-1" id="billing-address-line-1">305 S San Gabriel Blvd</p>
-                                    <p class="text-muted mb-1">
-                                        <span>Phone: +</span>
-                                        <span id="billing-phone-no">(123)456-7890</span>
-                                    </p>
-                                    <p class="text-muted mb-0">
-                                        <span>Tax: </span>
-                                        <span id="billing-tax-no">12-3456789</span>
-                                    </p>
-                                </div>
-                                <!--end col-->
-                                <div class="col-6">
-                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Shipping Address</h6>
-                                    <p class="fw-medium mb-2" id="shipping-name">David Nichols</p>
-                                    <p class="text-muted mb-1" id="shipping-address-line-1">305 S San
-                                        Gabriel Blvd</p>
-                                    <p class="text-muted mb-1">
-                                        <span>Phone: +</span>
-                                        <span id="shipping-phone-no">(123)
-                                            456-7890
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="col-lg-12">
                         <div class="card-body p-4">
                             <div class="table-responsive">
@@ -134,51 +100,17 @@
                                         </tr>
                                     </thead>
                                     <tbody id="products-list">
-                                        <tr>
-                                            <th scope="row">01</th>
-                                            <td class="text-start">
-                                                <span class="fw-medium">Sweatshirt for Men (Pink)</span>
-                                                <p class="text-muted mb-0">Graphic Print Men & Women Sweatshirt</p>
-                                            </td>
-                                            <td>$119.99</td>
-                                            <td>02</td>
-                                            <td class="text-end">$239.98</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">02</th>
-                                            <td class="text-start">
-                                                <span class="fw-medium">Noise NoiseFit Endure Smart
-                                                    Watch</span>
-                                                <p class="text-muted mb-0">32.5mm (1.28 Inch) TFT Color
-                                                    Touch Display</p>
-                                            </td>
-                                            <td>$94.99</td>
-                                            <td>01</td>
-                                            <td class="text-end">$94.99</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">03</th>
-                                            <td class="text-start">
-                                                <span class="fw-medium">350 ml Glass Grocery
-                                                    Container</span>
-                                                <p class="text-muted mb-0">Glass Grocery Container (Pack
-                                                    of 3, White)</p>
-                                            </td>
-                                            <td>$24.99</td>
-                                            <td>01</td>
-                                            <td class="text-end">$24.99</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">04</th>
-                                            <td class="text-start">
-                                                <span class="fw-medium">Fabric Dual Tone Living Room
-                                                    Chair</span>
-                                                <p class="text-muted mb-0">Chair (White)</p>
-                                            </td>
-                                            <td>$340.00</td>
-                                            <td>01</td>
-                                            <td class="text-end">$340.00</td>
-                                        </tr>
+                                        @foreach ($raw_material as $item)
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>{{ $item->no_loin }}</td>
+                                                <td> {{ $item->grade }}</td>
+                                                <td>{{ $item->berat }} Kg</td>
+                                                <td class="text-end">
+                                                    Rp{{ number_format($item->harga, 0, ',', '.') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table><!--end table-->
                             </div>
@@ -186,57 +118,68 @@
                                 <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto"
                                     style="width:250px">
                                     <tbody>
-                                        <tr>
+                                        {{-- <tr>
                                             <td>Sub Total</td>
-                                            <td class="text-end">$699.96</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Estimated Tax (12.5%)</td>
-                                            <td class="text-end">$44.99</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Discount <small class="text-muted">(VELZON15)</small>
-                                            </td>
-                                            <td class="text-end">- $53.99</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shipping Charge</td>
-                                            <td class="text-end">$65.00</td>
-                                        </tr>
+                                            <td class="text-end">Rp{{ $total_harga }}</td>
+                                        </tr> --}}
                                         <tr class="border-top border-top-dashed fs-15">
-                                            <th scope="row">Total Amount</th>
-                                            <th class="text-end">$755.96</th>
+                                            <th scope="row">Total Harga</th>
+                                            <td class="text-end">Rp{{ $total_harga }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <!--end table-->
                             </div>
                             <div class="mt-3">
-                                <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:
-                                </h6>
-                                <p class="text-muted mb-1">Payment Method: <span class="fw-medium"
-                                        id="payment-method">Mastercard</span></p>
-                                <p class="text-muted mb-1">Card Holder: <span class="fw-medium"
-                                        id="card-holder-name">David Nichols</span></p>
-                                <p class="text-muted mb-1">Card Number: <span class="fw-medium" id="card-number">xxx xxxx
-                                        xxxx 1234</span></p>
-                                <p class="text-muted">Total Amount: <span class="fw-medium" id="">$
-                                    </span><span id="card-total-amount">755.96</span></p>
+                                <div class="row p-3 mt-4 border-top border-top-dashed">
+                                    <div class="col-md-6"></div>
+
+                                    <!-- Kolom kanan -->
+                                    <div class="col-md-6 text-end">
+                                        <!-- Tampilan tanda tangan -->
+                                        <div id="signatureDisplay">
+                                            <p class="text-uppercase fw-semibold mb-5" id="dateText"
+                                                onclick="editSignature()">Makassar, 22 Sep 2022</p>
+                                            <p class="text-uppercase fw-semibold mb-0" id="nameText"
+                                                onclick="editSignature()">Nama</p>
+                                            <small class="text-muted" id="positionText"
+                                                onclick="editSignature()">(Jabatan)</small>
+                                        </div>
+
+                                        <!-- Form edit (disembunyikan awalnya) -->
+                                        <form id="signatureForm" class="d-none text-start mt-3"
+                                            onsubmit="saveSignature(event)">
+                                            <div class="mb-2">
+                                                <label class="form-label">Tempat & Tanggal</label>
+                                                <input type="text" id="dateInput" class="form-control" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Nama</label>
+                                                <input type="text" id="nameInput" class="form-control" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Jabatan</label>
+                                                <input type="text" id="positionInput" class="form-control" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">OK</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mt-4">
+
+
+                            {{-- <div class="mt-4">
                                 <div class="alert alert-info">
                                     <p class="mb-0"><span class="fw-semibold">NOTES:</span>
-                                        <span id="note">All accounts are to be paid within 7 days from
-                                            receipt of invoice. To be paid by cheque or
-                                            credit card or direct payment online. If account is not paid
-                                            within 7
-                                            days the credits details supplied as confirmation of work
-                                            undertaken
+                                        <span id="note">All accounts are to be paid within 7 days from receipt of
+                                            invoice. To be paid by cheque or
+                                            credit card or direct payment online. If account is not paid within 7
+                                            days the credits details supplied as confirmation of work undertaken
                                             will be charged the agreed quoted fee noted above.
                                         </span>
                                     </p>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="hstack gap-2 justify-content-end d-print-none mt-4">
                                 <a href="javascript:window.print()" class="btn btn-success"><i
                                         class="ri-printer-line align-bottom me-1"></i> Print</a>
@@ -251,4 +194,30 @@
     </div>
 @endsection
 @push('scripts')
+    <script>
+        function editSignature() {
+            // Isi nilai form dengan teks saat ini
+            document.getElementById('dateInput').value = document.getElementById('dateText').textContent;
+            document.getElementById('nameInput').value = document.getElementById('nameText').textContent;
+            document.getElementById('positionInput').value = document.getElementById('positionText').textContent.replace(
+                /[()]/g, '');
+
+            // Tampilkan form, sembunyikan display
+            document.getElementById('signatureDisplay').classList.add('d-none');
+            document.getElementById('signatureForm').classList.remove('d-none');
+        }
+
+        function saveSignature(event) {
+            event.preventDefault();
+
+            // Perbarui tampilan
+            document.getElementById('dateText').textContent = document.getElementById('dateInput').value;
+            document.getElementById('nameText').textContent = document.getElementById('nameInput').value;
+            document.getElementById('positionText').textContent = `(${document.getElementById('positionInput').value})`;
+
+            // Tampilkan kembali display, sembunyikan form
+            document.getElementById('signatureForm').classList.add('d-none');
+            document.getElementById('signatureDisplay').classList.remove('d-none');
+        }
+    </script>
 @endpush

@@ -344,7 +344,7 @@
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                 <span class="counter-value" data-target="{{ $totalOrders }}">0</span>
                             </h4>
-                            <a href="/list-order" class="text-decoration-underline">Lihat Data</a>
+                            <a href="/order/list-order" class="text-decoration-underline">Lihat Data</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-soft-primary rounded fs-3">

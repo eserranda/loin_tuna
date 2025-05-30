@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ForwardTraceability;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\MockObject\Invocation;
+
+use function Livewire\invade;
 
 class ReceivingController extends Controller
 {
@@ -53,6 +56,7 @@ class ReceivingController extends Controller
     public function store(Request $request)
     {
         $ilc = null;
+        $invoice_number = null;
         if ($request->id_supplier != null) {
             $supplier = Supplier::find($request->id_supplier);
             $now = Carbon::now();
@@ -62,8 +66,13 @@ class ReceivingController extends Controller
             $julian_date = $year . $julian_day . $month;
 
             $ilc = $supplier->kode_supplier . '-' . $julian_date;
+
+            // generate invoice number
+            $datePart = now()->format('Ymd');
+            $invoice_number = 'INV-' . $datePart . $supplier->kode_supplier;
         }
         $request->merge(['ilc' => $ilc]);
+        $request->merge(['invoice_number' => $invoice_number]);
 
         $validator = Validator::make($request->all(), [
             'ilc' => 'required|unique:receivings',
@@ -86,11 +95,11 @@ class ReceivingController extends Controller
 
         try {
             DB::beginTransaction();
-
             // Simpan data di table Receiving
             $receiving = Receiving::create([
                 'ilc'         => $ilc,
                 'id_supplier' => $request->id_supplier,
+                'invoice_number' => $invoice_number,
                 'tanggal'     => Carbon::now(),
             ]);
 

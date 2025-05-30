@@ -25,9 +25,19 @@ class RawMaterialController extends Controller
         return view('pembelian.index');
     }
 
-    public function invoicePembelian()
+    public function invoicePembelian($ilc)
     {
-        return view('pembelian.invoice');
+
+        $data = Receiving::where('ilc', $ilc)->first();
+        $invoice_number = $data->invoice_number;
+        $tanggal = Carbon::parse($data->created_at)->format('d-m-Y H:i');
+
+        $raw_material = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
+
+        $harga = $raw_material->sum('harga');
+        $total_harga = number_format($harga, 0, ',', '.');
+
+        return view('pembelian.invoice', compact('ilc', 'invoice_number', 'tanggal', 'total_harga', 'raw_material'));
     }
 
     public function detailPembelian($ilc)

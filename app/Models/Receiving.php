@@ -9,6 +9,7 @@ class Receiving extends Model
     protected $fillable = [
         'ilc',
         'id_supplier',
+        'invoice_number',
         'tanggal',
         'inspection',
         'used',
