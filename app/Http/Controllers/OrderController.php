@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -30,15 +31,86 @@ class OrderController extends Controller
         return view('penjualan.index');
     }
 
+    public function invoicePenjualan($po_number)
+    {
+        $order = Order::where('po_number', $po_number)->first();
+        $po_number = $order->po_number;
+        $tanggal = $order->created_at->format('d-m-Y');
+        $total_price = number_format($order->total_price, 0, ',', '.');
+
+        $id_order = $order->id;
+
+        $item_orders = OrderItem::where('order_id', $id_order)
+            ->with(['product'])
+            ->get();
+
+        $total_price_product = 0;
+        foreach ($item_orders as $item) {
+            $total_price_product += $item->total_price;
+        }
+        $total_tax = $total_price_product * 0.12; // 12% pajak
+        $total_tax = number_format($total_tax, 0, ',', '.');
+
+        $total_price_product = number_format($total_price_product, 0, ',', '.');
+
+        return view('penjualan.invoice_penjualan', compact('po_number', 'tanggal', 'total_price', 'total_price_product', 'total_tax', 'item_orders'));
+    }
+
+    // ubah ini
     public function dataLaporanPenjualan(Request $request)
     {
         if ($request->ajax()) {
-            $data = Order::where('status', 'done')->latest('created_at')->get();
+            $filterMinggu = $request->input('filterMinggu');
+            $filterBulan = $request->input('filterBulan');
+            $filterTahun = $request->input('filterTahun');
+
+            $query = Order::query();
+
+            if ($filterMinggu !== null) {
+                if ($filterMinggu == 0) {
+                    // Minggu ini
+                    $query->whereBetween('created_at', [
+                        Carbon::now()->startOfWeek(),
+                        Carbon::now()->endOfWeek()
+                    ]);
+                } else {
+                    // X minggu yang lalu
+                    $query->whereBetween('created_at', [
+                        Carbon::now()->subWeeks($filterMinggu)->startOfWeek(),
+                        Carbon::now()->subWeeks($filterMinggu)->endOfWeek()
+                    ]);
+                }
+            }
+
+            // Filter berdasarkan bulan (tanpa tahun)
+            if ($filterBulan !== null) {
+                $query->whereMonth('created_at', $filterBulan)
+                    ->whereYear('created_at', Carbon::now()->year); // Tahun berjalan
+            }
+
+            // Filter berdasarkan tahun (tanpa bulan)
+            if ($filterTahun !== null) {
+                $query->whereYear('created_at', $filterTahun);
+            }
+
+            // Filter berdasarkan bulan dan tahun
+            if ($filterBulan !== null && $filterTahun !== null) {
+                $query->whereMonth('created_at', $filterBulan)
+                    ->whereYear('created_at', $filterTahun);
+            }
+
+            $data = $query->where('status', 'done')
+                ->latest('created_at')
+                ->get();
+            // $data = Order::where('status', 'done')->latest('created_at')->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('id_user', function ($row) {
                     return $row->user->name;
+                })
+                ->editColumn('tanggal', function ($row) {
+                    return $row->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_price', function ($row) {
                     return 'Rp.' . number_format($row->total_price, 0, ',', '.');
@@ -46,7 +118,11 @@ class OrderController extends Controller
                 ->editColumn('status', function () {
                     return '<span class="badge text-bg-light">Selesai</span>';
                 })
-                ->rawColumns(['status'])
+                ->addColumn('action', function ($row) {
+                    $btn = ' <a href="/penjualan/invoice/' . $row->po_number . '"<i class="ri-arrow-right-line"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['status', 'action'])
                 ->make(true);
         }
     }

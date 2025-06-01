@@ -100,8 +100,6 @@
                 </div>
             </div>
 
-
-
             <div class="card-body border-bottom py-3 ">
                 <table class="table dataPembelian" id="dataPembelian">
                     <thead>

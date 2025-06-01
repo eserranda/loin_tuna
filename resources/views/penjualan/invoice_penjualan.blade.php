@@ -58,12 +58,12 @@
                         <div class="card-body p-4">
                             <div class="row g-3">
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">No. Nota</p>
-                                    <h5 class="fs-14 mb-0">{{ $invoice_number }}</h5>
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Po. Number</p>
+                                    <h5 class="fs-14 mb-0">{{ $po_number }}</h5>
                                 </div>
                                 <!--end col-->
                                 <div class="col-lg-3 col-6">
-                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Tanggal</p>
+                                    <p class="text-muted mb-2 text-uppercase fw-semibold">Tanggal PO</p>
                                     <h5 class="fs-14 mb-0"><span id="invoice-date">{{ $tanggal }}</span></h5>
                                     </h5>
                                 </div>
@@ -77,7 +77,7 @@
                                 <div class="col-lg-3 col-6">
                                     <p class="text-muted mb-2 text-uppercase fw-semibold">Total Pembayaran
                                     </p>
-                                    <h5 class="fs-14 mb-0">Rp<span id="total-amount">{{ $total_harga }}</span></h5>
+                                    <h5 class="fs-14 mb-0">Rp<span id="total-amount">{{ $total_price }}</span></h5>
                                 </div>
                                 <!--end col-->
                             </div>
@@ -93,22 +93,20 @@
                                     <thead>
                                         <tr class="table-active">
                                             <th scope="col" style="width: 50px;">#</th>
-                                            <th scope="col">No. Loin</th>
-                                            <th scope="col">Grade Loin</th>
-                                            <th scope="col">Berat</th>
-                                            <th scope="col" class="text-end">Harga/Loin</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Jumlah</th>
+                                            <th scope="col">Harga/pcs</th>
+                                            <th scope="col">Total Harga</th>
                                         </tr>
                                     </thead>
                                     <tbody id="products-list">
-                                        @foreach ($raw_material as $item)
+                                        @foreach ($item_orders as $item)
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
-                                                <td>{{ $item->no_loin }}</td>
-                                                <td> {{ $item->grade }}</td>
-                                                <td>{{ $item->berat }} Kg</td>
-                                                <td class="text-end">
-                                                    Rp{{ number_format($item->harga, 0, ',', '.') }}
-                                                </td>
+                                                <td>{{ $item->product->nama }}</td>
+                                                <td>{{ $item->qty }}</td>
+                                                <td>Rp{{ number_format($item->price, 0, ',', '.') }}</td>
+                                                <td>Rp{{ number_format($item->total_price, 0, ',', '.') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -118,13 +116,17 @@
                                 <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto"
                                     style="width:250px">
                                     <tbody>
-                                        {{-- <tr>
+                                        <tr>
                                             <td>Sub Total</td>
-                                            <td class="text-end">Rp{{ $total_harga }}</td>
-                                        </tr> --}}
+                                            <td class="text-end">Rp{{ $total_price_product }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>PPN (12%)</td>
+                                            <td class="text-end">Rp{{ $total_tax }}</td>
+                                        </tr>
                                         <tr class="border-top border-top-dashed fs-15">
                                             <th scope="row">Total Harga</th>
-                                            <td class="text-end">Rp{{ $total_harga }}</td>
+                                            <td class="text-end">Rp{{ $total_price }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

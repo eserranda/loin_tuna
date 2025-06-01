@@ -52,6 +52,7 @@ Route::prefix('order')->controller(OrderController::class)->group(function () {
 Route::prefix('penjualan')->controller(OrderController::class)->group(function () {
     Route::get('/laporan', 'laporanPenjualan');
     Route::get('/data-penjualan', 'dataLaporanPenjualan')->name('penjualan.dataLaporanPenjualan');
+    Route::get('/invoice/{po_number}', 'invoicePenjualan')->name('penjualan.invoicePenjualan');
 });
 
 Route::prefix('pembelian')->controller(RawMaterialController::class)->group(function () {
