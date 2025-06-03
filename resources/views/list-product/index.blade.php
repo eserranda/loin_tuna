@@ -49,7 +49,8 @@
                     <div class="card-body">
                         <h4 class="mb-2">{{ $p->nama }} <span class="text-muted h5">({{ $p->berat }}Kg)</span>
                         </h4>
-                        <p class="fw-bold h4 harga mb-3">{{ formatRupiah($p->harga) }} (¥{{ $p->yen }})</p>
+                        <p class="fw-bold h4 harga mb-3">¥{{ $p->yen }}</p>
+                        {{-- <p class="fw-bold h4 harga mb-3">{{ formatRupiah($p->harga) }} (¥{{ $p->yen }})</p> --}}
                         {{-- <p class="fw-bold h4 harga mb-3" data-harga="{{ $p->harga }}">
                             {{ formatRupiah($p->harga) }} <!-- Harga awal dalam Rupiah -->
                         </p> --}}
