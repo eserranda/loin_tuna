@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
 
+    public function listProductByID($id)
+    {
+
+
+        $images = ProductImages::where('id_product', $id)->get();
+        $product = Product::find($id);
+        $product_name = $product->nama;
+        $yen = $product->yen;
+        $weight = $product->berat;
+        $kode = $product->kode;
+        $published = $product->created_at->format('d M Y');
+        $deskripsi = $product->deskripsi;
+
+
+        return view('list-product.detail', compact('images', 'product_name', 'yen', 'weight', 'kode', 'published', 'deskripsi'));
+    }
+
     public function update(Request $request)
     {
         $id = $request->id;
@@ -58,6 +75,7 @@ class ProductController extends Controller
             'harga' => $request->edit_harga,
             'yen' => $yen,
             'berat' => $request->edit_berat,
+            'deskripsi' => $request->edit_deskripsi,
             'image' => $filePath ?? null,
         ]);
 
@@ -305,6 +323,7 @@ class ProductController extends Controller
             'harga' => $request->harga,
             'yen' => $yen,
             'berat' => $request->berat,
+            'deskripsi' => $request->deskripsi,
             'image' => $filePath ?? null,
             // 'customer_group' => $request->customer_group,
         ]);

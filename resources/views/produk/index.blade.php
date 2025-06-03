@@ -136,6 +136,12 @@
                                         name="berat" step="0.01">
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Deskripsi</label>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi" placeholder="Deskripsi Produk"></textarea>
+                                </div>
+                            </div>
                             {{-- <div class="col-6">
                                 <div class="mb-3">
                                     <label for="customer_group" class="form-label">Customer Group</label>
@@ -250,6 +256,7 @@
                     document.getElementById('edit_nama').value = data.nama;
                     document.getElementById('edit_harga').value = data.harga;
                     document.getElementById('edit_berat').value = data.berat;
+                    document.getElementById('edit_deskripsi').value = data.deskripsi;
                     // Menampilkan gambar jika tersedia
                     let photoPreview = document.getElementById('photoPreview');
                     if (data.image) {

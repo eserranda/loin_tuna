@@ -12,6 +12,7 @@ class Product extends Model
         'berat',
         'harga',
         'yen',
+        'deskripsi',
         'image',
         'customer_group',
     ];

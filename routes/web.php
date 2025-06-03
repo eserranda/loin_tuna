@@ -248,6 +248,7 @@ Route::prefix('product')->controller(ProductController::class)->group(function (
 
     // untuk customer
     Route::get('list-product', 'listProduct');
+    Route::get('list-product/{id}', 'listProductByID')->name('product.detail');
 });
 
 // Route::get('/', function () {

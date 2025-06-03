@@ -54,7 +54,8 @@
                         {{-- <p class="fw-bold h4 harga mb-3" data-harga="{{ $p->harga }}">
                             {{ formatRupiah($p->harga) }} <!-- Harga awal dalam Rupiah -->
                         </p> --}}
-                        <button class="btn btn-sm btn-info" onclick="detail({{ $p->id }})">Detail</button>
+                        {{-- <button class="btn btn-sm btn-info" onclick="detail({{ $p->id }})">Detail</button> --}}
+                        <a href="{{ route('product.detail', $p->id) }}" class="btn btn-sm btn-info">Detail</a>
                         <button class="btn btn-sm btn-warning float-end" onclick="addTocard({{ $p->id }})">+
                             Keranjang</button>
                     </div>
@@ -66,6 +67,11 @@
 
 @push('scripts')
     <script>
+        // function detail(id) {
+        //     // window.location.href = `/product/list-product/detail/${id}`;
+        // }
+
+
         // async function getExchangeRate() {
         //     try {
         //         const response = await fetch('https://api.exchangerate-api.com/v4/latest/IDR');

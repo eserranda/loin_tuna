@@ -54,6 +54,14 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Deskripsi</label>
+                                <textarea class="form-control" id="edit_deskripsi" name="edit_deskripsi" placeholder="Deskripsi Produk"></textarea>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
