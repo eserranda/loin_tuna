@@ -363,16 +363,17 @@
                                         <td>
                                             <h5 class="fs-14"><a href="apps-ecommerce-product-details.html"
                                                     class="text-dark">{{ $row->product->nama }}</a></h5>
-                                            <p class="text-muted mb-0">{{ formatRupiah($row->product->harga) }} x
+                                            <p class="text-muted mb-0">¥{{ $row->product->yen }} x
                                                 {{ $row->qty }}
                                             </p>
                                         </td>
-                                        <td class="text-end">{{ formatRupiah($row->total_price) }}</td>
+                                        {{-- <td class="text-end">{{ $row->total_price) }}</td> --}}
+                                        <td class="text-end">¥{{ number_format($row->total_yen, 1) }}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
                                     <td class="fw-semibold" colspan="2">Sub Total :</td>
-                                    <td class="fw-semibold text-end">{{ formatRupiah($sub_total) }}</td>
+                                    <td class="fw-semibold text-end">¥{{ number_format($sub_total, 1) }}</td>
                                 </tr>
                                 {{-- <tr>
                                     <td colspan="2">Shipping Charge :</td>
@@ -380,13 +381,14 @@
                                 </tr> --}}
                                 <tr>
                                     <td colspan="2">PPN (12%): </td>
-                                    <td class="text-end">{{ formatRupiah($pajak) }}</td>
+                                    {{-- <td class="text-end">¥{{ $pajak }}</td> --}}
+                                    <td class="text-end"> ¥{{ number_format($pajak, 1) }}</td>
                                 </tr>
                                 <tr class="table-active">
                                     <th colspan="2">Total (+ppn) :</th>
                                     <td class="text-end">
                                         <span class="fw-semibold">
-                                            {{ formatRupiah($total_amount) }}
+                                            ¥{{ number_format($total_amount, 1) }}
                                         </span>
                                     </td>
                                 </tr>

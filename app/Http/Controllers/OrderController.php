@@ -297,7 +297,7 @@ class OrderController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp' . number_format($row->total_price, 0, ',', '.');
+                    return '¥' . number_format($row->total_yen, 1, ',', '.');
                 })
                 ->editColumn('customer', function ($row) {
                     return  $row->user->name;
@@ -476,12 +476,15 @@ class OrderController extends Controller
 
             $po_number = "PO-" . uniqid();
             $totalPrice = $cartItems->sum('total_price');
+            $total_yen = $cartItems->sum('total_yen');
             $ppn = $totalPrice * 0.12;
+            $yenPPN = $total_yen * 0.12;
 
             $order = new Order();
             $order->user_id = $userId;
             $order->po_number = $po_number;
             $order->total_price = $totalPrice + $ppn;
+            $order->total_yen = $total_yen + $yenPPN;
             $order->status = 'pending';
             $order->save();
 
@@ -495,6 +498,7 @@ class OrderController extends Controller
                 $orderItems->weight = $cartItem->qty * $produk->berat;
                 $orderItems->price = $cartItem->product->harga;
                 $orderItems->total_price = $cartItem->total_price;
+                $orderItems->total_yen = $cartItem->total_yen;
                 $orderItems->save();
             }
 
@@ -533,7 +537,8 @@ class OrderController extends Controller
         $pajak = 0;
         $total_amount = 0;
         foreach ($list_orders as $orders) {
-            $sub_total += $orders->total_price;
+            // $sub_total += $orders->total_price;
+            $sub_total += $orders->total_yen;
         }
 
         $pajak = $sub_total * 0.12;

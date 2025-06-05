@@ -11,6 +11,7 @@ class Cart extends Model
         'user_id',
         'qty',
         'total_price',
+        'total_yen',
     ];
 
     public function product()

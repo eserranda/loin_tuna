@@ -72,7 +72,7 @@
                                         <td class="text-end" id="cart-tax"></td>
                                     </tr>
                                     <tr class="table-active">
-                                        <th>Total (¥) :</th>
+                                        <th>Total (Rp) :</th>
                                         <td class="text-end">
                                             <span class="fw-semibold" id="cart-total">
 
@@ -169,8 +169,7 @@
 
         function updateListCartUI(cartData) {
             let totalQty = 0;
-            // let totalPrice = 0;
-            let totalYen = 0;
+            let totalPrice = 0;
 
             const listCartContainer = document.getElementById('cart-container');
             listCartContainer.innerHTML = '';
@@ -189,9 +188,7 @@
             // Iterasi data keranjang dan buat elemen HTML untuk setiap item
             cartData.forEach(items => {
                 totalQty += items.qty;
-                // totalPrice += items.qty * items.product.harga;
-                totalYen += items.qty * items.product.yen;
-
+                totalPrice += items.qty * items.product.harga;
 
                 const listCard = `
             <div class="card product">
@@ -222,6 +219,7 @@
                             <div class="text-lg-end">
                                 <p class="text-muted mb-1">Item Price:</p>
                                 <h5 class="fs-14">
+                                    <span class="product-price">${formatToRupiah(items.product.harga)}</span>
                                     <span class="product-price">¥${items.product.yen}</span>
                                 </h5>
                             </div>
@@ -245,7 +243,7 @@
                             <div class="d-flex align-items-center gap-2 text-muted">
                                 <div>Total :</div>
                                 <h5 class="fs-14 mb-0">
-                                    <span class="product-line-price">¥${items.total_yen}</span>
+                                    <span class="product-line-price">${formatToRupiah(items.total_price)}</span>
                                 </h5>
                             </div>
                         </div>
@@ -256,14 +254,11 @@
                 listCartContainer.insertAdjacentHTML('beforeend', listCard); // Tambahkan kartu ke dalam kontainer
             });
 
-            subTotal = totalYen.toFixed(1);
-            tax = (subTotal * 0.12).toFixed(1);
-            totalAllPrice = (totalYen + (totalYen * 0.12)).toFixed(1);
             document.getElementById('total_items').textContent = "Keranjang Anda : (" + cartData.length + " Items)";
             document.getElementById('cart-total-qty').textContent = totalQty + ' Items';
-            document.getElementById('cart-subtotal').textContent = subTotal
-            document.getElementById('cart-tax').textContent = tax;
-            document.getElementById('cart-total').textContent = totalAllPrice;
+            document.getElementById('cart-subtotal').textContent = formatToRupiah(totalPrice);
+            document.getElementById('cart-tax').textContent = formatToRupiah(totalPrice * 0.12);
+            document.getElementById('cart-total').textContent = formatToRupiah(totalPrice + (totalPrice * 0.12));
         }
 
         // mengurangi item quantity

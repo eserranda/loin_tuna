@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -60,15 +59,20 @@ class CartController extends Controller
             ], 422);
         }
 
-        $price = Product::where('id', $request->id_product)->value('harga');
+        $price = Product::where('id', $request->id_product)->first();
+
         // Menyimpan atau memperbarui data keranjang
         $cart = Cart::where('user_id', auth()->user()->id)
             ->where('id_product', $request->id_product)
             ->first();
 
+        $total_yen = $price->yen * $request->qty;
+        // dd($total_yen);
+
         if ($cart) {
             $cart->qty += $request->qty;
-            $cart->total_price = $cart->qty * $price;
+            $cart->total_price = $cart->qty * $price->harga;
+            $cart->total_yen = $cart->qty * $price->yen;
             $cart->save();
 
             return response()->json([
@@ -80,7 +84,8 @@ class CartController extends Controller
                 'user_id' => auth()->user()->id,
                 'id_product' => $request->id_product,
                 'qty' => $request->qty,
-                'total_price' => $request->qty * $price,
+                'total_price' => $request->qty * $price->harga,
+                'total_yen' => $total_yen,
             ]);
 
             return response()->json([

@@ -11,6 +11,7 @@ class Order extends Model
         'user_id',
         'po_number',
         'total_price',
+        'total_yen',
         'status',
         'is_packed',
     ];
