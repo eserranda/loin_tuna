@@ -143,7 +143,7 @@ Route::prefix('dashboard')->controller(DashboardController::class)->group(functi
     Route::get('/', 'index')->name('dashboard.index');
 });
 
-Route::prefix('receiving')->controller(ReceivingController::class)->middleware(['auth', 'role:super_admin|admin'])->group(function () {
+Route::prefix('receiving')->controller(ReceivingController::class)->middleware(['auth', 'role:super_admin|admin|receiving'])->group(function () {
     Route::get('/', 'index')->name('receiving.index');
     Route::get('/getAll', 'getAll')->name('receiving.getAll');
     Route::post('/store', 'store')->name('receiving.store');
@@ -152,7 +152,7 @@ Route::prefix('receiving')->controller(ReceivingController::class)->middleware([
 
 
 
-Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware('auth')->group(function () {
+Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware(['auth', 'role:super_admin|admin|receiving'])->group(function () {
     Route::get('/', 'index')->name('raw_material.index');
     Route::get('/getAll', 'getAll')->name('raw_material.getAll');
     Route::get('/{ilc}', 'getOneRawWithILC')->name('raw_material.grading');
@@ -169,7 +169,7 @@ Route::prefix('raw-material')->controller(RawMaterialController::class)->middlew
     Route::post('/grading/store', 'gradingStore')->name('rawmaterial.grading.store');
 });
 
-Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->middleware('auth')->group(function () {
+Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->middleware(['auth', 'role:super_admin|admin|cutting'])->group(function () {
     Route::get('/{ilc_cutting}', 'index')->name('cutting-grading.index');
     Route::post('/store', 'store')->name('cutting-grading.store');
     Route::get('/getAll/{ilc_cutting}', 'getAll')->name('cutting-grading.getAll');
@@ -180,7 +180,7 @@ Route::prefix('cutting-grading')->controller(CuttingGradingController::class)->m
     // Route::get('/nextNumber/{ilc_cutting}/{no_ikan}', 'nextNumber')->name('cutting-grading.nextNumber');
 });
 
-Route::prefix('cutting')->controller(CuttingController::class)->middleware('auth')->group(function () {
+Route::prefix('cutting')->controller(CuttingController::class)->middleware(['auth', 'role:super_admin|admin|cutting'])->group(function () {
     Route::get('/', 'index')->name('cutting.index');
     Route::get('/getAllReceiving', 'getAllReceiving')->name('cutting.getAllReceiving');
     Route::post('/store', 'store')->name('cutting.store');
