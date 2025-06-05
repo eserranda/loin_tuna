@@ -205,7 +205,7 @@
                             <div class="d-flex justify-content-between align-items-center pb-3">
                                 <h5 class="m-0 text-muted">Total:</h5>
                                 <div class="px-2">
-                                    <h5 class="m-0" id="cart-item-total">Rp</h5>
+                                    <h5 class="m-0" id="cart-item-total">¥</h5>
                                 </div>
                             </div>
 

@@ -58,6 +58,7 @@
     function updateCartUI(cartItems) {
         let totalQty = 0;
         let totalPrice = 0;
+        let totalYen = 0;
 
         const cartContainer = document.getElementById('cart-items-container');
         cartContainer.innerHTML = '';
@@ -65,6 +66,7 @@
         cartItems.forEach((row, index) => {
             totalQty += row.qty;
             totalPrice += row.qty * row.product.harga;
+            totalYen += row.qty * row.product.yen
 
             const cards = `
                      <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
@@ -76,11 +78,11 @@
                           <a href="#" class="text-reset"> ${row.product.nama}</a>
                             </h6>
                          <p class="mb-0 fs-12 text-muted">
-                                Quantity: <span>${row.qty} x ${formatToRupiah(row.product.harga)}</span>
+                                Quantity: <span>${row.qty} x ${row.product.yen}</span>
                             </p>
                             </div>
                                 <div class="px-2">
-                               <h5 class="m-0 fw-normal"><span class="cart-item-price">${formatToRupiah(row.product.harga)}</span>
+                               <h5 class="m-0 fw-normal"><span class="cart-item-price">¥${row.product.yen}</span>
                                 </h5>
                                     </div>
                                         <div class="ps-2">
@@ -99,7 +101,8 @@
         document.getElementById('total_qty_product').textContent = cartItems.length;
 
         // Perbarui elemen total harga
-        document.getElementById('cart-item-total').textContent = formatToRupiah(totalPrice);
+        // document.getElementById('cart-item-total').textContent = formatToRupiah(totalPrice);
+        document.getElementById('cart-item-total').textContent = `¥${totalYen.toFixed(1)}`;
     }
 
     function removeCartItem($id) {
