@@ -260,6 +260,7 @@
             document.getElementById('cart-total').textContent = formatToRupiah(totalPrice + (totalPrice * 0.12));
         }
 
+        // mengurangi item quantity
         async function decreaseQuantity(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
                 'content');
@@ -279,6 +280,7 @@
             });
         }
 
+        // menambah item quantity
         async function increaseQuantity(id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
                 'content');
