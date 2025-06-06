@@ -36,7 +36,7 @@ class OrderController extends Controller
         $order = Order::where('po_number', $po_number)->first();
         $po_number = $order->po_number;
         $tanggal = $order->created_at->format('d-m-Y');
-        $total_price = number_format($order->total_price, 0, ',', '.');
+        $total_price = number_format($order->total_yen, 1, ',', '.');
 
         $id_order = $order->id;
 
@@ -46,12 +46,12 @@ class OrderController extends Controller
 
         $total_price_product = 0;
         foreach ($item_orders as $item) {
-            $total_price_product += $item->total_price;
+            $total_price_product += $item->total_yen;
         }
         $total_tax = $total_price_product * 0.12; // 12% pajak
-        $total_tax = number_format($total_tax, 0, ',', '.');
+        $total_tax = number_format($total_tax, 1, ',', '.');
 
-        $total_price_product = number_format($total_price_product, 0, ',', '.');
+        $total_price_product = number_format($total_price_product, 1, ',', '.');
 
         return view('penjualan.invoice_penjualan', compact('po_number', 'tanggal', 'total_price', 'total_price_product', 'total_tax', 'item_orders'));
     }
@@ -113,7 +113,7 @@ class OrderController extends Controller
                     return $row->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp.' . number_format($row->total_price, 0, ',', '.');
+                    return '¥' . number_format($row->total_yen, 1, ',', '.');
                 })
                 ->editColumn('status', function () {
                     return '<span class="badge text-bg-light">Selesai</span>';
@@ -252,7 +252,7 @@ class OrderController extends Controller
                     return  $row->created_at->format('d-m-Y');
                 })
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp' . number_format($row->total_price, 0, ',', '.');
+                    return '¥' . number_format($row->total_yen, 1, ',', '.');
                 })
                 ->editColumn('total_weight', function ($row) {
                     $total_weight = OrderItem::where('order_id', $row->id)->sum('weight');
@@ -260,7 +260,7 @@ class OrderController extends Controller
                 })
                 ->editColumn('total_payment', function ($row) {
                     if ($row->is_paid === 'confirmed') {
-                        return 'Rp' . number_format($row->total_price, 0, ',', '.');
+                        return '¥' . number_format($row->total_yen, 1, ',', '.');
                     } else if ($row->is_paid === 'rejected') {
                         return '<span class="badge text-bg-danger">Ditolak</span>';
                     } else if ($row->is_paid === 'checked') {
@@ -435,7 +435,7 @@ class OrderController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('total_price', function ($row) {
-                    return 'Rp' . number_format($row->total_price, 0, ',', '.');
+                    return '¥' . number_format($row->total_yen, 1, ',', '.');
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'pending') {

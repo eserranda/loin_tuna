@@ -77,7 +77,7 @@
                                 <div class="col-lg-3 col-6">
                                     <p class="text-muted mb-2 text-uppercase fw-semibold">Total Pembayaran
                                     </p>
-                                    <h5 class="fs-14 mb-0">Rp<span id="total-amount">{{ $total_price }}</span></h5>
+                                    <h5 class="fs-14 mb-0">¥<span id="total-amount">{{ $total_price }}</span></h5>
                                 </div>
                                 <!--end col-->
                             </div>
@@ -105,8 +105,8 @@
                                                 <th scope="row">{{ $loop->iteration }}</th>
                                                 <td>{{ $item->product->nama }}</td>
                                                 <td>{{ $item->qty }}</td>
-                                                <td>Rp{{ number_format($item->price, 0, ',', '.') }}</td>
-                                                <td>Rp{{ number_format($item->total_price, 0, ',', '.') }}</td>
+                                                <td>¥{{ number_format($item->product->yen, 1, ',', '.') }}</td>
+                                                <td>¥{{ number_format($item->total_yen, 1, ',', '.') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -118,15 +118,15 @@
                                     <tbody>
                                         <tr>
                                             <td>Sub Total</td>
-                                            <td class="text-end">Rp{{ $total_price_product }}</td>
+                                            <td class="text-end">¥{{ $total_price_product }}</td>
                                         </tr>
                                         <tr>
                                             <td>PPN (12%)</td>
-                                            <td class="text-end">Rp{{ $total_tax }}</td>
+                                            <td class="text-end">¥{{ $total_tax }}</td>
                                         </tr>
                                         <tr class="border-top border-top-dashed fs-15">
                                             <th scope="row">Total Harga</th>
-                                            <td class="text-end">Rp{{ $total_price }}</td>
+                                            <td class="text-end">¥{{ $total_price }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

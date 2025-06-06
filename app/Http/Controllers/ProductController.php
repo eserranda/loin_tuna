@@ -210,7 +210,8 @@ class ProductController extends Controller
                     return $row->berat . ' Kg';
                 })
                 ->editColumn('harga', function ($row) {
-                    return 'Rp' . number_format($row->harga, 0, ',', '.') . ' (¥ ' . number_format($row->yen, 1, ',', '.') . ')';
+                    // return 'Rp' . number_format($row->harga, 0, ',', '.') . ' (¥ ' . number_format($row->yen, 1, ',', '.') . ')';
+                    return '¥' . number_format($row->yen, 1, ',', '.') . ' (Rp' . number_format($row->harga, 0, ',', '.') . ')';
                 })
                 ->editColumn('images', function ($row) {
                     $images = $row->image;
