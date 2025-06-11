@@ -152,7 +152,7 @@ Route::prefix('receiving')->controller(ReceivingController::class)->middleware([
 
 
 
-Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware(['auth', 'role:super_admin|admin|receiving'])->group(function () {
+Route::prefix('raw-material')->controller(RawMaterialController::class)->middleware(['auth', 'role:super_admin|admin|receiving|cutting'])->group(function () {
     Route::get('/', 'index')->name('raw_material.index');
     Route::get('/getAll', 'getAll')->name('raw_material.getAll');
     Route::get('/{ilc}', 'getOneRawWithILC')->name('raw_material.grading');
