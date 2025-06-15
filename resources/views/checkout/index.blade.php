@@ -232,7 +232,7 @@
                             <div class="row gy-3 mb-2">
                                 <div class="col-lg-4 col-sm-6">
                                     <p class="mb-0">Total Pembayaran :</p>
-                                    <h4>{{ formatRupiah($total_amount) }}</h4>
+                                    <h4> ¥{{ number_format($total_amount, 1) }}</h4>
                                 </div>
                                 <div class="col-lg-4 col-sm-6">
                                     <p class="mb-0">Status Pembayaran :</p>

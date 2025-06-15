@@ -116,10 +116,12 @@ class OrderController extends Controller
                     return '¥' . number_format($row->total_yen, 1, ',', '.');
                 })
                 ->editColumn('status', function () {
-                    return '<span class="badge text-bg-light">Selesai</span>';
+                    return '<span class="badge text-bg-success">Selesai</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = ' <a href="/penjualan/invoice/' . $row->po_number . '"<i class="ri-arrow-right-line"></i></a>';
+                    $btn = '<a href="/penjualan/invoice/' . $row->po_number . '" class="btn btn-info  btn-sm waves-effect waves-light">Invoice</a>';
+
+                    // $btn = ' <a href="/penjualan/invoice/' . $row->po_number . '"<i class="ri-arrow-right-line"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['status', 'action'])
@@ -347,7 +349,7 @@ class OrderController extends Controller
                     } else if ($row->is_paid == 'confirmed' && $row->status == 'confirmed') {
                         $btn = '<button type="button" class="btn btn-warning btn-icon btn-sm waves-effect waves-light" onclick="updateStatus(' . $row->id . ', \'pending\')" title="Cancel"><i class="ri-close-circle-line"></i></button>';
                         $btn .= '<button type="button" class="btn btn-success btn-sm waves-effect waves-light mx-1" onclick="updateStatus(' . $row->id . ', \'done\')" title="Selesai">Selesai</button>';
-                        $btn .= '<a href="/order/list-order/' . $row->id . '" class="btn btn-info  btn-sm waves-effect waves-light">Inv.</a>';
+                        // $btn .= '<a href="/order/list-order/' . $row->id . '" class="btn btn-info  btn-sm waves-effect waves-light">Inv.</a>';
                     } else if ($row->is_paid == 'rejected') {
                         $btn = '<button type="button" title="Delete" class="btn btn-danger btn-icon btn-sm waves-effect waves-light" onclick="hapusOrder(' . $row->id . ')"><i class="text-light ri-delete-bin-5-line"></i>';
                     } else {
