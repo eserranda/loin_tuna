@@ -74,7 +74,7 @@ class SupplierController extends Controller
     {
         // Validasi data
         $validator = Validator::make($request->all(), [
-            'kode_supplier' => 'required|string|max:3|unique:suppliers',
+            'kode_supplier' => 'required|string|max:4|unique:suppliers',
             'nama_supplier' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
             'kabupaten' => 'required|string|max:255',
