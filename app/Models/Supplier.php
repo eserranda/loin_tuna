@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    //
+    protected $fillable = [
+        'kode_supplier',
+        'nama_supplier',
+        'phone',
+        'provinsi',
+        'kabupaten',
+        'kecamatan',
+        'jalan',
+    ];
 }

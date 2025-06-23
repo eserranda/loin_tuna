@@ -96,7 +96,11 @@
                                             <div class="col-sm-6">
                                                 Supplier :
                                                 <span class="fw-bold">
-                                                    {{ $receiving->supplier->nama_supplier }}
+                                                    @if ($receiving && $receiving->supplier->nama_supplier)
+                                                        {{ $receiving->supplier->nama_supplier ?? '-' }}
+                                                    @else
+                                                        {{ '-' }}
+                                                    @endif
                                                 </span>
                                             </div>
                                             <div class="col-sm-6 mb-2">
