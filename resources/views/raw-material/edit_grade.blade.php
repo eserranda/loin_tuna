@@ -10,7 +10,7 @@
                 <!-- Form untuk update data -->
                 <form id="updateGradeForm">
                     <!-- Basic Input -->
-                    <div class="col-xxl-12 col-md-12">
+                    <div class="col-xxl-12 col-md-12 mb-3">
                         <div>
                             <label class="form-label">Pilih Grade Baru</label>
                             <input type="hidden" id="id" name="id">
@@ -23,6 +23,16 @@
 
                             <div class="invalid-feedback"></div>
                         </div>
+                    </div>
+                    <div class="col-xxl-12 col-md-12">
+                        <div>
+                            <label class="form-label">Berat</label>
+                            <input type="number" class="form-control" name="berat" id="berat"
+                                placeholder="Berat baru" step="0.01">
+
+                            <div class="invalid-feedback"></div>
+                        </div>
+
                     </div>
                     <div class="mt-4">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

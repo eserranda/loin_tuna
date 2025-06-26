@@ -80,22 +80,36 @@ class RawMaterialController extends Controller
 
     public function updateGrade(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'grade' => 'required',
-        ], [
-            'grade.required' => 'Grade Wajib Diisi',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'grade' => 'required',
+        // ], [
+        //     'grade.required' => 'Grade Wajib Diisi',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'errors' => $validator->errors()
+        //     ], 422);
+        // }
+
+        if ($request->berat != 0) {
+            $update = RawMaterial::where('id', $id)->update([
+                'berat' => $request->berat,
+            ]);
         }
 
-        $update = RawMaterial::where('id', $id)->update([
-            'grade' => $request->grade,
-        ]);
+        if ($request->grade != "") {
+            $update = RawMaterial::where('id', $id)->update([
+                'grade' => $request->grade,
+            ]);
+        }
+
+
+
+        // $update = RawMaterial::where('id', $id)->update([
+        //     'grade' => $request->grade,
+        // ]);
 
         if ($update) {
             return response()->json([

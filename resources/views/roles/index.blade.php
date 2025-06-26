@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 @endpush
 @section('title')
-    <h4 class="mb-sm-0">Data Usaer</h4>
+    <h4 class="mb-sm-0">Data Role Users</h4>
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0);">Role Users</a></li>
             <li class="breadcrumb-item active">data</li>
         </ol>
     </div>

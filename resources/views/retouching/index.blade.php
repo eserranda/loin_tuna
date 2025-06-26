@@ -61,7 +61,7 @@
                     <div class="col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-0 flex-grow-1">Data Cutting</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Buat Buat data baru dari cutting</h4>
                                 <hr class="mt-2">
                                 <table class="table table-striped mt-0 datatableCutting" id="datatableCutting"
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">

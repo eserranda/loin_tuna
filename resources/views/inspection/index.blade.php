@@ -72,6 +72,7 @@
                                     <th>ES</th>
                                     <th>Suhu</th>
                                     <th>Hasil</th>
+
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -146,7 +147,6 @@
                         orderable: false,
                         searchable: false
                     },
-
                 ],
                 dom: 'Bftp',
                 buttons: [{

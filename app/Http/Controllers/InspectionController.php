@@ -69,8 +69,10 @@ class InspectionController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" onclick="update(\'' . $row->id  . '\', \'' . $row->ilc . '\', \'' . $row->stage . '\')"><i class="ri-pencil-fill text-info"></i></a>';
-                    return $btn;
+                    if (auth()->user()->hasRole(['admin', 'super_admin'])) {
+                        $btn = '<a href="javascript:void(0);" onclick="update(\'' . $row->id  . '\', \'' . $row->ilc . '\', \'' . $row->stage . '\')"><i class="ri-pencil-fill text-info"></i></a>';
+                        return $btn;
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
