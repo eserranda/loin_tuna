@@ -311,6 +311,13 @@
                             }
                         });
 
+                        swal.fire({
+                            title: 'Berhasil',
+                            text: 'Data berhasil disimpan.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+
                         $('.datatable').DataTable().ajax.reload();
                         calculateTotalWeight(ilc);
 
