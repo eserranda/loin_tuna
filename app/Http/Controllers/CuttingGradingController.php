@@ -66,22 +66,30 @@ class CuttingGradingController extends Controller
 
     public function updateGrade(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'grade' => 'required',
-        ], [
-            'grade.required' => 'Grade Wajib Diisi',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'grade' => 'required',
+        // ], [
+        //     'grade.required' => 'Grade Wajib Diisi',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'errors' => $validator->errors()
+        //     ], 422);
+        // }
+
+        if ($request->berat != 0) {
+            $update = CuttingGrading::where('id', $id)->update([
+                'berat' => $request->berat,
+            ]);
         }
 
-        $update = CuttingGrading::where('id', $id)->update([
-            'grade' => $request->grade,
-        ]);
+        if ($request->grade != "") {
+            $update = CuttingGrading::where('id', $id)->update([
+                'grade' => $request->grade,
+            ]);
+        }
 
         if ($update) {
             return response()->json([
