@@ -11,6 +11,7 @@ class RawMaterial extends Model
         'berat',
         'no_loin',
         'grade',
+        'is_reject',
         'harga',
     ];
 

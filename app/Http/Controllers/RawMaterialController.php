@@ -228,10 +228,15 @@ class RawMaterialController extends Controller
                     return $row->harga > 0 ? 'Rp' . number_format($row->harga, 0, ',', '.') : '-';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-danger" onclick="updateHarga(\'' . $row->id . '\')"><i class="ri-pencil-line" title="Update Harga"></i></button>';
-                    return $btn;
+                    if ($row->is_reject == false) {
+                        $btn = '<button type="button" class="btn btn-sm btn-light btn-icon waves-effect waves-danger" onclick="updateHarga(\'' . $row->id . '\')"><i class="ri-pencil-line" title="Update Harga"></i></button>';
+                        return $btn;
+                    }
                 })
-                ->rawColumns(['action'])
+                ->addColumn('status', function ($row) {
+                    return $row->is_reject ? '<span class="badge bg-danger">Ditolak</span>' : '<span class="badge bg-success">OK</span>';
+                })
+                ->rawColumns(['action', 'status'])
                 ->with([
                     'totalBerat' => $totalBerat,
                     'totalHarga' => $totalHarga
@@ -264,6 +269,7 @@ class RawMaterialController extends Controller
     public function getNoIkan($ilc)
     {
         $noIkanList = RawMaterial::where('ilc', $ilc)
+            ->where('is_reject', false) // Hanya ambil yang bukan reject
             ->orderBy('no_loin', 'asc')
             ->select('no_loin', 'berat', 'grade') // Memilih kolom yang dibutuhkan
             ->get();
@@ -282,7 +288,9 @@ class RawMaterialController extends Controller
     public function findManyWithILC(Request $request, $ilc)
     {
         if ($request->ajax()) {
-            $data = RawMaterial::where('ilc', $ilc)->latest('created_at')->get();
+            $data = RawMaterial::where('ilc', $ilc)
+                ->where('is_reject', false) // Hanya ambil yang bukan reject
+                ->latest('created_at')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('berat', function ($row) {
@@ -337,11 +345,18 @@ class RawMaterialController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+
+        $is_reject = false;
+        if ($request->grade == 'C') {
+            $is_reject = true;
+        }
+
         RawMaterial::create([
             'ilc' => $request->ilc,
             'berat' => $request->berat,
             'no_loin' => $request->no_loin,
             'grade' => $request->grade,
+            'is_reject' => $is_reject,
         ]);
 
         return response()->json([
@@ -349,7 +364,6 @@ class RawMaterialController extends Controller
             'message' => 'Berat Ikan Berhasil',
         ], 201);
     }
-
 
     public function gradingStore(Request $request)
     {

@@ -70,6 +70,7 @@
                                     <th>Grade</th>
                                     <th>Berat</th>
                                     <th>Harga</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -128,6 +129,10 @@
                     {
                         data: 'harga',
                         name: 'harga',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
                     },
                     {
                         data: 'action',

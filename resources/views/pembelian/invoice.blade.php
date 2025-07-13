@@ -96,6 +96,7 @@
                                             <th scope="col">No. Loin</th>
                                             <th scope="col">Grade Loin</th>
                                             <th scope="col">Berat</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col" class="text-end">Harga/Loin</th>
                                         </tr>
                                     </thead>
@@ -106,6 +107,7 @@
                                                 <td>{{ $item->no_loin }}</td>
                                                 <td> {{ $item->grade }}</td>
                                                 <td>{{ $item->berat }} Kg</td>
+                                                <td>{{ $item->is_reject ? 'Ditolak' : 'OK' }}</td>
                                                 <td class="text-end">
                                                     Rp{{ number_format($item->harga, 0, ',', '.') }}
                                                 </td>
