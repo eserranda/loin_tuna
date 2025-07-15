@@ -104,20 +104,39 @@
                                             </div>
                                         </div>
 
-                                        <p class="form-label">Grade</p>
-                                        <div class="col-12 mb-3">
-                                            <div class="gap-4" id="gradesContainer">
+                                        <div class="col-6">
+                                            <p class="form-label">Grade</p>
+                                            <div class="col-12 mb-3">
+                                                <div class="gap-4" id="gradesContainer">
+
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="selectedGrade" name="grade" value="">
+                                            <div class="invalid-feedback">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Keterangan Grade </label>
+                                                @foreach (App\Models\Grades::all() as $grades)
+                                                    <ul>
+                                                        <li><span class="fw-bold">Grade {{ $grades->grade }}</span> :
+                                                            {{ $grades->description }}
+                                                        </li>
+                                                    </ul>
+                                                @endforeach
 
                                             </div>
                                         </div>
-                                        <input type="hidden" id="selectedGrade" name="grade" value="">
-                                        <div class="invalid-feedback">
-                                        </div>
+
                                         <div class="col-lg-12 mt-2">
                                             <div class="text-start">
                                                 <button type="submit" class="btn btn-primary">Buat Receiving</button>
                                             </div>
                                         </div>
+
+
                                     </div>
                                 </form>
                             </div>
