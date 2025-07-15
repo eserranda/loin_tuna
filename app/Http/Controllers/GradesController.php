@@ -14,6 +14,50 @@ class GradesController extends Controller
         return view('grades.index');
     }
 
+    public function findById($id)
+    {
+        $data = Grades::find($id);
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'edit_grade' => 'required|unique:grades,grade,' . $request->id,
+        ], [
+            'edit_grade.required' => 'Grade harus diisi',
+            'edit_grade.unique' => 'Grade sudah ada',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'messages' => $validator->errors()
+            ], 422);
+        }
+
+        $update = Grades::find($request->id);
+        $update->grade = $request->edit_grade;
+        $update->description = $request->edit_description;
+        $update->save();
+
+        if ($update) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Grade Berhasil Diupdate',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Grade Gagal Diupdate',
+            ], 409);
+        }
+    }
+
     public function getAll()
     {
         $dataGrade = Grades::orderBy('grade', 'ASC')->pluck('grade');
@@ -32,7 +76,7 @@ class GradesController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" onclick="hapus(' . $row->id . ')"><i class="text-danger ri-delete-bin-5-line mx-3"></i></a>';
-                    // $btn .= '<a href="javascript:void(0);" onclick="kodeILC(\'' . $row->ilc_cutting . '\')"><i class="ri-arrow-right-line"></i></a>';
+                    $btn .= '<a href="javascript:void(0);" onclick="edit( ' . $row->id . ')"><i class="ri-pencil-line"></i></a>';
 
                     return $btn;
                 })

@@ -205,6 +205,8 @@ Route::prefix('grades')->controller(GradesController::class)->group(function () 
     Route::get('/', 'index')->name('grades.index');
     Route::post('/store', 'store')->name('grades.store');
     Route::get('/getAll', 'getAll')->name('grades.getAll');
+    Route::get('/findById/{id}', 'findById')->name('grades.findById');
+    Route::post('/update', 'update')->name('grades.update');
     Route::get('/getAllData', 'getAllData')->name('grades.getAllData');
     Route::delete('/{id}', 'destroy')->name('grades.destroy');
 })->middleware('auth');

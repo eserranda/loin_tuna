@@ -51,7 +51,7 @@ class UserController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="d-flex justify-content-start align-items-center">';
-                    $btn .= '<a class="btn btn-outline-secondary btn-sm" title="Edit" onclick="edit(' . $row->id . ')"> <i class="ri-pencil-line"></i> </a>';
+                    // $btn .= '<a class="btn btn-outline-secondary btn-sm" title="Edit" onclick="edit(' . $row->id . ')"> <i class="ri-pencil-line"></i> </a>';
                     $btn .= '<a class="btn btn-outline-secondary btn-sm  text-danger mx-2" title="Hapus" onclick="hapus(' . $row->id . ')"> <i class="text-danger ri-delete-bin-5-line"></i> </a>';
                     $btn .= '</div>';
                     return $btn;

@@ -78,9 +78,22 @@
     </div>
 
     @include('grades.add')
+    @include('grades.edit')
 @endsection
 @push('scripts')
     <script>
+        function edit(id) {
+            fetch(`/grades/findById/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('edit_id').value = data.id;
+                    document.getElementById('edit_grade').value = data.grade;
+                    document.getElementById('edit_description').value = data.description;
+                    $('#editModal').modal('show');
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
         $(document).ready(function() {
             const datatable = $('.datatable').DataTable({
                 processing: true,
@@ -120,8 +133,6 @@
                 text: 'Data akan dihapus permanen!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title">Tambah Data Users</h5>
+                <h5 class="modal-title">Edit Data Users</h5>
 
                 <button type="button" class="btn-close" onclick="closeModalEdit()">
 
@@ -81,7 +81,7 @@
                         <button type="button" class="btn btn-light" onclick="closeModalEdit()">
                             Close
                         </button>
-                        <button type="submit" class="btn btn-success" id="add-btn">Tambah</button>
+                        <button type="submit" class="btn btn-success" id="add-btn">Update</button>
                     </div>
                 </div>
             </form>
